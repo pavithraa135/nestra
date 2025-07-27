@@ -4,144 +4,81 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Survey – Nestra</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
   <style>
-    :root {
-      --primary: #6c5dd3;
-      --secondary: #463aa2;
-      --accent: #f3f0ff;
-      --dark: #2d2d39;
-      --white: #fff;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, #e4e1ff, #f7f5ff);
-      color: var(--dark);
-    }
-
-    .topbar {
-      background-color: var(--primary);
-      color: var(--white);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--white);
-    }
-
-    .nav-toggle {
-      display: none;
-      font-size: 1.5rem;
-      color: var(--white);
-      cursor: pointer;
-    }
-
-    .dropdown-menu {
-      list-style: none;
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .dropdown-menu li a {
-      color: var(--white);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .dropdown-menu li a:hover {
-      color: #d1ccf2;
-    }
-
     .form-container {
       max-width: 500px;
-      background: white;
-      margin: 60px auto;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
+      margin: 80px auto;
+      background-color: #fff;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
     }
 
     .form-container h2 {
       text-align: center;
-      font-size: 1.8rem;
       margin-bottom: 24px;
-      color: var(--secondary);
+      color: #4a3f7a;
     }
 
-    form label {
+    label {
       display: block;
-      margin-top: 18px;
-      font-weight: 600;
-      color: var(--dark);
+      margin-top: 16px;
+      margin-bottom: 6px;
+      font-weight: 500;
     }
 
-    form select {
+    select, textarea {
       width: 100%;
       padding: 12px;
-      margin-top: 8px;
+      margin-bottom: 12px;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 6px;
       font-size: 1rem;
-      background-color: #f9f9ff;
     }
 
-    button[type="submit"] {
-      margin-top: 28px;
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
       width: 100%;
-      padding: 14px;
-      background-color: var(--primary);
-      color: white;
+      padding: 12px;
+      background-color: #6e60a6;
+      color: #fff;
       border: none;
-      font-weight: 600;
+      border-radius: 6px;
       font-size: 1rem;
-      border-radius: 10px;
       cursor: pointer;
       transition: background-color 0.3s ease;
+      margin-top: 20px;
     }
 
-    button[type="submit"]:hover {
-      background-color: var(--secondary);
+    button:hover {
+      background-color: #5a4f8d;
     }
 
-    @media (max-width: 768px) {
-      .nav-toggle {
-        display: block;
-      }
+    .voice-btn {
+      background: #eae6ff;
+      color: #5a4f8d;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 4px;
+      float: right;
+    }
 
-      .dropdown-menu {
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        background: white;
-        flex-direction: column;
-        display: none;
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      }
+    .voice-btn:hover {
+      background-color: #d7d0fa;
+    }
 
-      .dropdown-menu li a {
-        color: var(--dark);
-      }
-
-      .dropdown-menu.show {
-        display: flex;
+    @media (max-width: 600px) {
+      .form-container {
+        margin: 40px 16px;
+        padding: 24px;
       }
     }
   </style>
@@ -162,7 +99,7 @@
 
   <div class="form-container">
     <h2>🎤 Compatibility Survey</h2>
-    <form action="backend/survey_process.php" method="POST">
+    <form action="../backend/survey_process.php" method="POST">
       <label for="sleep">Preferred Sleep Schedule</label>
       <select id="sleep" name="sleep" required>
         <option value="">-- Select --</option>
@@ -203,22 +140,49 @@
         <option>No Preference</option>
       </select>
 
+      <label for="needs">Your Needs <button type="button" class="voice-btn" onclick="startVoiceInput()">🎙️ Speak</button></label>
+      <textarea id="needs" name="needs" placeholder="Mention any specific needs, allergies, or preferences..." required></textarea>
+
       <button type="submit">Submit Survey</button>
     </form>
   </div>
 
   <script>
     function toggleMenu() {
-      document.getElementById("dropdownMenu").classList.toggle("show");
+      const menu = document.getElementById("dropdownMenu");
+      menu.classList.toggle("show");
     }
 
-    window.addEventListener("click", function (e) {
+    window.addEventListener("click", function(e) {
       const toggle = document.querySelector(".nav-toggle");
       const menu = document.getElementById("dropdownMenu");
       if (!toggle.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.remove("show");
       }
     });
+
+    function startVoiceInput() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert("Your browser doesn't support speech recognition. Please try Chrome.");
+        return;
+      }
+
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('needs').value = transcript;
+      };
+
+      recognition.onerror = function(event) {
+        alert("Voice recognition error: " + event.error);
+      };
+    }
   </script>
 </body>
 </html>
