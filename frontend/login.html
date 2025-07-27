@@ -1,0 +1,96 @@
+<!-- Save as: frontend/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – Nestra</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .form-container {
+      max-width: 400px;
+      margin: 80px auto;
+      background-color: #fff;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #4a3f7a;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button.btn-primary {
+      width: 100%;
+      padding: 12px;
+      background-color: #6e60a6;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button.btn-primary:hover {
+      background-color: #5a4f8d;
+    }
+
+    .form-note {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .form-note a {
+      color: #6e60a6;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <h2 class="logo">Nestra</h2>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="register.html">Register</a></li>
+    </ul>
+  </nav>
+
+  <div class="form-container">
+    <h2>🔐 Login</h2>
+    <form action="../backend/login.php" method="POST">
+      <input type="text" name="username" placeholder="Username" required/>
+      <input type="password" name="password" placeholder="Password" required/>
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+    <p class="form-note">Don’t have an account? <a href="register.html">Register</a></p>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("dropdownMenu").classList.toggle("show");
+    }
+    window.addEventListener("click", function(e) {
+      const menu = document.getElementById("dropdownMenu");
+      if (!document.querySelector('.nav-toggle').contains(e.target)) {
+        menu.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nestra – Home</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="topbar">
+    <h2 class="logo">Nestra</h2>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="match_result.html">Match Result</a></li>
+      <li><a href="admin.html">Admin</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <h1>Find Your Ideal Roommate</h1>
+    <p>AI-powered compatibility + voice onboarding for women’s co-living</p>
+    <a href="survey.html" class="btn-primary">🎙️ Start Voice Survey</a>
+  </section>
+
+  <section class="features-row">
+    <div class="feature-box">
+      <h3>🎤 Voice Survey</h3>
+      <p>Take a 5-question conversational voice survey to capture your preferences easily and naturally.</p>
+    </div>
+    <div class="feature-box">
+      <h3>🤝 Smart Matching</h3>
+      <p>Our AI matches you with the most compatible roommate based on lifestyle, habits, and values.</p>
+    </div>
+    <div class="feature-box">
+      <h3>🏠 Room Assignment</h3>
+      <p>We assign you to the most suitable twin-sharing room based on both your preferences and availability.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Nestra | Empowering intelligent and inclusive co-living</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("dropdownMenu");
+      menu.classList.toggle("show");
+    }
+    window.addEventListener("click", function (e) {
+      const toggle = document.querySelector(".nav-toggle");
+      const menu = document.getElementById("dropdownMenu");
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>

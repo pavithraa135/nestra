@@ -1,0 +1,82 @@
+<!-- Save as: frontend/match_result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Match Result – Nestra</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .form-container {
+      max-width: 600px;
+      margin: 80px auto;
+      background-color: #fff;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .form-container h2 {
+      color: #4a3f7a;
+      margin-bottom: 24px;
+    }
+
+    .form-container p {
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+      color: #333;
+    }
+
+    .form-container strong {
+      color: #5e529c;
+    }
+
+    .form-container em {
+      color: #6a6a6a;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 20px;
+        margin: 40px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <h2 class="logo">Nestra</h2>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="admin.html">Admin</a></li>
+    </ul>
+  </nav>
+
+  <div class="form-container">
+    <h2>💡 Your Best Match</h2>
+    <p><strong>Match:</strong> Priya Sharma</p>
+    <p><strong>Compatibility:</strong> 92% (High)</p>
+    <p><strong>Suggested Room:</strong> Room A12 – 2nd Floor, Quiet Wing</p>
+    <p><em>Reason:</em> Both prefer quiet evenings, similar schedules, and organized space.</p>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("dropdownMenu").classList.toggle("show");
+    }
+    window.addEventListener("click", function(e) {
+      const menu = document.getElementById("dropdownMenu");
+      const toggle = document.querySelector('.nav-toggle');
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>

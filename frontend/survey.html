@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Survey – Nestra</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="topbar">
+    <h2 class="logo">Nestra</h2>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="match_result.html">Match Result</a></li>
+      <li><a href="admin.html">Admin</a></li>
+    </ul>
+  </nav>
+
+  <div class="form-container">
+    <h2>🎤 Compatibility Survey</h2>
+    <form action="backend/survey_process.php" method="POST">
+      <label for="sleep">Preferred Sleep Schedule</label>
+      <select id="sleep" name="sleep" required>
+        <option value="">-- Select --</option>
+        <option>Early Riser</option>
+        <option>Night Owl</option>
+        <option>Flexible</option>
+      </select>
+
+      <label for="cleanliness">Cleanliness Level</label>
+      <select id="cleanliness" name="cleanliness" required>
+        <option value="">-- Select --</option>
+        <option>Very Clean</option>
+        <option>Moderate</option>
+        <option>Messy</option>
+      </select>
+
+      <label for="work">Work/Study Style</label>
+      <select id="work" name="work" required>
+        <option value="">-- Select --</option>
+        <option>Remote</option>
+        <option>Office</option>
+        <option>Student</option>
+      </select>
+
+      <label for="social">Social Preference</label>
+      <select id="social" name="social" required>
+        <option value="">-- Select --</option>
+        <option>Introvert</option>
+        <option>Extrovert</option>
+        <option>Mixed</option>
+      </select>
+
+      <label for="room">Room Preference</label>
+      <select id="room" name="room" required>
+        <option value="">-- Select --</option>
+        <option>Twin Sharing</option>
+        <option>Single</option>
+        <option>No Preference</option>
+      </select>
+
+      <button type="submit">Submit Survey</button>
+    </form>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("dropdownMenu");
+      menu.classList.toggle("show");
+    }
+    window.addEventListener("click", function (e) {
+      const toggle = document.querySelector(".nav-toggle");
+      const menu = document.getElementById("dropdownMenu");
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>

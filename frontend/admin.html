@@ -1,0 +1,137 @@
+<!-- Save as: frontend/admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin – Nestra</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .form-container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 32px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #4a3f7a;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2effa;
+      color: #4a3f7a;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: #faf8ff;
+    }
+
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      tr {
+        margin-bottom: 20px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.05);
+        padding: 12px;
+        border-radius: 8px;
+        background-color: #fff;
+      }
+
+      td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+      }
+
+      td::before {
+        position: absolute;
+        top: 12px;
+        left: 16px;
+        width: 45%;
+        white-space: nowrap;
+        font-weight: bold;
+        color: #4a3f7a;
+      }
+
+      td:nth-of-type(1)::before { content: "Name"; }
+      td:nth-of-type(2)::before { content: "Traits"; }
+      td:nth-of-type(3)::before { content: "Match"; }
+      td:nth-of-type(4)::before { content: "Room"; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <h2 class="logo">Nestra</h2>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="match_result.html">Match Result</a></li>
+    </ul>
+  </nav>
+
+  <div class="form-container">
+    <h2>📋 Admin Dashboard</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Traits</th>
+          <th>Match</th>
+          <th>Room</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Priya Sharma</td>
+          <td>Night Owl, Quiet, Tidy</td>
+          <td>Neha Joshi (92%)</td>
+          <td>A12</td>
+        </tr>
+        <tr>
+          <td>Aarushi Mehta</td>
+          <td>Early Bird, Sociable</td>
+          <td>Ritika Das (88%)</td>
+          <td>A14</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("dropdownMenu").classList.toggle("show");
+    }
+    window.addEventListener("click", function(e) {
+      const toggle = document.querySelector('.nav-toggle');
+      const menu = document.getElementById("dropdownMenu");
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>
