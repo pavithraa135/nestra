@@ -73,27 +73,49 @@
       margin: 60px auto;
       background: white;
       padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 0.8s ease;
     }
 
     .form-container h2 {
       text-align: center;
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       margin-bottom: 24px;
       color: var(--secondary);
     }
 
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
+      padding: 12px 14px 12px 44px;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 1rem;
       background-color: #f9f9ff;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--primary);
+      user-select: none;
     }
 
     .btn-primary {
@@ -123,6 +145,11 @@
       color: var(--primary);
       text-decoration: none;
       font-weight: 500;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 768px) {
@@ -165,11 +192,28 @@
   <div class="form-container">
     <h2>📝 Register</h2>
     <form action="../backend/register.php" method="POST">
-      <input type="text" name="fullname" placeholder="Full Name" required />
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="text" name="username" placeholder="Username" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <input type="password" name="confirm" placeholder="Confirm Password" required />
+      <div class="input-group">
+        <i>👤</i>
+        <input type="text" name="fullname" placeholder="Full Name" required />
+      </div>
+      <div class="input-group">
+        <i>📧</i>
+        <input type="email" name="email" placeholder="Email" required />
+      </div>
+      <div class="input-group">
+        <i>🔒</i>
+        <input type="text" name="username" placeholder="Username" required />
+      </div>
+      <div class="input-group">
+        <i>🔑</i>
+        <input type="password" name="password" placeholder="Password" id="password" required />
+        <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
+      </div>
+      <div class="input-group">
+        <i>🔁</i>
+        <input type="password" name="confirm" placeholder="Confirm Password" id="confirm" required />
+        <span class="toggle-password" onclick="togglePassword('confirm')">👁️</span>
+      </div>
       <button type="submit" class="btn-primary">Create Account</button>
     </form>
     <p class="form-note">Already registered? <a href="login.html">Login here</a></p>
@@ -179,6 +223,7 @@
     function toggleMenu() {
       document.getElementById("dropdownMenu").classList.toggle("show");
     }
+
     window.addEventListener("click", function(e) {
       const menu = document.getElementById("dropdownMenu");
       const toggle = document.querySelector(".nav-toggle");
@@ -186,6 +231,11 @@
         menu.classList.remove("show");
       }
     });
+
+    function togglePassword(fieldId) {
+      const field = document.getElementById(fieldId);
+      field.type = field.type === "password" ? "text" : "password";
+    }
   </script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-<!-- Save as: frontend/match_result.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,10 +20,11 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       font-family: 'Inter', sans-serif;
       background: linear-gradient(120deg, #e4e1ff, #f7f5ff);
       color: var(--dark);
+      scroll-behavior: smooth;
     }
 
     .topbar {
@@ -74,15 +74,16 @@
       margin: 80px auto;
       background-color: #fff;
       padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
       text-align: center;
+      animation: fadeIn 1s ease-in-out;
     }
 
     .form-container h2 {
       color: var(--secondary);
-      font-size: 1.8rem;
-      margin-bottom: 24px;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .form-container p {
@@ -97,9 +98,34 @@
 
     .form-container em {
       display: block;
-      margin-top: 12px;
+      margin-top: 16px;
       color: #6a6a6a;
       font-size: 0.95rem;
+      font-style: italic;
+    }
+
+    .btn {
+      margin-top: 24px;
+      padding: 12px 24px;
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--secondary);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 768px) {
@@ -135,6 +161,7 @@
   </style>
 </head>
 <body>
+
   <nav class="topbar">
     <h2 class="logo">Nestra</h2>
     <div class="nav-toggle" onclick="toggleMenu()">☰</div>
@@ -152,7 +179,8 @@
     <p><strong>Match:</strong> Priya Sharma</p>
     <p><strong>Compatibility:</strong> 92% (High)</p>
     <p><strong>Suggested Room:</strong> Room A12 – 2nd Floor, Quiet Wing</p>
-    <em>Reason: Both prefer quiet evenings, similar schedules, and organized space.</em>
+    <em>Reason: Both of you prefer quiet evenings, aligned routines, and neat surroundings.</em>
+    <a href="survey.html" class="btn">🔁 Retake Survey</a>
   </div>
 
   <script>
@@ -161,8 +189,8 @@
     }
 
     window.addEventListener("click", function (e) {
-      const menu = document.getElementById("dropdownMenu");
       const toggle = document.querySelector('.nav-toggle');
+      const menu = document.getElementById("dropdownMenu");
       if (!toggle.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.remove("show");
       }

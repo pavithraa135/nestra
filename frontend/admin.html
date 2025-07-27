@@ -1,4 +1,3 @@
-<!-- Save as: frontend/admin.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,10 +64,6 @@
       font-weight: 600;
     }
 
-    .dropdown-menu li a:hover {
-      color: #d1ccf2;
-    }
-
     .form-container {
       max-width: 960px;
       margin: 60px auto;
@@ -80,20 +75,27 @@
 
     .form-container h2 {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       color: var(--secondary);
-      font-size: 1.8rem;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      border-radius: 12px;
-      overflow: hidden;
+      margin-top: 10px;
     }
 
     th, td {
-      padding: 16px;
+      padding: 14px;
       text-align: left;
       border-bottom: 1px solid #eee;
     }
@@ -102,10 +104,31 @@
       background-color: var(--accent);
       color: var(--secondary);
       font-weight: 600;
+      cursor: pointer;
     }
 
     tr:hover {
       background-color: #f9f8ff;
+    }
+
+    .actions button {
+      margin-right: 6px;
+      padding: 6px 10px;
+      font-size: 0.85rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .edit-btn {
+      background-color: #6c5dd3;
+      color: white;
+    }
+
+    .delete-btn {
+      background-color: #ff5c5c;
+      color: white;
     }
 
     @media (max-width: 768px) {
@@ -139,32 +162,23 @@
 
       tr {
         margin-bottom: 20px;
-        box-shadow: 0 0 8px rgba(0,0,0,0.05);
-        padding: 12px;
+        background: #fff;
         border-radius: 8px;
-        background-color: var(--white);
-      }
-
-      td {
-        border: none;
-        position: relative;
-        padding-left: 50%;
+        padding: 10px;
       }
 
       td::before {
-        position: absolute;
-        top: 12px;
-        left: 16px;
-        width: 45%;
-        white-space: nowrap;
+        content: attr(data-label);
         font-weight: bold;
-        color: var(--secondary);
+        display: block;
+        margin-bottom: 6px;
       }
 
-      td:nth-of-type(1)::before { content: "Name"; }
-      td:nth-of-type(2)::before { content: "Traits"; }
-      td:nth-of-type(3)::before { content: "Match"; }
-      td:nth-of-type(4)::before { content: "Room"; }
+      .actions {
+        display: flex;
+        gap: 10px;
+        justify-content: start;
+      }
     }
   </style>
 </head>
@@ -183,27 +197,39 @@
 
   <div class="form-container">
     <h2>📋 Admin Dashboard</h2>
-    <table>
+
+    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="🔍 Search by name or trait...">
+
+    <table id="matchTable">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Traits</th>
-          <th>Match</th>
-          <th>Room</th>
+          <th onclick="sortTable(0)">Name ⬍</th>
+          <th onclick="sortTable(1)">Traits ⬍</th>
+          <th onclick="sortTable(2)">Match ⬍</th>
+          <th onclick="sortTable(3)">Room ⬍</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Priya Sharma</td>
-          <td>Night Owl, Quiet, Tidy</td>
-          <td>Neha Joshi (92%)</td>
-          <td>A12</td>
+          <td data-label="Name">Priya Sharma</td>
+          <td data-label="Traits">Night Owl, Quiet, Tidy</td>
+          <td data-label="Match">Neha Joshi (92%)</td>
+          <td data-label="Room">A12</td>
+          <td data-label="Actions" class="actions">
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          </td>
         </tr>
         <tr>
-          <td>Aarushi Mehta</td>
-          <td>Early Bird, Sociable</td>
-          <td>Ritika Das (88%)</td>
-          <td>A14</td>
+          <td data-label="Name">Aarushi Mehta</td>
+          <td data-label="Traits">Early Bird, Sociable</td>
+          <td data-label="Match">Ritika Das (88%)</td>
+          <td data-label="Room">A14</td>
+          <td data-label="Actions" class="actions">
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -213,6 +239,7 @@
     function toggleMenu() {
       document.getElementById("dropdownMenu").classList.toggle("show");
     }
+
     window.addEventListener("click", function(e) {
       const toggle = document.querySelector('.nav-toggle');
       const menu = document.getElementById("dropdownMenu");
@@ -220,6 +247,59 @@
         menu.classList.remove("show");
       }
     });
+
+    function filterTable() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById("matchTable");
+      const tr = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < tr.length; i++) {
+        const tds = tr[i].getElementsByTagName("td");
+        let match = false;
+        for (let j = 0; j < tds.length - 1; j++) {
+          if (tds[j].textContent.toLowerCase().indexOf(filter) > -1) {
+            match = true;
+            break;
+          }
+        }
+        tr[i].style.display = match ? "" : "none";
+      }
+    }
+
+    function sortTable(columnIndex) {
+      const table = document.getElementById("matchTable");
+      let switching = true;
+      let shouldSwitch;
+      let dir = "asc";
+      let switchCount = 0;
+
+      while (switching) {
+        switching = false;
+        let rows = table.rows;
+        for (let i = 1; i < rows.length - 1; i++) {
+          shouldSwitch = false;
+          let x = rows[i].getElementsByTagName("TD")[columnIndex];
+          let y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+
+          if ((dir === "asc" && x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) ||
+              (dir === "desc" && x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase())) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          switchCount++;
+        } else {
+          if (switchCount === 0 && dir === "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
   </script>
 </body>
 </html>

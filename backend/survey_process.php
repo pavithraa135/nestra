@@ -1,41 +1,33 @@
 <?php
-// survey_process.php
+include 'db_connect.php';
 
-require_once 'db_connect.php';
-
+// Check if the form was submitted via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $sleep = $_POST['sleep'] ?? '';
-    $cleanliness = $_POST['cleanliness'] ?? '';
-    $work = $_POST['work'] ?? '';
-    $social = $_POST['social'] ?? '';
-    $room = $_POST['room'] ?? '';
-    $needs = $_POST['needs'] ?? '';
-    $username = $_POST['username'] ?? ''; // optional for login-linked surveys
+    $sleep = $_POST['sleep'];
+    $cleanliness = $_POST['cleanliness'];
+    $work = $_POST['work'];
+    $social = $_POST['social'];
+    $room = $_POST['room'];
+    $needs = $_POST['needs'];
 
-    // Sanitize inputs
-    $sleep = mysqli_real_escape_string($conn, $sleep);
-    $cleanliness = mysqli_real_escape_string($conn, $cleanliness);
-    $work = mysqli_real_escape_string($conn, $work);
-    $social = mysqli_real_escape_string($conn, $social);
-    $room = mysqli_real_escape_string($conn, $room);
-    $needs = mysqli_real_escape_string($conn, $needs);
-    $username = mysqli_real_escape_string($conn, $username);
-
-    // Save to survey table
-    $query = "INSERT INTO survey_responses (username, sleep, cleanliness, work, social, room, needs)
-              VALUES ('$username', '$sleep', '$cleanliness', '$work', '$social', '$room', '$needs')";
-
-    if (mysqli_query($conn, $query)) {
-        // Optionally store survey_id or username in session
-        session_start();
-        $_SESSION['username'] = $username;
-
-        // Redirect to AI matching or result page
-        header("Location: ../frontend/match_result.html"); // or to matchRoommate.php if it's dynamic
-        exit();
-    } else {
-        echo "Error saving survey: " . mysqli_error($conn);
+    // Assuming the user is logged in and session contains user_id
+    session_start();
+    if (!isset($_SESSION['user_id'])) {
+        die("User not logged in. Please login first.");
     }
+    $user_id = $_SESSION['user_id'];
+
+    $stmt = $conn->prepare("INSERT INTO survey (user_id, sleep_schedule, cleanliness_level, work_style, social_pref, room_pref, needs) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("issssss", $user_id, $sleep, $cleanliness, $work, $social, $room, $needs);
+
+    if ($stmt->execute()) {
+        echo "✅ Survey submitted successfully.";
+    } else {
+        echo "❌ Error submitting survey: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
 } else {
     echo "Invalid request.";
 }

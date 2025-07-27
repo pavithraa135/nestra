@@ -12,6 +12,7 @@
       --accent: #f3f0ff;
       --dark: #2d2d39;
       --white: #fff;
+      --error: #d63031;
     }
 
     * {
@@ -20,15 +21,15 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, #e4e1ff, #f7f5ff);
+      background: linear-gradient(135deg, #ece9fc, #f6f3ff);
       color: var(--dark);
-      line-height: 1.6;
+      height: 100%;
     }
 
     .topbar {
-      background-color: var(--primary);
+      background: var(--primary);
       color: var(--white);
       display: flex;
       justify-content: space-between;
@@ -36,20 +37,17 @@
       padding: 1rem 2rem;
       position: sticky;
       top: 0;
-      z-index: 999;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      z-index: 100;
     }
 
     .logo {
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--white);
     }
 
     .nav-toggle {
       display: none;
-      font-size: 1.5rem;
-      color: var(--white);
+      font-size: 1.6rem;
       cursor: pointer;
     }
 
@@ -63,7 +61,6 @@
       color: var(--white);
       text-decoration: none;
       font-weight: 600;
-      transition: color 0.3s ease;
     }
 
     .dropdown-menu li a:hover {
@@ -71,17 +68,18 @@
     }
 
     .form-container {
-      max-width: 400px;
+      max-width: 420px;
       margin: 80px auto;
-      background-color: #ffffff;
-      padding: 36px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      background: var(--white);
+      padding: 40px 30px;
+      border-radius: 18px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 0.8s ease;
     }
 
     .form-container h2 {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 1.8rem;
       font-size: 1.8rem;
       color: var(--secondary);
     }
@@ -89,47 +87,59 @@
     input[type="text"],
     input[type="password"] {
       width: 100%;
-      padding: 14px;
-      margin-bottom: 18px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 1rem;
-      transition: border-color 0.2s;
+      transition: border 0.2s ease-in-out;
     }
 
     input[type="text"]:focus,
     input[type="password"]:focus {
       border-color: var(--primary);
       outline: none;
+      box-shadow: 0 0 0 3px rgba(108, 93, 211, 0.1);
     }
 
-    button.btn-primary {
+    .btn-primary {
       width: 100%;
       padding: 14px;
-      background-color: var(--primary);
+      background: var(--primary);
       color: #fff;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background 0.3s ease;
     }
 
-    button.btn-primary:hover {
-      background-color: var(--secondary);
+    .btn-primary:hover {
+      background: var(--secondary);
     }
 
     .form-note {
-      margin-top: 20px;
       text-align: center;
+      margin-top: 1rem;
       font-size: 0.95rem;
     }
 
     .form-note a {
       color: var(--primary);
+      font-weight: 600;
       text-decoration: none;
-      font-weight: 500;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 768px) {
@@ -149,17 +159,18 @@
         box-shadow: 0 8px 16px rgba(0,0,0,0.1);
       }
 
-      .dropdown-menu.show {
-        display: flex;
-      }
-
       .dropdown-menu li a {
         color: var(--dark);
+      }
+
+      .dropdown-menu.show {
+        display: flex;
       }
     }
   </style>
 </head>
 <body>
+
   <nav class="topbar">
     <h2 class="logo">Nestra</h2>
     <div class="nav-toggle" onclick="toggleMenu()">☰</div>
@@ -185,9 +196,9 @@
     }
 
     window.addEventListener("click", function (e) {
-      const menu = document.getElementById("dropdownMenu");
       const toggle = document.querySelector(".nav-toggle");
-      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+      const menu = document.getElementById("dropdownMenu");
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.remove("show");
       }
     });
