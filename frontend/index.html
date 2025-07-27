@@ -4,9 +4,190 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nestra – Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root {
+      --primary: #6c5dd3;
+      --secondary: #463aa2;
+      --accent: #f3f0ff;
+      --dark: #2d2d39;
+      --white: #fff;
+      --glass: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(120deg, #e4e1ff, #f7f5ff);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    .topbar {
+      backdrop-filter: blur(8px);
+      background-color: var(--glass);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .nav-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+    }
+
+    .dropdown-menu {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .dropdown-menu li a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .dropdown-menu li a:hover {
+      color: var(--primary);
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 100px 20px 70px;
+      background: radial-gradient(circle at top right, #eae8ff, #fafaff);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      color: var(--secondary);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: #625f7d;
+      margin-bottom: 2rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+      padding: 14px 30px;
+      border-radius: 12px;
+      border: none;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 10px 24px rgba(108, 93, 211, 0.3);
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    /* Features */
+    .features-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .feature-box {
+      flex: 1 1 300px;
+      background: linear-gradient(145deg, #ffffff, #f3f0ff);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .feature-box h3 {
+      font-size: 1.5rem;
+      color: var(--secondary);
+      margin-bottom: 1rem;
+    }
+
+    .feature-box p {
+      color: #4c4c66;
+      font-size: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      background: #e9e6f6;
+      padding: 1.2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #5c5a75;
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: block;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: white;
+        flex-direction: column;
+        display: none;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      }
+
+      .dropdown-menu.show {
+        display: flex;
+      }
+
+      .features-row {
+        flex-direction: column;
+        padding: 40px 20px;
+      }
+    }
+  </style>
 </head>
 <body>
+
   <nav class="topbar">
     <h2 class="logo">Nestra</h2>
     <div class="nav-toggle" onclick="toggleMenu()">☰</div>
@@ -47,13 +228,13 @@
 
   <script>
     function toggleMenu() {
-      const menu = document.getElementById("dropdownMenu");
-      menu.classList.toggle("show");
+      document.getElementById("dropdownMenu").classList.toggle("show");
     }
+
     window.addEventListener("click", function (e) {
-      const toggle = document.querySelector(".nav-toggle");
       const menu = document.getElementById("dropdownMenu");
-      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+      const toggle = document.querySelector(".nav-toggle");
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
         menu.classList.remove("show");
       }
     });

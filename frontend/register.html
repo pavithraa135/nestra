@@ -1,11 +1,156 @@
-<!-- Save as: frontend/register.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register – Nestra</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6c5dd3;
+      --secondary: #463aa2;
+      --accent: #f3f0ff;
+      --dark: #2d2d39;
+      --white: #fff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(120deg, #e4e1ff, #f7f5ff);
+      color: var(--dark);
+    }
+
+    .topbar {
+      background-color: var(--primary);
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .nav-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: var(--white);
+      cursor: pointer;
+    }
+
+    .dropdown-menu {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .dropdown-menu li a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .dropdown-menu li a:hover {
+      color: #d1ccf2;
+    }
+
+    .form-container {
+      max-width: 480px;
+      margin: 60px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+      color: var(--secondary);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #f9f9ff;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--secondary);
+    }
+
+    .form-note {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .form-note a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: block;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: white;
+        flex-direction: column;
+        display: none;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      }
+
+      .dropdown-menu li a {
+        color: var(--dark);
+      }
+
+      .dropdown-menu.show {
+        display: flex;
+      }
+    }
+  </style>
 </head>
 <body>
   <nav class="topbar">
@@ -20,11 +165,11 @@
   <div class="form-container">
     <h2>📝 Register</h2>
     <form action="../backend/register.php" method="POST">
-      <input type="text" name="fullname" placeholder="Full Name" required/>
-      <input type="email" name="email" placeholder="Email" required/>
-      <input type="text" name="username" placeholder="Username" required/>
-      <input type="password" name="password" placeholder="Password" required/>
-      <input type="password" name="confirm" placeholder="Confirm Password" required/>
+      <input type="text" name="fullname" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="password" name="confirm" placeholder="Confirm Password" required />
       <button type="submit" class="btn-primary">Create Account</button>
     </form>
     <p class="form-note">Already registered? <a href="login.html">Login here</a></p>
@@ -36,7 +181,8 @@
     }
     window.addEventListener("click", function(e) {
       const menu = document.getElementById("dropdownMenu");
-      if (!document.querySelector('.nav-toggle').contains(e.target)) {
+      const toggle = document.querySelector(".nav-toggle");
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
         menu.classList.remove("show");
       }
     });
