@@ -1,18 +1,16 @@
 <?php
+header('Content-Type: application/json');
 include 'db_connect.php';
 
-$sql = "SELECT u.fullname AS name, s.sleep, s.cleanliness, s.work, s.social, s.room, s.needs
-        FROM users u
-        JOIN survey s ON u.id = s.user_id
-        ORDER BY u.id DESC LIMIT 1";
-
+// Example: Fetch AI match results (replace with actual AI model integration)
+$sql = "SELECT name, compatibility_score, common_interests FROM matches ORDER BY compatibility_score DESC";
 $result = $conn->query($sql);
-$data = [];
 
-if ($result->num_rows > 0) {
-    $data = $result->fetch_assoc();
+$matches = [];
+while ($row = $result->fetch_assoc()) {
+    $matches[] = $row;
 }
 
-header('Content-Type: application/json');
-echo json_encode($data);
+echo json_encode($matches);
+$conn->close();
 ?>

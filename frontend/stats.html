@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nestra – Stats</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Same styles as index.html */
+    :root {
+      --primary: #6c5dd3;
+      --secondary: #463aa2;
+      --gradient: linear-gradient(135deg, #6c5dd3, #463aa2);
+      --accent: #f3f0ff;
+      --glass: rgba(255, 255, 255, 0.1);
+      --white: #fff;
+      --dark: #2d2d39;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(120deg, #eae8ff, #f7f5ff);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+    .topbar {
+      backdrop-filter: blur(10px);
+      background-color: var(--glass);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .nav-toggle {
+      display: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--dark);
+    }
+    .dropdown-menu {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    .dropdown-menu li a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 600;
+      position: relative;
+    }
+    .dropdown-menu li a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      left: 0;
+      bottom: -4px;
+      transition: 0.3s ease;
+    }
+    .dropdown-menu li a:hover::after,
+    .dropdown-menu li a.active::after {
+      width: 100%;
+    }
+    .hero {
+      padding: 120px 20px 80px;
+      text-align: center;
+      background: radial-gradient(circle at top right, #f1eeff, #fefeff);
+      animation: fadeIn 1.2s ease-in;
+    }
+    .hero h1 {
+      font-size: 3.2rem;
+      color: var(--secondary);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      color: #5e5c7a;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+    /* Content area */
+    .content {
+      max-width: 900px;
+      margin: 40px auto 80px;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 30px 40px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+      color: var(--dark);
+      text-align: left;
+    }
+    .content h2 {
+      color: var(--secondary);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    .content ul {
+      list-style-type: disc;
+      margin-left: 20px;
+      font-size: 1.1rem;
+      color: #4e4e6a;
+    }
+    .content ul li {
+      margin-bottom: 10px;
+    }
+    footer {
+      background: #ece9f7;
+      padding: 1.2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #5c5a75;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: block;
+      }
+      .dropdown-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: var(--white);
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      }
+      .dropdown-menu.show {
+        display: flex;
+      }
+      .content {
+        padding: 20px;
+        margin: 20px 10px 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topbar">
+    <h2 class="logo">Nestra</h2>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="match_result.html">Match Result</a></li>
+      <li><a href="admin.html">Admin</a></li>
+      <li><a href="stats.html" class="active">Stats</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <h1>Match Statistics</h1>
+    <p>Insights on your roommate preferences and match quality.</p>
+  </section>
+
+  <section class="content">
+    <h2>Survey Summary</h2>
+    <ul>
+      <li>80% compatibility with matched roommates</li>
+      <li>Preferred sleep schedule: Early riser</li>
+      <li>Most common room type chosen: Twin Sharing</li>
+      <li>Average survey completion time: 5 minutes</li>
+    </ul>
+
+    <h2>Match Results</h2>
+    <ul>
+      <li>Matches Found: 12</li>
+      <li>Pending Confirmations: 3</li>
+      <li>Feedback Score: 4.5 / 5</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Nestra | Empowering Intelligent, Inclusive Co-living</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("dropdownMenu").classList.toggle("show");
+    }
+    window.addEventListener("click", function(e) {
+      const toggle = document.querySelector(".nav-toggle");
+      const menu = document.getElementById("dropdownMenu");
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>

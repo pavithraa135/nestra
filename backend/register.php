@@ -18,7 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssss", $fullname, $email, $username, $hashedPassword);
 
     if ($stmt->execute()) {
-        echo "Registration successful!";
+        // Redirect to login.html after successful registration
+        header("Location: /nestra/frontend/login.html");
+        exit();
     } else {
         echo "Error: " . $stmt->error;
     }

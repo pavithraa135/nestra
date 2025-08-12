@@ -1,51 +1,39 @@
 <?php
-include 'db_connect.php'; // make sure this file connects $conn
+header('Content-Type: application/json');
+include 'db_connect.php';
 
-// Read DataTables parameters
-$draw = $_POST['draw'];
-$row = $_POST['start'];
-$rowperpage = $_POST['length']; // Rows display per page
-$searchValue = $_POST['search']['value']; // Search value
+// Ensure no unwanted output before JSON
+ob_start();
 
-## Search
-$searchQuery = "";
-if ($searchValue != '') {
-    $searchValue = mysqli_real_escape_string($conn, $searchValue);
-    $searchQuery = " WHERE fullname LIKE '%".$searchValue."%' OR email LIKE '%".$searchValue."%' OR username LIKE '%".$searchValue."%'";
+$response = array();
+$response['data'] = array();
+
+try {
+    $sql = "SELECT id, username, email, created_at FROM users ORDER BY id DESC";
+    $result = $conn->query($sql);
+
+    if (!$result) {
+        throw new Exception("Database query failed: " . $conn->error);
+    }
+
+    while ($row = $result->fetch_assoc()) {
+        $response['data'][] = array(
+            $row['id'],
+            htmlspecialchars($row['username']),
+            htmlspecialchars($row['email']),
+            $row['created_at'],
+            '<button class="editBtn" data-id="' . $row['id'] . '">Edit</button>
+             <button class="deleteBtn" data-id="' . $row['id'] . '">Delete</button>'
+        );
+    }
+
+    // Clear output buffer to avoid whitespace/errors
+    ob_end_clean();
+    echo json_encode($response, JSON_UNESCAPED_UNICODE);
+} catch (Exception $e) {
+    ob_end_clean();
+    echo json_encode(array("data" => [], "error" => $e->getMessage()));
 }
 
-## Total number of records without filtering
-$sel = mysqli_query($conn, "SELECT COUNT(*) AS allcount FROM detailsdb");
-$records = mysqli_fetch_assoc($sel);
-$totalRecords = $records['allcount'];
-
-## Total number of records with filtering
-$sel = mysqli_query($conn, "SELECT COUNT(*) AS allcount FROM detailsdb ".$searchQuery);
-$records = mysqli_fetch_assoc($sel);
-$totalRecordwithFilter = $records['allcount'];
-
-## Fetch records
-$empQuery = "SELECT id, fullname, email, username, created_at FROM detailsdb ".$searchQuery." ORDER BY id DESC LIMIT ".$row.",".$rowperpage;
-$empRecords = mysqli_query($conn, $empQuery);
-$data = array();
-
-while ($row = mysqli_fetch_assoc($empRecords)) {
-    $data[] = array(
-        "id" => $row['id'],
-        "fullname" => $row['fullname'],
-        "email" => $row['email'],
-        "username" => $row['username'],
-        "created_at" => $row['created_at']
-    );
-}
-
-## Response
-$response = array(
-    "draw" => intval($draw),
-    "iTotalRecords" => $totalRecords,
-    "iTotalDisplayRecords" => $totalRecordwithFilter,
-    "aaData" => $data
-);
-
-echo json_encode($response);
+$conn->close();
 ?>

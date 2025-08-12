@@ -1,200 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Match Result – Nestra</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #6c5dd3;
-      --secondary: #463aa2;
-      --accent: #f3f0ff;
-      --dark: #2d2d39;
-      --white: #fff;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, #e4e1ff, #f7f5ff);
-      color: var(--dark);
-      scroll-behavior: smooth;
-    }
-
-    .topbar {
-      background-color: var(--primary);
-      color: var(--white);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--white);
-    }
-
-    .nav-toggle {
-      display: none;
-      font-size: 1.5rem;
-      color: var(--white);
-      cursor: pointer;
-    }
-
-    .dropdown-menu {
-      list-style: none;
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .dropdown-menu li a {
-      color: var(--white);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .dropdown-menu li a:hover {
-      color: #d1ccf2;
-    }
-
-    .form-container {
-      max-width: 600px;
-      margin: 80px auto;
-      background-color: #fff;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    .form-container h2 {
-      color: var(--secondary);
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .form-container p {
-      font-size: 1.1rem;
-      margin-bottom: 16px;
-      color: #333;
-    }
-
-    .form-container strong {
-      color: var(--primary);
-    }
-
-    .form-container em {
-      display: block;
-      margin-top: 16px;
-      color: #6a6a6a;
-      font-size: 0.95rem;
-      font-style: italic;
-    }
-
-    .btn {
-      margin-top: 24px;
-      padding: 12px 24px;
-      background-color: var(--primary);
-      color: var(--white);
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: background-color 0.3s ease;
-    }
-
-    .btn:hover {
-      background-color: var(--secondary);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      .nav-toggle {
-        display: block;
-      }
-
-      .dropdown-menu {
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        background: white;
-        flex-direction: column;
-        display: none;
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-      }
-
-      .dropdown-menu li a {
-        color: var(--dark);
-      }
-
-      .dropdown-menu.show {
-        display: flex;
-      }
-
-      .form-container {
-        padding: 24px;
-        margin: 40px 16px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Results - Nestra</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 </head>
 <body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo"><a href="index.html">Nestra</a></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="survey.html">Survey</a></li>
+                <li><a href="match_result.html" class="active">Match Result</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <nav class="topbar">
-    <h2 class="logo">Nestra</h2>
-    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
-    <ul class="dropdown-menu" id="dropdownMenu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="login.html">Login</a></li>
-      <li><a href="register.html">Register</a></li>
-      <li><a href="survey.html">Survey</a></li>
-      <li><a href="admin.html">Admin</a></li>
-    </ul>
-  </nav>
+    <main>
+        <section class="container">
+            <h1>Your AI Match Results</h1>
+            <table id="matchTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Compatibility Score</th>
+                        <th>Common Interests</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
 
-  <div class="form-container">
-    <h2>💡 Your Best Match</h2>
-    <p><strong>Match:</strong> Priya Sharma</p>
-    <p><strong>Compatibility:</strong> 92% (High)</p>
-    <p><strong>Suggested Room:</strong> Room A12 – 2nd Floor, Quiet Wing</p>
-    <em>Reason: Both of you prefer quiet evenings, aligned routines, and neat surroundings.</em>
-    <a href="survey.html" class="btn">🔁 Retake Survey</a>
-  </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById("dropdownMenu").classList.toggle("show");
-    }
-
-    window.addEventListener("click", function (e) {
-      const toggle = document.querySelector('.nav-toggle');
-      const menu = document.getElementById("dropdownMenu");
-      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.remove("show");
-      }
-    });
-  </script>
+    <script>
+        $(document).ready(function () {
+            $('#matchTable').DataTable({
+                ajax: {
+                    url:  '../backend/fetch_matches.php',
+                    type: 'GET',
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: 'name' },
+                    { data: 'compatibility_score' },
+                    { data: 'common_interests' }
+                ]
+            });
+        });
+    </script>
 </body>
 </html>
