@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chatbot – Nestra</title>
+  <style>
+    :root {
+      --primary: #6c5dd3;
+      --secondary: #463aa2;
+      --white: #fff;
+      --dark-bg: #2d2d39;
+      --bg-light: #f7f5ff;
+      --glass: rgba(255, 255, 255, 0.1);
+      --input-bg: #f3f0ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(120deg, #eae8ff, var(--bg-light));
+      color: var(--dark-bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    nav.topbar {
+      background-color: var(--primary);
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      user-select: none;
+      z-index: 999;
+    }
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 1.5px;
+      user-select: none;
+    }
+    nav .nav-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: var(--white);
+      cursor: pointer;
+      user-select: none;
+    }
+    ul.dropdown-menu {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    ul.dropdown-menu li a {
+      color: var(--white);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+    ul.dropdown-menu li a:hover {
+      color: #d1ccf2;
+    }
+
+    /* Chatbot container */
+    .chatbot-container {
+      flex-grow: 1;
+      max-width: 700px;
+      margin: 40px auto 60px;
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(108, 93, 211, 0.15);
+      display: flex;
+      flex-direction: column;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .chatbot-header {
+      background: var(--secondary);
+      color: var(--white);
+      padding: 18px 24px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      user-select: none;
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      padding: 20px 24px;
+      overflow-y: auto;
+      background: var(--input-bg);
+      font-size: 1rem;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message {
+      max-width: 70%;
+      padding: 12px 18px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    .message.user {
+      background: var(--primary);
+      color: var(--white);
+      align-self: flex-end;
+      border-bottom-right-radius: 0;
+    }
+
+    .message.bot {
+      background: var(--white);
+      color: var(--dark-bg);
+      align-self: flex-start;
+      border-bottom-left-radius: 0;
+      box-shadow: 0 4px 12px rgba(108, 93, 211, 0.15);
+    }
+
+    .chat-input-area {
+      display: flex;
+      padding: 16px 24px;
+      border-top: 1px solid #ddd;
+      background: var(--white);
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+    }
+
+    .chat-input {
+      flex-grow: 1;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1.8px solid #ccc;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s ease;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    .send-btn {
+      background: var(--primary);
+      border: none;
+      color: var(--white);
+      font-weight: 700;
+      padding: 0 20px;
+      margin-left: 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.15s ease;
+      user-select: none;
+    }
+
+    .send-btn:hover {
+      background: var(--secondary);
+      transform: scale(1.05);
+    }
+
+    /* Scrollbar styling */
+    .chat-messages::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 8px;
+    }
+    .chat-messages::-webkit-scrollbar-track {
+      background: var(--input-bg);
+    }
+
+    @media (max-width: 768px) {
+      nav .nav-toggle {
+        display: block;
+      }
+      ul.dropdown-menu {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: var(--white);
+        flex-direction: column;
+        display: none;
+        padding: 18px 20px;
+        border-radius: 14px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        user-select: none;
+        z-index: 999;
+      }
+      ul.dropdown-menu.show {
+        display: flex;
+      }
+      ul.dropdown-menu li a {
+        color: var(--dark-bg);
+        font-weight: 700;
+      }
+      .chatbot-container {
+        margin: 20px 12px 40px;
+        height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <h2 class="logo">Nestra</h2>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="login.html">🔐 Login</a></li>
+      <li><a href="register.html">📝 Register</a></li>
+      <li><a href="survey.html">🎤 Survey</a></li>
+      <li><a href="match_result.html">📊 Match Result</a></li>
+      <li><a href="admin.html">👑 Admin</a></li>
+    </ul>
+  </nav>
+
+  <main class="chatbot-container" role="main" aria-label="Chatbot Interface">
+    <header class="chatbot-header">🤖 Nexi Chatbot</header>
+    <section class="chat-messages" id="chatMessages" aria-live="polite" aria-atomic="false">
+      <!-- Chat messages appear here -->
+      <div class="message bot">Hello! I'm Nexi, your friendly assistant. How can I help you today? 😊</div>
+    </section>
+    <form class="chat-input-area" id="chatForm" aria-label="Send message to chatbot">
+      <input
+        type="text"
+        id="chatInput"
+        class="chat-input"
+        autocomplete="off"
+        placeholder="Type your message..."
+        aria-label="Chat message input"
+        required
+        autofocus
+      />
+      <button type="submit" class="send-btn" aria-label="Send message">Send</button>
+    </form>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("dropdownMenu").classList.toggle("show");
+    }
+
+    window.addEventListener("click", function(e) {
+      const toggle = document.querySelector(".nav-toggle");
+      const menu = document.getElementById("dropdownMenu");
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove("show");
+      }
+    });
+
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const chatMessages = document.getElementById('chatMessages');
+
+    function appendMessage(text, sender) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message', sender);
+      msgDiv.textContent = text;
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Extended list of questions and answers for Nexi chatbot
+    function getBotReply(message) {
+      const msg = message.toLowerCase();
+
+      const qa = [
+        { q: ['hello', 'hi', 'hey'], a: "Hello! 👋 How can I assist you today?" },
+        { q: ['help', 'support'], a: "Sure! I'm here to help. What do you need assistance with?" },
+        { q: ['name', 'who are you'], a: "I'm Nexi 🤖, your friendly assistant." },
+        { q: ['thank', 'thanks'], a: "You're welcome! 😊" },
+        { q: ['bye', 'exit', 'goodbye'], a: "Goodbye! Have a great day! 👋" },
+        { q: ['survey'], a: "You can take the survey here: 🎤 Survey page." },
+        { q: ['match result', 'match'], a: "Check your match results on the Match Result page 📊." },
+        { q: ['register', 'sign up'], a: "You can register on the Register page 📝." },
+        { q: ['login', 'sign in'], a: "Access your account through the Login page 🔐." },
+        { q: ['features', 'what can you do'], a: "I can help you navigate the site, answer questions, and provide info about Nestra." },
+        { q: ['contact', 'support email'], a: "You can reach support at support@nestra.com." },
+        { q: ['forgot password'], a: "Use the 'Forgot Password' link on the Login page to reset your password." },
+        { q: ['privacy', 'data'], a: "Your privacy is important to us. We protect your data according to our policy." },
+        { q: ['how to use', 'usage'], a: "Simply navigate through the menu to explore Nestra’s features and take surveys." },
+        { q: ['what is nestra'], a: "Nestra is a platform to find compatible roommates with AI-powered matching." },
+        { q: ['voice input'], a: "You can use the microphone button on the survey page to input answers via voice." },
+        { q: ['feedback'], a: "We appreciate your feedback! Please visit the Feedback page to share your thoughts." },
+        { q: ['bug', 'issue', 'problem'], a: "Sorry to hear that! Please report bugs on the Support page and we'll fix them ASAP." },
+        { q: ['terms', 'conditions'], a: "You can review our Terms & Conditions on the dedicated page linked at the footer." },
+        { q: ['about'], a: "Nestra is dedicated to creating safe and compatible living environments through smart matching." },
+        { q: ['hours', 'availability'], a: "Our platform is available 24/7 for you to access anytime." },
+        { q: ['payment', 'fees'], a: "Nestra is currently free to use. We’ll inform you about any future changes." }
+      ];
+
+      for (const pair of qa) {
+        for (const keyword of pair.q) {
+          if (msg.includes(keyword)) {
+            return pair.a;
+          }
+        }
+      }
+
+      return "Sorry, I didn't understand that. Could you please rephrase? 🤔";
+    }
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const userMsg = chatInput.value.trim();
+      if (!userMsg) return;
+
+      appendMessage(userMsg, 'user');
+      chatInput.value = '';
+
+      // Simulate bot typing delay
+      setTimeout(() => {
+        const botReply = getBotReply(userMsg);
+        appendMessage(botReply, 'bot');
+      }, 900);
+    });
+  </script>
+</body>
+</html>

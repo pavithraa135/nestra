@@ -25,6 +25,9 @@
       background: linear-gradient(120deg, #e4e1ff, #f7f5ff);
       color: var(--dark);
       line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .topbar {
@@ -38,12 +41,14 @@
       top: 0;
       z-index: 999;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      user-select: none;
     }
 
     .logo {
       font-size: 1.8rem;
       font-weight: 700;
       color: var(--white);
+      letter-spacing: 1.5px;
     }
 
     .nav-toggle {
@@ -51,6 +56,7 @@
       font-size: 1.5rem;
       color: var(--white);
       cursor: pointer;
+      user-select: none;
     }
 
     .dropdown-menu {
@@ -63,6 +69,7 @@
       color: var(--white);
       text-decoration: none;
       font-weight: 600;
+      transition: color 0.25s ease;
     }
 
     .dropdown-menu li a:hover {
@@ -71,74 +78,120 @@
 
     .form-container {
       max-width: 600px;
-      margin: 80px auto;
+      margin: 80px auto 40px;
       background-color: var(--white);
-      padding: 40px;
+      padding: 40px 36px 48px;
       border-radius: 16px;
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
+      box-sizing: border-box;
     }
 
     .form-container h2 {
       text-align: center;
       margin-bottom: 24px;
-      font-size: 1.8rem;
+      font-size: 2rem;
       color: var(--secondary);
+      letter-spacing: 1px;
     }
 
     label {
       display: block;
-      margin-top: 16px;
+      margin-top: 18px;
       margin-bottom: 6px;
       font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--dark);
+      user-select: none;
     }
 
+    /* Modern UI effect for inputs and textarea */
     select, textarea {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      border: 2px solid #d3d1f9;
+      border-radius: 10px;
       font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      resize: vertical;
+      background: #fafaff;
+      box-shadow: 0 2px 6px rgba(108, 93, 211, 0.1);
+      font-weight: 500;
+      transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.15s ease;
+    }
+
+    select:hover, textarea:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(108, 93, 211, 0.2);
+      transform: translateY(-2px);
+    }
+
+    select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 10px 3px rgba(108, 93, 211, 0.5);
+      background-color: #fff;
+      transform: translateY(-4px);
     }
 
     textarea {
-      resize: vertical;
-      min-height: 80px;
+      min-height: 100px;
+      font-size: 1rem;
+      line-height: 1.4;
+      font-style: italic;
+      color: #555;
     }
 
     .btn-primary {
       width: 100%;
-      padding: 14px;
+      padding: 16px;
       background-color: var(--primary);
-      color: #fff;
+      color: var(--white);
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
+      border-radius: 10px;
+      font-size: 1.15rem;
+      font-weight: 700;
       cursor: pointer;
-      margin-top: 24px;
-      transition: background-color 0.3s ease;
+      margin-top: 28px;
+      box-shadow: 0 6px 15px rgba(108, 93, 211, 0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      user-select: none;
     }
 
     .btn-primary:hover {
       background-color: var(--secondary);
+      transform: scale(1.04);
     }
 
     .voice-btn {
       background: #eae6ff;
       color: #5a4f8d;
-      padding: 6px 12px;
-      font-size: 0.9rem;
+      padding: 8px 14px;
+      font-size: 1rem;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       float: right;
-      margin-top: -36px;
-      margin-bottom: 12px;
+      margin-top: -50px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(90, 79, 141, 0.3);
+      transition: background-color 0.3s ease, transform 0.15s ease;
+      user-select: none;
     }
 
     .voice-btn:hover {
       background-color: #dcd3ff;
+      transform: scale(1.05);
+    }
+
+    /* Clear floats */
+    form::after {
+      content: "";
+      display: table;
+      clear: both;
     }
 
     @media (max-width: 768px) {
@@ -150,12 +203,13 @@
         position: absolute;
         top: 60px;
         right: 20px;
-        background: white;
+        background: var(--white);
         flex-direction: column;
         display: none;
-        padding: 15px;
-        border-radius: 12px;
+        padding: 18px 20px;
+        border-radius: 14px;
         box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        user-select: none;
       }
 
       .dropdown-menu.show {
@@ -164,11 +218,19 @@
 
       .dropdown-menu li a {
         color: var(--dark);
+        font-weight: 700;
       }
 
       .form-container {
-        padding: 24px;
-        margin: 40px 16px;
+        padding: 32px 24px 36px;
+        margin: 60px 16px 40px;
+      }
+
+      .voice-btn {
+        margin-top: -44px;
+        margin-bottom: 14px;
+        padding: 7px 12px;
+        font-size: 0.95rem;
       }
     }
   </style>
@@ -178,87 +240,87 @@
     <h2 class="logo">Nestra</h2>
     <div class="nav-toggle" onclick="toggleMenu()">☰</div>
     <ul class="dropdown-menu" id="dropdownMenu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="login.html">Login</a></li>
-      <li><a href="register.html">Register</a></li>
-      <li><a href="survey.html">Survey</a></li>
-      <li><a href="match_result.html">Match Result</a></li>
-      <li><a href="admin.html">Admin</a></li>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="login.html">🔐 Login</a></li>
+      <li><a href="register.html">📝 Register</a></li>
+      <li><a href="survey.html" class="active">🎤 Survey</a></li>
+      <li><a href="match_result.html">📊 Match Result</a></li>
+      <li><a href="admin.html">👑 Admin</a></li>
     </ul>
   </nav>
 
-  <div class="form-container">
-    <h2>🎤 Compatibility Survey</h2>
-    <form action="../backend/survey_process.php" method="POST">
-      <label for="sleep">Preferred Sleep Schedule</label>
-      <select id="sleep" name="sleep" required>
+  <div class="form-container" role="main" aria-labelledby="surveyTitle">
+    <h2 id="surveyTitle">🎤 Compatibility Survey</h2>
+    <form action="../backend/survey_process.php" method="POST" autocomplete="off" novalidate>
+      <label for="sleep">🛌 Preferred Sleep Schedule</label>
+      <select id="sleep" name="sleep" required aria-required="true" aria-describedby="sleepHelp">
         <option value="">-- Select --</option>
-        <option>Early Riser</option>
-        <option>Night Owl</option>
-        <option>Flexible</option>
+        <option>Early Riser 🌅</option>
+        <option>Night Owl 🌙</option>
+        <option>Flexible 🔄</option>
       </select>
 
-      <label for="cleanliness">Cleanliness Level</label>
-      <select id="cleanliness" name="cleanliness" required>
+      <label for="cleanliness">🧼 Cleanliness Level</label>
+      <select id="cleanliness" name="cleanliness" required aria-required="true">
         <option value="">-- Select --</option>
-        <option>Very Clean</option>
-        <option>Moderate</option>
-        <option>Messy</option>
+        <option>Very Clean ✨</option>
+        <option>Moderate 🙂</option>
+        <option>Messy 🙃</option>
       </select>
 
-      <label for="work">Work/Study Style</label>
-      <select id="work" name="work" required>
+      <label for="work">💻 Work/Study Style</label>
+      <select id="work" name="work" required aria-required="true">
         <option value="">-- Select --</option>
-        <option>Remote</option>
-        <option>Office</option>
-        <option>Student</option>
+        <option>Remote 🏡</option>
+        <option>Office 🏢</option>
+        <option>Student 🎓</option>
       </select>
 
-      <label for="social">Social Preference</label>
-      <select id="social" name="social" required>
+      <label for="social">🗣️ Social Preference</label>
+      <select id="social" name="social" required aria-required="true">
         <option value="">-- Select --</option>
-        <option>Introvert</option>
-        <option>Extrovert</option>
-        <option>Mixed</option>
+        <option>Introvert 🤫</option>
+        <option>Extrovert 🥳</option>
+        <option>Mixed 🔄</option>
       </select>
 
-      <label for="room">Room Preference</label>
-      <select id="room" name="room" required>
+      <label for="room">🏠 Room Preference</label>
+      <select id="room" name="room" required aria-required="true">
         <option value="">-- Select --</option>
-        <option>Twin Sharing</option>
-        <option>Single</option>
-        <option>No Preference</option>
+        <option>Twin Sharing 👭</option>
+        <option>Single 🛏️</option>
+        <option>No Preference ❓</option>
       </select>
 
-      <label for="diet">Diet Preference</label>
-      <select id="diet" name="diet" required>
+      <label for="diet">🍎 Diet Preference</label>
+      <select id="diet" name="diet" required aria-required="true">
         <option value="">-- Select --</option>
-        <option>Vegetarian</option>
-        <option>Non-Vegetarian</option>
-        <option>Vegan</option>
+        <option>Vegetarian 🥦</option>
+        <option>Non-Vegetarian 🍗</option>
+        <option>Vegan 🌱</option>
       </select>
 
-      <label for="pets">Pet Tolerance</label>
-      <select id="pets" name="pets" required>
+      <label for="pets">🐾 Pet Tolerance</label>
+      <select id="pets" name="pets" required aria-required="true">
         <option value="">-- Select --</option>
-        <option>Okay with pets</option>
-        <option>No pets</option>
-        <option>Allergic</option>
+        <option>Okay with pets 🐶🐱</option>
+        <option>No pets 🚫</option>
+        <option>Allergic 🤧</option>
       </select>
 
-      <label for="noise">Noise Tolerance Level</label>
-      <select id="noise" name="noise" required>
+      <label for="noise">🔊 Noise Tolerance Level</label>
+      <select id="noise" name="noise" required aria-required="true">
         <option value="">-- Select --</option>
-        <option>High</option>
-        <option>Moderate</option>
-        <option>Low</option>
+        <option>High 🔊🔊🔊</option>
+        <option>Moderate 🔊🔊</option>
+        <option>Low 🔇</option>
       </select>
 
-      <label for="needs">Your Needs</label>
-      <textarea id="needs" name="needs" placeholder="Mention any specific needs, allergies, or preferences..." required></textarea>
-      <button type="button" class="voice-btn" onclick="startVoiceInput()">🎙️ Speak</button>
+      <label for="needs">📝 Your Needs / Preferences</label>
+      <textarea id="needs" name="needs" placeholder="Mention any specific needs, allergies, or preferences..." required aria-required="true"></textarea>
+      <button type="button" class="voice-btn" aria-label="Start voice input" onclick="startVoiceInput()">🎙️ Speak</button>
 
-      <button type="submit" class="btn-primary">Submit Survey</button>
+      <button type="submit" class="btn-primary" aria-label="Submit survey form">Submit Survey 🚀</button>
     </form>
   </div>
 
@@ -277,7 +339,7 @@
 
     function startVoiceInput() {
       if (!('webkitSpeechRecognition' in window)) {
-        alert("Your browser doesn't support speech recognition. Please use Chrome.");
+        alert("⚠️ Your browser doesn't support speech recognition. Please use Chrome.");
         return;
       }
 
@@ -290,11 +352,13 @@
 
       recognition.onresult = function(event) {
         const transcript = event.results[0][0].transcript;
-        document.getElementById('needs').value = transcript;
+        const needsInput = document.getElementById('needs');
+        needsInput.value = transcript;
+        needsInput.focus();
       };
 
       recognition.onerror = function(event) {
-        alert("Voice recognition error: " + event.error);
+        alert("⚠️ Voice recognition error: " + event.error);
       };
     }
   </script>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Match Chat – Nestra</title>
+  <style>
+    :root {
+      --primary: #6c5dd3;
+      --secondary: #463aa2;
+      --white: #fff;
+      --dark-bg: #2d2d39;
+      --bg-light: #f7f5ff;
+      --input-bg: #f3f0ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(120deg, #eae8ff, var(--bg-light));
+      color: var(--dark-bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav.topbar {
+      background-color: var(--primary);
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      user-select: none;
+      z-index: 999;
+    }
+
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 1.5px;
+      user-select: none;
+    }
+
+    nav .nav-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: var(--white);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    ul.dropdown-menu {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    ul.dropdown-menu li a {
+      color: var(--white);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    ul.dropdown-menu li a:hover {
+      color: #d1ccf2;
+    }
+
+    .chat-container {
+      flex-grow: 1;
+      max-width: 700px;
+      margin: 40px auto 60px;
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(108, 93, 211, 0.15);
+      display: flex;
+      flex-direction: column;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: var(--secondary);
+      color: var(--white);
+      padding: 18px 24px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      user-select: none;
+    }
+
+    .messages {
+      flex-grow: 1;
+      padding: 20px 24px;
+      overflow-y: auto;
+      background: var(--input-bg);
+      font-size: 1rem;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message {
+      max-width: 70%;
+      padding: 12px 18px;
+      border-radius: 14px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    /* Current user messages on right */
+    .message.user {
+      background: var(--primary);
+      color: var(--white);
+      align-self: flex-end;
+      border-bottom-right-radius: 0;
+    }
+
+    /* Matched user messages on left */
+    .message.match {
+      background: var(--white);
+      color: var(--dark-bg);
+      align-self: flex-start;
+      border-bottom-left-radius: 0;
+      box-shadow: 0 4px 12px rgba(108, 93, 211, 0.15);
+    }
+
+    .sender-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      opacity: 0.7;
+      margin-bottom: 4px;
+      user-select: none;
+    }
+
+    .chat-input-area {
+      display: flex;
+      padding: 16px 24px;
+      border-top: 1px solid #ddd;
+      background: var(--white);
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+    }
+
+    .chat-input {
+      flex-grow: 1;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1.8px solid #ccc;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s ease;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    .send-btn {
+      background: var(--primary);
+      border: none;
+      color: var(--white);
+      font-weight: 700;
+      padding: 0 20px;
+      margin-left: 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.15s ease;
+      user-select: none;
+    }
+
+    .send-btn:hover {
+      background: var(--secondary);
+      transform: scale(1.05);
+    }
+
+    /* Scrollbar styling */
+    .messages::-webkit-scrollbar {
+      width: 8px;
+    }
+    .messages::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 8px;
+    }
+    .messages::-webkit-scrollbar-track {
+      background: var(--input-bg);
+    }
+
+    @media (max-width: 768px) {
+      nav .nav-toggle {
+        display: block;
+      }
+      ul.dropdown-menu {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: var(--white);
+        flex-direction: column;
+        display: none;
+        padding: 18px 20px;
+        border-radius: 14px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        user-select: none;
+        z-index: 999;
+      }
+      ul.dropdown-menu.show {
+        display: flex;
+      }
+      ul.dropdown-menu li a {
+        color: var(--dark-bg);
+        font-weight: 700;
+      }
+      .chat-container {
+        margin: 20px 12px 40px;
+        height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <h2 class="logo">Nestra</h2>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="login.html">🔐 Login</a></li>
+      <li><a href="register.html">📝 Register</a></li>
+      <li><a href="survey.html">🎤 Survey</a></li>
+      <li><a href="match_result.html">📊 Match Result</a></li>
+      <li><a href="admin.html">👑 Admin</a></li>
+    </ul>
+  </nav>
+
+  <main class="chat-container" role="main" aria-label="Chat with your match">
+    <header class="chat-header">💬 Chat with your match</header>
+    <section class="messages" id="messages" aria-live="polite" aria-atomic="false">
+      <!-- Messages will appear here -->
+      <div class="message match">
+        <div class="sender-label">Matched User</div>
+        Hey! Excited to connect with you! 😊
+      </div>
+      <div class="message user">
+        <div class="sender-label">You</div>
+        Hi! Likewise, looking forward to this.
+      </div>
+    </section>
+    <form class="chat-input-area" id="chatForm" aria-label="Send message">
+      <input
+        type="text"
+        id="chatInput"
+        class="chat-input"
+        autocomplete="off"
+        placeholder="Type your message..."
+        aria-label="Chat message input"
+        required
+        autofocus
+      />
+      <button type="submit" class="send-btn" aria-label="Send message">Send</button>
+    </form>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("dropdownMenu").classList.toggle("show");
+    }
+
+    window.addEventListener("click", function(e) {
+      const toggle = document.querySelector(".nav-toggle");
+      const menu = document.getElementById("dropdownMenu");
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove("show");
+      }
+    });
+
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const messages = document.getElementById('messages');
+
+    function appendMessage(text, sender) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message', sender);
+
+      // Add sender label
+      const senderLabel = document.createElement('div');
+      senderLabel.classList.add('sender-label');
+      senderLabel.textContent = sender === 'user' ? 'You' : 'Matched User';
+
+      msgDiv.appendChild(senderLabel);
+      msgDiv.appendChild(document.createTextNode(text));
+      messages.appendChild(msgDiv);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const msg = chatInput.value.trim();
+      if (!msg) return;
+
+      appendMessage(msg, 'user');
+      chatInput.value = '';
+
+      // Simulate matched user reply (for demo only)
+      setTimeout(() => {
+        appendMessage("Got your message! Let's chat more soon 😊", 'match');
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
