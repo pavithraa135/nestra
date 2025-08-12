@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Feedback – Nestra</title>
+  <style>
+    :root {
+      --primary: #6c5dd3;
+      --secondary: #463aa2;
+      --white: #fff;
+      --dark: #2d2d39;
+      --bg-light: #f7f5ff;
+      --input-bg: #f3f0ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(120deg, #eae8ff, var(--bg-light));
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav.topbar {
+      background-color: var(--primary);
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      user-select: none;
+      z-index: 999;
+    }
+
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 1.5px;
+      user-select: none;
+    }
+
+    nav .nav-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: var(--white);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    ul.dropdown-menu {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    ul.dropdown-menu li a {
+      color: var(--white);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    ul.dropdown-menu li a:hover {
+      color: #d1ccf2;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 80px auto 40px;
+      background-color: var(--white);
+      padding: 40px 36px 48px;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
+      box-sizing: border-box;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      color: var(--secondary);
+      letter-spacing: 1px;
+      user-select: none;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--dark);
+      user-select: none;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      border: 1.8px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s ease;
+      resize: vertical;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    textarea {
+      min-height: 120px;
+      font-size: 1rem;
+      line-height: 1.4;
+      font-style: italic;
+      color: #555;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 28px;
+      box-shadow: 0 6px 15px rgba(108, 93, 211, 0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      user-select: none;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--secondary);
+      transform: scale(1.04);
+    }
+
+    @media (max-width: 768px) {
+      nav .nav-toggle {
+        display: block;
+      }
+
+      ul.dropdown-menu {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: var(--white);
+        flex-direction: column;
+        display: none;
+        padding: 18px 20px;
+        border-radius: 14px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        user-select: none;
+        z-index: 999;
+      }
+
+      ul.dropdown-menu.show {
+        display: flex;
+      }
+
+      ul.dropdown-menu li a {
+        color: var(--dark);
+        font-weight: 700;
+      }
+
+      .form-container {
+        margin: 60px 16px 40px;
+        padding: 32px 24px 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <h2 class="logo">Nestra</h2>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="login.html">🔐 Login</a></li>
+      <li><a href="register.html">📝 Register</a></li>
+      <li><a href="survey.html">🎤 Survey</a></li>
+      <li><a href="match_result.html">📊 Match Result</a></li>
+      <li><a href="admin.html">👑 Admin</a></li>
+    </ul>
+  </nav>
+
+  <main class="form-container" role="main" aria-labelledby="feedbackTitle">
+    <h2 id="feedbackTitle">📝 Feedback</h2>
+    <form action="../backend/feedback_process.php" method="POST" autocomplete="off" novalidate>
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required aria-required="true" />
+
+      <label for="email">Your Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required aria-required="true" />
+
+      <label for="message">Your Feedback</label>
+      <textarea id="message" name="message" placeholder="Write your valuable feedback here..." required aria-required="true"></textarea>
+
+      <button type="submit" class="btn-primary" aria-label="Submit feedback form">Submit Feedback 🚀</button>
+    </form>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("dropdownMenu").classList.toggle("show");
+    }
+
+    window.addEventListener("click", function(e) {
+      const toggle = document.querySelector(".nav-toggle");
+      const menu = document.getElementById("dropdownMenu");
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>
