@@ -1,1 +1,252 @@
-w
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nestra – Help & Support</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root {
+      --primary: #6c5dd3;
+      --secondary: #463aa2;
+      --gradient: linear-gradient(135deg, #6c5dd3, #463aa2);
+      --accent: #f3f0ff;
+      --glass: rgba(255, 255, 255, 0.1);
+      --white: #fff;
+      --dark: #2d2d39;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(120deg, #eae8ff, #f7f5ff);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    .topbar {
+      backdrop-filter: blur(10px);
+      background-color: var(--glass);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .nav-toggle {
+      display: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--dark);
+    }
+
+    .dropdown-menu {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .dropdown-menu li a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 600;
+      position: relative;
+    }
+
+    .dropdown-menu li a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      left: 0;
+      bottom: -4px;
+      transition: 0.3s ease;
+    }
+
+    .dropdown-menu li a:hover::after {
+      width: 100%;
+    }
+
+    /* Main content */
+    main {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      color: var(--secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .faq {
+      margin-bottom: 1.8rem;
+    }
+
+    .faq h3 {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .faq p {
+      font-size: 1rem;
+      color: #4e4e6a;
+      line-height: 1.6;
+    }
+
+    .contact {
+      margin-top: 2rem;
+      padding: 20px;
+      border-radius: 16px;
+      background: var(--accent);
+    }
+
+    .contact h2 {
+      color: var(--secondary);
+      margin-bottom: 0.8rem;
+    }
+
+    .contact p {
+      margin: 0.4rem 0;
+      font-size: 1rem;
+    }
+
+    footer {
+      background: #ece9f7;
+      padding: 1.2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #5c5a75;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: block;
+      }
+
+      .dropdown-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: var(--white);
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      }
+
+      .dropdown-menu.show {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="topbar">
+    <h2 class="logo">Nestra</h2>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html" style="color: var(--secondary);">Home</a></li>
+      <li><a href="login.html" style="color: var(--secondary);">Login</a></li>
+      <li><a href="register.html" style="color: var(--secondary);">Register</a></li>
+      <li><a href="survey.html" style="color: var(--secondary);">Survey</a></li>
+      <li><a href="match_result.html" style="color: var(--secondary);">Match Result</a></li>
+      <li><a href="admin.html" style="color: var(--secondary);">Admin</a></li>
+      <li><a href="about.html" style="color: var(--secondary);">About Us</a></li>
+      <li><a href="contact.html" style="color: var(--secondary);">Contact</a></li>
+      <li><a href="help.html" style="color: var(--secondary);">Help</a></li>
+      <li><a href="stats.html" style="color: var(--secondary);">Stats</a></li>
+      <li>
+        <a href="profile.html" style="display: flex; align-items: center; gap: 0.4em; color: var(--secondary);">
+          <span style="display: flex; align-items: center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+              <circle cx="12" cy="10" r="4" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M6.5 18c1.5-2 9.5-2 11 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          Profile
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Help Content -->
+  <main>
+    <h1>Help & Support</h1>
+    <div class="faq">
+      <h3>🔹 How do I register on Nestra?</h3>
+      <p>Click on the Register link in the menu, fill in your details, and submit. Your account will be created instantly.</p>
+    </div>
+    <div class="faq">
+      <h3>🔹 How does the roommate matching work?</h3>
+      <p>After completing the survey, Nestra analyzes your preferences and shows the best possible roommate matches.</p>
+    </div>
+    <div class="faq">
+      <h3>🔹 I forgot my password. What should I do?</h3>
+      <p>Use the "Forgot Password" option on the Login page to reset your password.</p>
+    </div>
+    <div class="faq">
+      <h3>🔹 Can I edit my survey responses later?</h3>
+      <p>Yes. Just revisit the survey page, update your answers, and save again.</p>
+    </div>
+
+    <div class="contact">
+      <h2>📞 Contact Support</h2>
+      <p>Email: <a href="mailto:support@nestra.com">support@nestra.com</a></p>
+      <p>Phone: +91 98765 43210</p>
+      <p>Available: Mon - Fri, 9 AM - 6 PM</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Nestra | Empowering Intelligent, Inclusive Co-living</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("dropdownMenu").classList.toggle("show");
+    }
+
+    window.addEventListener("click", function (e) {
+      const toggle = document.querySelector(".nav-toggle");
+      const menu = document.getElementById("dropdownMenu");
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>
