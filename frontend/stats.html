@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nestra – Stats</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -16,17 +17,20 @@
       --white: #fff;
       --dark: #2d2d39;
     }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
       font-family: 'Outfit', sans-serif;
       background: linear-gradient(120deg, #eae8ff, #f7f5ff);
       color: var(--dark);
       overflow-x: hidden;
     }
+
     .topbar {
       backdrop-filter: blur(10px);
       background-color: var(--glass);
@@ -39,28 +43,33 @@
       top: 0;
       z-index: 999;
     }
+
     .logo {
       font-size: 2rem;
       font-weight: 700;
       color: var(--primary);
     }
+
     .nav-toggle {
       display: none;
       font-size: 1.6rem;
       cursor: pointer;
       color: var(--dark);
     }
+
     .dropdown-menu {
       list-style: none;
       display: flex;
       gap: 1.5rem;
     }
+
     .dropdown-menu li a {
       text-decoration: none;
       color: var(--dark);
       font-weight: 600;
       position: relative;
     }
+
     .dropdown-menu li a::after {
       content: "";
       position: absolute;
@@ -71,28 +80,33 @@
       bottom: -4px;
       transition: 0.3s ease;
     }
+
     .dropdown-menu li a:hover::after,
     .dropdown-menu li a.active::after {
       width: 100%;
     }
+
     .hero {
       padding: 120px 20px 80px;
       text-align: center;
       background: radial-gradient(circle at top right, #f1eeff, #fefeff);
       animation: fadeIn 1.2s ease-in;
     }
+
     .hero h1 {
       font-size: 3.2rem;
       color: var(--secondary);
       font-weight: 700;
       margin-bottom: 1rem;
     }
+
     .hero p {
       font-size: 1.3rem;
       color: #5e5c7a;
       max-width: 700px;
       margin: 0 auto 2rem;
     }
+
     /* Content area */
     .content {
       max-width: 900px;
@@ -104,20 +118,24 @@
       color: var(--dark);
       text-align: left;
     }
+
     .content h2 {
       color: var(--secondary);
       margin-bottom: 20px;
       font-weight: 700;
     }
+
     .content ul {
       list-style-type: disc;
       margin-left: 20px;
       font-size: 1.1rem;
       color: #4e4e6a;
     }
+
     .content ul li {
       margin-bottom: 10px;
     }
+
     footer {
       background: #ece9f7;
       padding: 1.2rem;
@@ -125,14 +143,24 @@
       font-size: 0.9rem;
       color: #5c5a75;
     }
+
     @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
+
     @media (max-width: 768px) {
       .nav-toggle {
         display: block;
       }
+
       .dropdown-menu {
         display: none;
         flex-direction: column;
@@ -142,11 +170,13 @@
         background: var(--white);
         padding: 15px;
         border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
       }
+
       .dropdown-menu.show {
         display: flex;
       }
+
       .content {
         padding: 20px;
         margin: 20px 10px 60px;
@@ -154,6 +184,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <nav class="topbar">
@@ -172,10 +203,12 @@
       <li>
         <a href="profile.html" style="display: flex; align-items: center; gap: 0.4em; color: var(--secondary);">
           <span style="display: flex; align-items: center;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-              <circle cx="12" cy="10" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/>
-              <path d="M6.5 18c1.5-2 9.5-2 11 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+              style="display:inline-block;vertical-align:middle;">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+              <circle cx="12" cy="10" r="4" stroke="currentColor" stroke-width="1.5" fill="none" />
+              <path d="M6.5 18c1.5-2 9.5-2 11 0" stroke="currentColor" stroke-width="1.5" fill="none"
+                stroke-linecap="round" />
             </svg>
           </span>
           Profile
@@ -214,7 +247,7 @@
     function toggleMenu() {
       document.getElementById("dropdownMenu").classList.toggle("show");
     }
-    window.addEventListener("click", function(e) {
+    window.addEventListener("click", function (e) {
       const toggle = document.querySelector(".nav-toggle");
       const menu = document.getElementById("dropdownMenu");
       if (!toggle.contains(e.target) && !menu.contains(e.target)) {
@@ -222,5 +255,58 @@
       }
     });
   </script>
+  <!-- Floating Chatbot Button -->
+  <style>
+    #chatbot-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+      background: linear-gradient(135deg, #6c5dd3, #463aa2);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      font-family: 'Outfit', 'Inter', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: fabPulse 2.5s infinite;
+    }
+
+    #chatbot-fab:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 14px 36px rgba(108, 93, 211, 0.55);
+      animation: none;
+    }
+
+    #chatbot-fab .fab-label {
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    @keyframes fabPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
+      }
+
+      50% {
+        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75);
+      }
+    }
+  </style>
+  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot">
+    <span style="font-size:1.4rem;">🤖</span>
+    <span class="fab-label">Ask Nexi</span>
+  </a>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -38,7 +39,7 @@
       padding: 1rem 2rem;
       position: sticky;
       top: 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       user-select: none;
       z-index: 999;
     }
@@ -117,7 +118,7 @@
       border-radius: 14px;
       word-wrap: break-word;
       white-space: pre-wrap;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       position: relative;
     }
 
@@ -193,10 +194,12 @@
     .messages::-webkit-scrollbar {
       width: 8px;
     }
+
     .messages::-webkit-scrollbar-thumb {
       background: var(--primary);
       border-radius: 8px;
     }
+
     .messages::-webkit-scrollbar-track {
       background: var(--input-bg);
     }
@@ -205,6 +208,7 @@
       nav .nav-toggle {
         display: block;
       }
+
       ul.dropdown-menu {
         position: absolute;
         top: 60px;
@@ -214,17 +218,20 @@
         display: none;
         padding: 18px 20px;
         border-radius: 14px;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         user-select: none;
         z-index: 999;
       }
+
       ul.dropdown-menu.show {
         display: flex;
       }
+
       ul.dropdown-menu li a {
         color: var(--dark-bg);
         font-weight: 700;
       }
+
       .chat-container {
         margin: 20px 12px 40px;
         height: 500px;
@@ -232,6 +239,7 @@
     }
   </style>
 </head>
+
 <body>
   <nav class="topbar">
     <h2 class="logo">Nestra</h2>
@@ -260,16 +268,8 @@
       </div>
     </section>
     <form class="chat-input-area" id="chatForm" aria-label="Send message">
-      <input
-        type="text"
-        id="chatInput"
-        class="chat-input"
-        autocomplete="off"
-        placeholder="Type your message..."
-        aria-label="Chat message input"
-        required
-        autofocus
-      />
+      <input type="text" id="chatInput" class="chat-input" autocomplete="off" placeholder="Type your message..."
+        aria-label="Chat message input" required autofocus />
       <button type="submit" class="send-btn" aria-label="Send message">Send</button>
     </form>
   </main>
@@ -279,7 +279,7 @@
       document.getElementById("dropdownMenu").classList.toggle("show");
     }
 
-    window.addEventListener("click", function(e) {
+    window.addEventListener("click", function (e) {
       const toggle = document.querySelector(".nav-toggle");
       const menu = document.getElementById("dropdownMenu");
       if (!toggle.contains(e.target) && !menu.contains(e.target)) {
@@ -320,5 +320,58 @@
       }, 1000);
     });
   </script>
+  <!-- Floating Chatbot Button -->
+  <style>
+    #chatbot-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+      background: linear-gradient(135deg, #6c5dd3, #463aa2);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      font-family: 'Outfit', 'Inter', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: fabPulse 2.5s infinite;
+    }
+
+    #chatbot-fab:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 14px 36px rgba(108, 93, 211, 0.55);
+      animation: none;
+    }
+
+    #chatbot-fab .fab-label {
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    @keyframes fabPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
+      }
+
+      50% {
+        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75);
+      }
+    }
+  </style>
+  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot">
+    <span style="font-size:1.4rem;">🤖</span>
+    <span class="fab-label">Ask Nexi</span>
+  </a>
 </body>
+
 </html>
