@@ -5,37 +5,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Us – Nestra</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Same styling from index.html pasted here */
     :root {
       --primary: #6c5dd3;
       --secondary: #463aa2;
       --gradient: linear-gradient(135deg, #6c5dd3, #463aa2);
       --accent: #f3f0ff;
-      --glass: rgba(255, 255, 255, 0.1);
       --white: #fff;
-      --dark: #2d2d39;
+      --dark: #2d2d39
     }
 
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      box-sizing: border-box
     }
 
     body {
       font-family: 'Outfit', sans-serif;
       background: linear-gradient(120deg, #eae8ff, #f7f5ff);
       color: var(--dark);
-      overflow-x: hidden;
+      overflow-x: hidden
     }
 
     .topbar {
       backdrop-filter: blur(10px);
-      background-color: var(--glass);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.7);
+      border-bottom: 1px solid rgba(108, 93, 211, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -43,32 +40,37 @@
       position: sticky;
       top: 0;
       z-index: 999;
+      box-shadow: 0 2px 20px rgba(108, 93, 211, 0.08)
     }
 
     .logo {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      color: var(--primary);
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
     }
 
     .nav-toggle {
       display: none;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       cursor: pointer;
-      color: var(--dark);
+      color: var(--dark)
     }
 
     .dropdown-menu {
       list-style: none;
       display: flex;
-      gap: 1.5rem;
+      gap: 1.5rem
     }
 
     .dropdown-menu li a {
       text-decoration: none;
       color: var(--dark);
       font-weight: 600;
+      font-size: 0.95rem;
       position: relative;
+      transition: color 0.25s
     }
 
     .dropdown-menu li a::after {
@@ -76,62 +78,210 @@
       position: absolute;
       width: 0;
       height: 2px;
-      background: var(--primary);
+      background: var(--gradient);
       left: 0;
       bottom: -4px;
-      transition: 0.3s ease;
+      transition: 0.3s;
+      border-radius: 2px
+    }
+
+    .dropdown-menu li a:hover {
+      color: var(--primary)
     }
 
     .dropdown-menu li a:hover::after {
-      width: 100%;
+      width: 100%
     }
 
-    .content {
-      padding: 120px 20px;
-      max-width: 900px;
-      margin: auto;
+    .hero {
+      padding: 100px 20px 60px;
       text-align: center;
+      animation: fadeIn 1s ease
     }
 
-    .content h1 {
+    .hero h1 {
       font-size: 3rem;
       color: var(--secondary);
-      margin-bottom: 1rem;
+      font-weight: 700;
+      margin-bottom: 1rem
     }
 
-    .content p {
+    .hero p {
       font-size: 1.2rem;
       color: #5e5c7a;
-      line-height: 1.8;
+      max-width: 600px;
+      margin: 0 auto
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto 80px;
+      padding: 0 20px
+    }
+
+    .about-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 36px 28px;
+      box-shadow: 0 15px 40px rgba(108, 93, 211, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid rgba(108, 93, 211, 0.06)
+    }
+
+    .about-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 50px rgba(108, 93, 211, 0.18)
+    }
+
+    .about-card .icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem
+    }
+
+    .about-card h3 {
+      font-size: 1.3rem;
+      color: var(--secondary);
+      margin-bottom: 0.8rem;
+      font-weight: 700
+    }
+
+    .about-card p {
+      color: #5e5c7a;
+      line-height: 1.7;
+      font-size: 0.98rem
+    }
+
+    .mission {
+      background: var(--gradient);
+      color: #fff;
+      padding: 80px 20px;
+      text-align: center;
+      margin-bottom: 0
+    }
+
+    .mission h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      font-weight: 700
+    }
+
+    .mission p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.9;
+      line-height: 1.7
+    }
+
+    .team {
+      max-width: 1100px;
+      margin: 80px auto;
+      padding: 0 20px;
+      text-align: center
+    }
+
+    .team h2 {
+      font-size: 2.2rem;
+      color: var(--secondary);
+      margin-bottom: 0.5rem;
+      font-weight: 700
+    }
+
+    .team .sub {
+      color: #8885a8;
+      margin-bottom: 3rem;
+      font-size: 1rem
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem
+    }
+
+    .team-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 10px 30px rgba(108, 93, 211, 0.08);
+      transition: transform 0.3s
+    }
+
+    .team-card:hover {
+      transform: translateY(-6px)
+    }
+
+    .team-card .avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 1rem
+    }
+
+    .team-card h4 {
+      font-size: 1.1rem;
+      color: var(--secondary);
+      margin-bottom: 0.3rem;
+      font-weight: 700
+    }
+
+    .team-card p {
+      font-size: 0.9rem;
+      color: #8885a8
     }
 
     footer {
       background: #ece9f7;
-      padding: 1.2rem;
+      padding: 1.5rem;
       text-align: center;
       font-size: 0.9rem;
-      color: #5c5a75;
+      color: #5c5a75
     }
 
-    @media (max-width: 768px) {
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @media(max-width:768px) {
       .nav-toggle {
-        display: block;
+        display: block
       }
 
       .dropdown-menu {
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 60px;
+        top: 70px;
         right: 20px;
         background: var(--white);
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        min-width: 180px
       }
 
       .dropdown-menu.show {
-        display: flex;
+        display: flex
+      }
+
+      .hero h1 {
+        font-size: 2.2rem
       }
     }
   </style>
@@ -139,66 +289,114 @@
 
 <body>
   <nav class="topbar">
-    <h2 class="logo">Nestra</h2>
+    <div class="logo">Nestra</div>
     <div class="nav-toggle" onclick="toggleMenu()">☰</div>
     <ul class="dropdown-menu" id="dropdownMenu">
-      <li><a href="index.html" style="color: var(--secondary);">Home</a></li>
-      <li><a href="login.html" style="color: var(--secondary);">Login</a></li>
-      <li><a href="register.html" style="color: var(--secondary);">Register</a></li>
-      <li><a href="survey.html" style="color: var(--secondary);">Survey</a></li>
-      <li><a href="match-result.html" style="color: var(--secondary);">Match Result</a></li>
-      <li><a href="admin.html" style="color: var(--secondary);">Admin</a></li>
-      <li><a href="contact.html" style="color: var(--secondary);">Contact</a></li>
-      <li><a href="help.html" style="color: var(--secondary);">Help</a></li>
-      <li><a href="stats.html" style="color: var(--secondary);">Stats</a></li>
-      <li>
-        <a href="profile.html" style="display: flex; align-items: center; gap: 0.4em; color: var(--secondary);">
-          <span style="display: flex; align-items: center;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              style="display:inline-block;vertical-align:middle;">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
-              <circle cx="12" cy="10" r="4" stroke="currentColor" stroke-width="1.5" fill="none" />
-              <path d="M6.5 18c1.5-2 9.5-2 11 0" stroke="currentColor" stroke-width="1.5" fill="none"
-                stroke-linecap="round" />
-            </svg>
-          </span>
-          Profile
-        </a>
-      </li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="help.html">Help</a></li>
+      <li><a href="stats.html">Stats</a></li>
     </ul>
   </nav>
 
-  <section class="content">
-    <h1>About Us</h1>
-    <p>Nestra’s mission is to make co-living safe, intelligent, and empowering — starting with women-first shared spaces
-      powered by AI. Our matching engine takes into account lifestyle habits, sleep cycles, and personal preferences to
-      find your perfect roommate. Through a blend of technology and community spirit, we aim to create comfortable,
-      compatible, and caring living experiences.</p>
+  <section class="hero">
+    <h1>About Nestra 💜</h1>
+    <p>We're on a mission to make co-living safe, intelligent, and empowering — starting with women-first shared spaces
+      powered by AI.</p>
+  </section>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <div class="icon">🎯</div>
+      <h3>Our Mission</h3>
+      <p>Create comfortable, compatible, and caring living experiences through technology and community — for every
+        woman seeking a safe shared space.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">🤖</div>
+      <h3>AI-Powered Matching</h3>
+      <p>Our intelligent algorithm analyzes lifestyle habits, sleep cycles, and personal preferences to find your most
+        compatible roommate match.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">🛡️</div>
+      <h3>Safety First</h3>
+      <p>Every profile is vetted. We prioritize trust, transparency, and safety in every feature we build — so you can
+        focus on finding your perfect match.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">🌱</div>
+      <h3>Community Driven</h3>
+      <p>Nestra isn't just an app — it's a community of like-minded women building genuine connections and supporting
+        each other in their co-living journey.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">📊</div>
+      <h3>Data-Backed Decisions</h3>
+      <p>We use smart compatibility scoring, not guesswork. Every match recommendation is backed by data from your
+        survey responses.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">💬</div>
+      <h3>Built With Care</h3>
+      <p>Designed by women for women, Nestra blends empathy with engineering to create an experience that feels personal
+        and truly helpful.</p>
+    </div>
+  </div>
+
+  <section class="mission">
+    <h2>Our Vision for the Future</h2>
+    <p>We envision a world where every woman can find a safe, compatible, and fulfilling co-living experience — powered
+      by intelligent technology and human connection. Nestra is just the beginning.</p>
+  </section>
+
+  <section class="team">
+    <h2>Meet the Team</h2>
+    <p class="sub">The passionate people building Nestra</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="avatar">👩‍💻</div>
+        <h4>Pavithraa</h4>
+        <p>Founder & Lead Developer</p>
+      </div>
+      <div class="team-card">
+        <div class="avatar">🎨</div>
+        <h4>UI/UX Team</h4>
+        <p>Design & Experience</p>
+      </div>
+      <div class="team-card">
+        <div class="avatar">🧠</div>
+        <h4>AI Team</h4>
+        <p>Matching Algorithm</p>
+      </div>
+      <div class="team-card">
+        <div class="avatar">📱</div>
+        <h4>Product Team</h4>
+        <p>Strategy & Growth</p>
+      </div>
+    </div>
   </section>
 
   <footer>
     <p>&copy; 2025 Nestra | Empowering Intelligent, Inclusive Co-living</p>
   </footer>
 
-  <script>
-    function toggleMenu() { document.getElementById("dropdownMenu").classList.toggle("show"); }
-    window.addEventListener("click", function (e) { const toggle = document.querySelector(".nav-toggle"); const menu = document.getElementById("dropdownMenu"); if (!toggle.contains(e.target) && !menu.contains(e.target)) { menu.classList.remove("show"); } });
-  </script>
-
-  <!-- Floating Chatbot Button -->
   <style>
     #chatbot-fab {
       position: fixed;
       bottom: 28px;
       right: 28px;
       z-index: 9999;
-      background: linear-gradient(135deg, #6c5dd3, #463aa2);
+      background: var(--gradient);
       color: #fff;
       border: none;
       border-radius: 50px;
       padding: 14px 22px;
       font-size: 1rem;
-      font-family: 'Outfit', 'Inter', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
@@ -207,36 +405,33 @@
       gap: 10px;
       text-decoration: none;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      animation: fabPulse 2.5s infinite;
+      animation: fabPulse 2.5s infinite
     }
 
     #chatbot-fab:hover {
       transform: scale(1.08) translateY(-2px);
       box-shadow: 0 14px 36px rgba(108, 93, 211, 0.55);
-      animation: none;
-    }
-
-    #chatbot-fab .fab-label {
-      font-size: 0.95rem;
-      white-space: nowrap;
+      animation: none
     }
 
     @keyframes fabPulse {
 
       0%,
       100% {
-        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
+        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45)
       }
 
       50% {
-        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75);
+        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75)
       }
     }
   </style>
-  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot">
-    <span style="font-size:1.4rem;">🤖</span>
-    <span class="fab-label">Ask Nexi</span>
-  </a>
+  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot"><span
+      style="font-size:1.4rem">🤖</span><span>Ask Nexi</span></a>
+  <script>
+    function toggleMenu() { document.getElementById("dropdownMenu").classList.toggle("show") }
+    window.addEventListener("click", function (e) { const t = document.querySelector(".nav-toggle"), m = document.getElementById("dropdownMenu"); if (!t.contains(e.target) && !m.contains(e.target)) m.classList.remove("show") });
+  </script>
 </body>
 
 </html>

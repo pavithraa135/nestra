@@ -4,10 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nestra – Stats</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Match Statistics – Nestra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* Same styles as index.html */
     :root {
       --primary: #6c5dd3;
       --secondary: #463aa2;
@@ -16,6 +15,8 @@
       --glass: rgba(255, 255, 255, 0.1);
       --white: #fff;
       --dark: #2d2d39;
+      --muted: #5e5c7a;
+      --border: rgba(108, 93, 211, 0.12);
     }
 
     * {
@@ -31,10 +32,11 @@
       overflow-x: hidden;
     }
 
+    /* ── Navbar ── */
     .topbar {
       backdrop-filter: blur(10px);
-      background-color: var(--glass);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.7);
+      border-bottom: 1px solid rgba(108, 93, 211, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -42,17 +44,20 @@
       position: sticky;
       top: 0;
       z-index: 999;
+      box-shadow: 0 2px 20px rgba(108, 93, 211, 0.08);
     }
 
     .logo {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--primary);
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .nav-toggle {
       display: none;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       cursor: pointer;
       color: var(--dark);
     }
@@ -67,7 +72,9 @@
       text-decoration: none;
       color: var(--dark);
       font-weight: 600;
+      font-size: 0.95rem;
       position: relative;
+      transition: color 0.25s;
     }
 
     .dropdown-menu li a::after {
@@ -75,111 +82,587 @@
       position: absolute;
       width: 0;
       height: 2px;
-      background: var(--primary);
+      background: var(--gradient);
       left: 0;
       bottom: -4px;
-      transition: 0.3s ease;
+      transition: 0.3s;
+      border-radius: 2px;
     }
 
-    .dropdown-menu li a:hover::after,
-    .dropdown-menu li a.active::after {
+    .dropdown-menu li a:hover {
+      color: var(--primary);
+    }
+
+    .dropdown-menu li a:hover::after {
       width: 100%;
     }
 
+    /* ── Hero ── */
     .hero {
-      padding: 120px 20px 80px;
+      padding: 80px 20px 50px;
       text-align: center;
-      background: radial-gradient(circle at top right, #f1eeff, #fefeff);
-      animation: fadeIn 1.2s ease-in;
+      animation: fadeIn 1s ease;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      border: 1px solid rgba(108, 93, 211, 0.2);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 7px 18px;
+      border-radius: 50px;
+      margin-bottom: 1.2rem;
     }
 
     .hero h1 {
-      font-size: 3.2rem;
+      font-size: 3rem;
+      font-weight: 800;
       color: var(--secondary);
-      font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
     }
 
     .hero p {
-      font-size: 1.3rem;
-      color: #5e5c7a;
-      max-width: 700px;
-      margin: 0 auto 2rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
     }
 
-    /* Content area */
-    .content {
-      max-width: 900px;
-      margin: 40px auto 80px;
+    /* ── KPI Grid ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.2rem;
+      max-width: 1200px;
+      margin: 50px auto 0;
+      padding: 0 20px;
+    }
+
+    .kpi-card {
       background: var(--white);
+      border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 30px 40px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-      color: var(--dark);
-      text-align: left;
+      padding: 26px 20px;
+      text-align: center;
+      box-shadow: 0 8px 28px rgba(108, 93, 211, 0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    .content h2 {
-      color: var(--secondary);
-      margin-bottom: 20px;
+    .kpi-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(108, 93, 211, 0.16);
+    }
+
+    .kpi-card .kpi-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .kpi-card .kpi-number {
+      font-size: 2.4rem;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+
+    .kpi-card .kpi-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .kpi-card .kpi-change {
+      font-size: 0.78rem;
+      margin-top: 6px;
       font-weight: 700;
     }
 
-    .content ul {
-      list-style-type: disc;
-      margin-left: 20px;
-      font-size: 1.1rem;
-      color: #4e4e6a;
+    .up {
+      color: #16a34a;
     }
 
-    .content ul li {
-      margin-bottom: 10px;
+    .down {
+      color: #dc2626;
+    }
+
+    /* ── Dashboard Grid ── */
+    .dashboard {
+      max-width: 1200px;
+      margin: 40px auto 80px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 8px 28px rgba(108, 93, 211, 0.07);
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gradient);
+      flex-shrink: 0;
+    }
+
+    /* ── Bar Chart ── */
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      height: 140px;
+      margin-bottom: 12px;
+    }
+
+    .bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+
+    .bar-fill {
+      width: 100%;
+      border-radius: 8px 8px 0 0;
+      background: var(--gradient);
+      transition: height 1.2s cubic-bezier(.4, 0, .2, 1);
+      min-height: 4px;
+      position: relative;
+    }
+
+    .bar-fill::after {
+      content: attr(data-val);
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .bar-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* ── Progress bars ── */
+    .prog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .prog-item .pi-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+    }
+
+    .prog-item .pi-label {
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .prog-item .pi-val {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .prog-track {
+      background: var(--accent);
+      border-radius: 8px;
+      height: 9px;
+      overflow: hidden;
+    }
+
+    .prog-fill {
+      height: 100%;
+      border-radius: 8px;
+      background: var(--gradient);
+      width: 0;
+      transition: width 1.3s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .prog-fill.green {
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+    }
+
+    .prog-fill.amber {
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+    }
+
+    .prog-fill.cyan {
+      background: linear-gradient(90deg, #06b6d4, #0891b2);
+    }
+
+    .prog-fill.rose {
+      background: linear-gradient(90deg, #f43f5e, #e11d48);
+    }
+
+    /* ── Donut Rings ── */
+    .ring-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.8rem;
+      flex-wrap: wrap;
+    }
+
+    .ring-item {
+      text-align: center;
+    }
+
+    .ring-svg {
+      width: 96px;
+      height: 96px;
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 10;
+    }
+
+    .ring-arc {
+      fill: none;
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-dasharray: 251;
+      stroke-dashoffset: 251;
+      transition: stroke-dashoffset 1.4s cubic-bezier(.4, 0, .2, 1);
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+
+    .ring-label {
+      font-size: 1.15rem;
+      font-weight: 800;
+      fill: var(--secondary);
+    }
+
+    .ring-sub {
+      font-size: 0.68rem;
+      fill: var(--muted);
+    }
+
+    .ring-name {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 7px;
+      font-weight: 600;
+    }
+
+    /* ── Activity feed ── */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--accent);
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .a-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      background: var(--accent);
+    }
+
+    .a-text {
+      flex: 1;
+    }
+
+    .a-text strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .a-text span {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .a-badge {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 50px;
+    }
+
+    .badge-green {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .badge-amber {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .badge-purple {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    /* ── Full row ── */
+    .full-row {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    /* ── Leaderboard ── */
+    .leader-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .leader-item {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      background: var(--accent);
+      border-radius: 14px;
+      padding: 12px 16px;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .leader-item:hover {
+      background: #ebe7ff;
+      transform: translateX(4px);
+    }
+
+    .rank {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--muted);
+      width: 22px;
+      text-align: center;
+    }
+
+    .rank.gold {
+      color: #f59e0b;
+    }
+
+    .rank.silver {
+      color: #94a3b8;
+    }
+
+    .rank.bronze {
+      color: #b87333;
+    }
+
+    .l-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .l-info {
+      flex: 1;
+    }
+
+    .l-info strong {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--dark);
+      font-weight: 700;
+    }
+
+    .l-info span {
+      font-size: 0.77rem;
+      color: var(--muted);
+    }
+
+    .l-score {
+      font-weight: 800;
+      font-size: 0.92rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── Heatmap ── */
+    .hm-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .heatmap {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+
+    .hm-day {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      background: var(--accent);
+      transition: transform 0.2s;
+      cursor: default;
+    }
+
+    .hm-day:hover {
+      transform: scale(1.25);
+    }
+
+    .hm-day.l1 {
+      background: rgba(108, 93, 211, 0.18);
+    }
+
+    .hm-day.l2 {
+      background: rgba(108, 93, 211, 0.38);
+    }
+
+    .hm-day.l3 {
+      background: rgba(108, 93, 211, 0.62);
+    }
+
+    .hm-day.l4 {
+      background: rgba(108, 93, 211, 0.85);
+    }
+
+    .hm-legend {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .hm-legend .sq {
+      width: 11px;
+      height: 11px;
+      border-radius: 3px;
     }
 
     footer {
       background: #ece9f7;
-      padding: 1.2rem;
+      padding: 1.5rem;
       text-align: center;
       font-size: 0.9rem;
       color: #5c5a75;
     }
 
     @keyframes fadeIn {
-      0% {
+      from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px)
       }
 
-      100% {
+      to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0)
       }
     }
 
-    @media (max-width: 768px) {
+    @media(max-width:1000px) {
+      .kpi-grid {
+        grid-template-columns: repeat(3, 1fr)
+      }
+
+      .dashboard {
+        grid-template-columns: 1fr
+      }
+
+      .full-row {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media(max-width:768px) {
       .nav-toggle {
-        display: block;
+        display: block
       }
 
       .dropdown-menu {
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 60px;
+        top: 70px;
         right: 20px;
         background: var(--white);
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        min-width: 180px
       }
 
       .dropdown-menu.show {
-        display: flex;
+        display: flex
       }
 
-      .content {
-        padding: 20px;
-        margin: 20px 10px 60px;
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .hero h1 {
+        font-size: 2.2rem
       }
     }
   </style>
@@ -188,87 +671,371 @@
 <body>
 
   <nav class="topbar">
-    <h2 class="logo">Nestra</h2>
+    <div class="logo">Nestra</div>
     <div class="nav-toggle" onclick="toggleMenu()">☰</div>
     <ul class="dropdown-menu" id="dropdownMenu">
-      <li><a href="index.html" style="color: var(--secondary);">Home</a></li>
-      <li><a href="login.html" style="color: var(--secondary);">Login</a></li>
-      <li><a href="register.html" style="color: var(--secondary);">Register</a></li>
-      <li><a href="survey.html" style="color: var(--secondary);">Survey</a></li>
-      <li><a href="match_result.html" style="color: var(--secondary);">Match Result</a></li>
-      <li><a href="admin.html" style="color: var(--secondary);">Admin</a></li>
-      <li><a href="about.html" style="color: var(--secondary);">About Us</a></li>
-      <li><a href="contact.html" style="color: var(--secondary);">Contact</a></li>
-      <li><a href="help.html" style="color: var(--secondary);">Help</a></li>
-      <li>
-        <a href="profile.html" style="display: flex; align-items: center; gap: 0.4em; color: var(--secondary);">
-          <span style="display: flex; align-items: center;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              style="display:inline-block;vertical-align:middle;">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
-              <circle cx="12" cy="10" r="4" stroke="currentColor" stroke-width="1.5" fill="none" />
-              <path d="M6.5 18c1.5-2 9.5-2 11 0" stroke="currentColor" stroke-width="1.5" fill="none"
-                stroke-linecap="round" />
-            </svg>
-          </span>
-          Profile
-        </a>
-      </li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="match_result.html">Match Result</a></li>
+      <li><a href="admin.html">Admin</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="profile.html">Profile</a></li>
     </ul>
   </nav>
 
+  <!-- Hero -->
   <section class="hero">
+    <div class="hero-badge">📊 Live Dashboard</div>
     <h1>Match Statistics</h1>
-    <p>Insights on your roommate preferences and match quality.</p>
+    <p>Real-time insights into compatibility scores, survey trends, and roommate matching performance.</p>
   </section>
 
-  <section class="content">
-    <h2>Survey Summary</h2>
-    <ul>
-      <li>80% compatibility with matched roommates</li>
-      <li>Preferred sleep schedule: Early riser</li>
-      <li>Most common room type chosen: Twin Sharing</li>
-      <li>Average survey completion time: 5 minutes</li>
-    </ul>
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon">👩‍👩‍👧</div>
+      <div class="kpi-number" data-target="1248">0</div>
+      <div class="kpi-label">Total Users</div>
+      <div class="kpi-change up">↑ +12% this month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🤝</div>
+      <div class="kpi-number" data-target="847">0</div>
+      <div class="kpi-label">Matches Made</div>
+      <div class="kpi-change up">↑ +8% this week</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">⭐</div>
+      <div class="kpi-number" data-target="92" data-suffix="%">0%</div>
+      <div class="kpi-label">Avg Compatibility</div>
+      <div class="kpi-change up">↑ +2 pts</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">📋</div>
+      <div class="kpi-number" data-target="4.8">0</div>
+      <div class="kpi-label">Feedback Score</div>
+      <div class="kpi-change up">↑ +0.3</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">⏱️</div>
+      <div class="kpi-number" data-target="4" data-suffix="m">0m</div>
+      <div class="kpi-label">Avg Survey Time</div>
+      <div class="kpi-change down">↓ −30 sec</div>
+    </div>
+  </div>
 
-    <h2>Match Results</h2>
-    <ul>
-      <li>Matches Found: 12</li>
-      <li>Pending Confirmations: 3</li>
-      <li>Feedback Score: 4.5 / 5</li>
-    </ul>
-  </section>
+  <!-- Dashboard -->
+  <div class="dashboard">
+
+    <!-- Bar Chart -->
+    <div class="card">
+      <div class="card-title">
+        <div class="dot"></div>Weekly Matches — Last 8 Weeks
+      </div>
+      <div class="bar-chart">
+        <div class="bar-col">
+          <div class="bar-fill" data-val="34" data-h="34%"></div>
+          <div class="bar-label">W1</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-fill" data-val="51" data-h="51%"></div>
+          <div class="bar-label">W2</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-fill" data-val="46" data-h="46%"></div>
+          <div class="bar-label">W3</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-fill" data-val="62" data-h="62%"></div>
+          <div class="bar-label">W4</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-fill" data-val="55" data-h="55%"></div>
+          <div class="bar-label">W5</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-fill" data-val="78" data-h="78%"></div>
+          <div class="bar-label">W6</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-fill" data-val="91" data-h="91%"></div>
+          <div class="bar-label">W7</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-fill" data-val="104" data-h="100%"></div>
+          <div class="bar-label">W8</div>
+        </div>
+      </div>
+      <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">📈 Matches growing consistently — +206% over 8
+        weeks</p>
+    </div>
+
+    <!-- Activity Feed -->
+    <div class="card">
+      <div class="card-title">
+        <div class="dot"></div>Recent Activity
+      </div>
+      <div class="activity-list">
+        <div class="activity-item">
+          <div class="a-icon">✅</div>
+          <div class="a-text"><strong>Priya &amp; Sneha matched</strong><span>2 minutes ago</span></div>
+          <div class="a-badge badge-green">92%</div>
+        </div>
+        <div class="activity-item">
+          <div class="a-icon">📋</div>
+          <div class="a-text"><strong>Anjali completed survey</strong><span>11 minutes ago</span></div>
+          <div class="a-badge badge-purple">New</div>
+        </div>
+        <div class="activity-item">
+          <div class="a-icon">⭐</div>
+          <div class="a-text"><strong>5-star feedback received</strong><span>28 minutes ago</span></div>
+          <div class="a-badge badge-amber">5.0</div>
+        </div>
+        <div class="activity-item">
+          <div class="a-icon">👤</div>
+          <div class="a-text"><strong>Meera joined Nestra</strong><span>45 minutes ago</span></div>
+          <div class="a-badge badge-purple">New</div>
+        </div>
+        <div class="activity-item">
+          <div class="a-icon">🤝</div>
+          <div class="a-text"><strong>Kavya &amp; Riya confirmed room</strong><span>1 hour ago</span></div>
+          <div class="a-badge badge-green">88%</div>
+        </div>
+        <div class="activity-item">
+          <div class="a-icon">🔁</div>
+          <div class="a-text"><strong>Divya retook survey</strong><span>2 hours ago</span></div>
+          <div class="a-badge badge-amber">Updated</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preference Breakdown -->
+    <div class="card">
+      <div class="card-title">
+        <div class="dot"></div>Preference Compatibility
+      </div>
+      <div class="prog-list">
+        <div class="prog-item">
+          <div class="pi-row"><span class="pi-label">🧼 Cleanliness</span><span class="pi-val">94%</span></div>
+          <div class="prog-track">
+            <div class="prog-fill green" data-w="94"></div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="pi-row"><span class="pi-label">🛌 Sleep Schedule</span><span class="pi-val">81%</span></div>
+          <div class="prog-track">
+            <div class="prog-fill" data-w="81"></div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="pi-row"><span class="pi-label">🍎 Diet Preference</span><span class="pi-val">76%</span></div>
+          <div class="prog-track">
+            <div class="prog-fill amber" data-w="76"></div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="pi-row"><span class="pi-label">🗣️ Social Style</span><span class="pi-val">68%</span></div>
+          <div class="prog-track">
+            <div class="prog-fill cyan" data-w="68"></div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="pi-row"><span class="pi-label">🔊 Noise Tolerance</span><span class="pi-val">72%</span></div>
+          <div class="prog-track">
+            <div class="prog-fill" data-w="72"></div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="pi-row"><span class="pi-label">🐾 Pet Tolerance</span><span class="pi-val">85%</span></div>
+          <div class="prog-track">
+            <div class="prog-fill green" data-w="85"></div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="pi-row"><span class="pi-label">💻 Work / Study Style</span><span class="pi-val">79%</span></div>
+          <div class="prog-track">
+            <div class="prog-fill rose" data-w="79"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donut Rings -->
+    <div class="card">
+      <div class="card-title">
+        <div class="dot"></div>Distribution Overview
+      </div>
+      <div class="ring-wrap">
+        <div class="ring-item">
+          <svg class="ring-svg" viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="40" />
+            <circle class="ring-arc" cx="50" cy="50" r="40" stroke="#6c5dd3" data-pct="92" />
+            <text class="ring-label" x="50" y="46" text-anchor="middle" dominant-baseline="middle">92%</text>
+            <text class="ring-sub" x="50" y="59" text-anchor="middle">Match Rate</text>
+          </svg>
+          <div class="ring-name">Match Rate</div>
+        </div>
+        <div class="ring-item">
+          <svg class="ring-svg" viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="40" />
+            <circle class="ring-arc" cx="50" cy="50" r="40" stroke="#22c55e" data-pct="78" />
+            <text class="ring-label" x="50" y="46" text-anchor="middle" dominant-baseline="middle">78%</text>
+            <text class="ring-sub" x="50" y="59" text-anchor="middle">Retention</text>
+          </svg>
+          <div class="ring-name">User Retention</div>
+        </div>
+        <div class="ring-item">
+          <svg class="ring-svg" viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="40" />
+            <circle class="ring-arc" cx="50" cy="50" r="40" stroke="#f59e0b" data-pct="94" />
+            <text class="ring-label" x="50" y="46" text-anchor="middle" dominant-baseline="middle">94%</text>
+            <text class="ring-sub" x="50" y="59" text-anchor="middle">Survey Done</text>
+          </svg>
+          <div class="ring-name">Survey Completion</div>
+        </div>
+        <div class="ring-item">
+          <svg class="ring-svg" viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="40" />
+            <circle class="ring-arc" cx="50" cy="50" r="40" stroke="#f43f5e" data-pct="61" />
+            <text class="ring-label" x="50" y="46" text-anchor="middle" dominant-baseline="middle">61%</text>
+            <text class="ring-sub" x="50" y="59" text-anchor="middle">Voice Input</text>
+          </svg>
+          <div class="ring-name">Voice Usage</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full-width bottom row -->
+    <div class="full-row">
+
+      <!-- Leaderboard -->
+      <div class="card">
+        <div class="card-title">
+          <div class="dot"></div>🏆 Top Compatibility Pairs
+        </div>
+        <div class="leader-list">
+          <div class="leader-item">
+            <div class="rank gold">1</div>
+            <div class="l-avatar">👩</div>
+            <div class="l-info"><strong>Priya &amp; Sneha</strong><span>Room A12 – Quiet Wing</span></div>
+            <div class="l-score">98%</div>
+          </div>
+          <div class="leader-item">
+            <div class="rank silver">2</div>
+            <div class="l-avatar">👩</div>
+            <div class="l-info"><strong>Kavya &amp; Riya</strong><span>Room B4 – Garden View</span></div>
+            <div class="l-score">95%</div>
+          </div>
+          <div class="leader-item">
+            <div class="rank bronze">3</div>
+            <div class="l-avatar">👩</div>
+            <div class="l-info"><strong>Meera &amp; Anjali</strong><span>Room C7 – East Block</span></div>
+            <div class="l-score">93%</div>
+          </div>
+          <div class="leader-item">
+            <div class="rank">4</div>
+            <div class="l-avatar">👩</div>
+            <div class="l-info"><strong>Divya &amp; Nisha</strong><span>Room D2 – West Wing</span></div>
+            <div class="l-score">91%</div>
+          </div>
+          <div class="leader-item">
+            <div class="rank">5</div>
+            <div class="l-avatar">👩</div>
+            <div class="l-info"><strong>Sara &amp; Pooja</strong><span>Room A8 – Quiet Wing</span></div>
+            <div class="l-score">89%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Heatmap -->
+      <div class="card">
+        <div class="card-title">
+          <div class="dot"></div>📅 Survey Activity Heatmap
+        </div>
+        <div class="hm-labels">
+          <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+        </div>
+        <div class="heatmap" id="heatmap"></div>
+        <div class="hm-legend">
+          <span>Less</span>
+          <div class="sq" style="background:var(--accent)"></div>
+          <div class="sq" style="background:rgba(108,93,211,0.2)"></div>
+          <div class="sq" style="background:rgba(108,93,211,0.45)"></div>
+          <div class="sq" style="background:rgba(108,93,211,0.7)"></div>
+          <div class="sq" style="background:rgba(108,93,211,0.9)"></div>
+          <span>More</span>
+        </div>
+      </div>
+
+      <!-- Summary bars -->
+      <div class="card">
+        <div class="card-title">
+          <div class="dot"></div>📌 User Preferences Summary
+        </div>
+        <div class="prog-list">
+          <div class="prog-item">
+            <div class="pi-row"><span class="pi-label">Twin Sharing Preference</span><span class="pi-val">67%</span>
+            </div>
+            <div class="prog-track">
+              <div class="prog-fill" data-w="67"></div>
+            </div>
+          </div>
+          <div class="prog-item">
+            <div class="pi-row"><span class="pi-label">Early Riser Users</span><span class="pi-val">54%</span></div>
+            <div class="prog-track">
+              <div class="prog-fill amber" data-w="54"></div>
+            </div>
+          </div>
+          <div class="prog-item">
+            <div class="pi-row"><span class="pi-label">Vegetarian Users</span><span class="pi-val">72%</span></div>
+            <div class="prog-track">
+              <div class="prog-fill green" data-w="72"></div>
+            </div>
+          </div>
+          <div class="prog-item">
+            <div class="pi-row"><span class="pi-label">Introvert Preference</span><span class="pi-val">48%</span></div>
+            <div class="prog-track">
+              <div class="prog-fill cyan" data-w="48"></div>
+            </div>
+          </div>
+          <div class="prog-item">
+            <div class="pi-row"><span class="pi-label">Pet Friendly</span><span class="pi-val">39%</span></div>
+            <div class="prog-track">
+              <div class="prog-fill rose" data-w="39"></div>
+            </div>
+          </div>
+          <div class="prog-item">
+            <div class="pi-row"><span class="pi-label">Remote Workers</span><span class="pi-val">61%</span></div>
+            <div class="prog-track">
+              <div class="prog-fill" data-w="61"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /full-row -->
+  </div><!-- /dashboard -->
 
   <footer>
     <p>&copy; 2025 Nestra | Empowering Intelligent, Inclusive Co-living</p>
   </footer>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById("dropdownMenu").classList.toggle("show");
-    }
-    window.addEventListener("click", function (e) {
-      const toggle = document.querySelector(".nav-toggle");
-      const menu = document.getElementById("dropdownMenu");
-      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.remove("show");
-      }
-    });
-  </script>
-  <!-- Floating Chatbot Button -->
+  <!-- FAB -->
   <style>
     #chatbot-fab {
       position: fixed;
       bottom: 28px;
       right: 28px;
       z-index: 9999;
-      background: linear-gradient(135deg, #6c5dd3, #463aa2);
+      background: var(--gradient);
       color: #fff;
       border: none;
       border-radius: 50px;
       padding: 14px 22px;
       font-size: 1rem;
-      font-family: 'Outfit', 'Inter', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
@@ -276,37 +1043,66 @@
       align-items: center;
       gap: 10px;
       text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      animation: fabPulse 2.5s infinite;
+      transition: transform .2s ease, box-shadow .2s ease;
+      animation: fabPulse 2.5s infinite
     }
 
     #chatbot-fab:hover {
       transform: scale(1.08) translateY(-2px);
       box-shadow: 0 14px 36px rgba(108, 93, 211, 0.55);
-      animation: none;
-    }
-
-    #chatbot-fab .fab-label {
-      font-size: 0.95rem;
-      white-space: nowrap;
+      animation: none
     }
 
     @keyframes fabPulse {
 
       0%,
       100% {
-        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
+        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45)
       }
 
       50% {
-        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75);
+        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75)
       }
     }
   </style>
-  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot">
-    <span style="font-size:1.4rem;">🤖</span>
-    <span class="fab-label">Ask Nexi</span>
-  </a>
+  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot"><span
+      style="font-size:1.4rem">🤖</span><span>Ask Nexi</span></a>
+
+  <script>
+    function toggleMenu() { document.getElementById("dropdownMenu").classList.toggle("show") }
+    window.addEventListener("click", function (e) { const t = document.querySelector(".nav-toggle"), m = document.getElementById("dropdownMenu"); if (!t.contains(e.target) && !m.contains(e.target)) m.classList.remove("show") });
+
+    /* Animated KPI counters */
+    function animateCounter(el) {
+      const target = parseFloat(el.dataset.target), suffix = el.dataset.suffix || "", dec = target % 1 !== 0;
+      const dur = 1600, step = dur / 60, inc = target / (dur / step); let cur = 0;
+      const t = setInterval(() => { cur = Math.min(cur + inc, target); el.textContent = (dec ? cur.toFixed(1) : Math.floor(cur)) + suffix; if (cur >= target) clearInterval(t) }, step);
+    }
+
+    /* Animate bars, progress, rings */
+    function animateBars() { document.querySelectorAll('.bar-fill').forEach(el => { el.style.height = el.dataset.h }) }
+    function animateProgress() { document.querySelectorAll('.prog-fill').forEach(el => { el.style.width = (el.dataset.w || 0) + '%' }) }
+    function animateRings() {
+      document.querySelectorAll('.ring-arc').forEach(el => {
+        const pct = parseFloat(el.dataset.pct) / 100;
+        el.style.strokeDashoffset = 251 * (1 - pct);
+      });
+    }
+
+    /* Generate heatmap */
+    function buildHeatmap() {
+      const hm = document.getElementById('heatmap');
+      const lvls = [0, 0, 1, 2, 1, 3, 4, 2, 1, 0, 3, 4, 2, 1, 0, 1, 2, 3, 2, 4, 1, 0, 1, 2, 3, 1, 4, 3, 2, 0, 1, 3, 4, 2, 1];
+      const cls = ['', 'l1', 'l2', 'l3', 'l4'];
+      for (let i = 0; i < 35; i++) { const d = document.createElement('div'); d.className = 'hm-day ' + (cls[lvls[i % lvls.length]] || ''); d.title = (lvls[i % lvls.length] * 8) + ' surveys'; hm.appendChild(d); }
+    }
+
+    buildHeatmap();
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { document.querySelectorAll('.kpi-number').forEach(animateCounter); animateBars(); animateProgress(); animateRings(); obs.disconnect(); } });
+    }, { threshold: 0.1 });
+    obs.observe(document.querySelector('.kpi-grid'));
+  </script>
 </body>
 
 </html>

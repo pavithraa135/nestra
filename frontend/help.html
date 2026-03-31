@@ -4,38 +4,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nestra – Help & Support</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css" />
+  <title>Help & Support – Nestra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #6c5dd3;
       --secondary: #463aa2;
       --gradient: linear-gradient(135deg, #6c5dd3, #463aa2);
       --accent: #f3f0ff;
-      --glass: rgba(255, 255, 255, 0.1);
       --white: #fff;
-      --dark: #2d2d39;
+      --dark: #2d2d39
     }
 
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      box-sizing: border-box
     }
 
     body {
       font-family: 'Outfit', sans-serif;
       background: linear-gradient(120deg, #eae8ff, #f7f5ff);
       color: var(--dark);
-      overflow-x: hidden;
+      overflow-x: hidden
     }
 
-    /* Navbar */
     .topbar {
       backdrop-filter: blur(10px);
-      background-color: var(--glass);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.7);
+      border-bottom: 1px solid rgba(108, 93, 211, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -43,32 +40,37 @@
       position: sticky;
       top: 0;
       z-index: 999;
+      box-shadow: 0 2px 20px rgba(108, 93, 211, 0.08)
     }
 
     .logo {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      color: var(--primary);
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
     }
 
     .nav-toggle {
       display: none;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       cursor: pointer;
-      color: var(--dark);
+      color: var(--dark)
     }
 
     .dropdown-menu {
       list-style: none;
       display: flex;
-      gap: 1.5rem;
+      gap: 1.5rem
     }
 
     .dropdown-menu li a {
       text-decoration: none;
       color: var(--dark);
       font-weight: 600;
+      font-size: 0.95rem;
       position: relative;
+      transition: color 0.25s
     }
 
     .dropdown-menu li a::after {
@@ -76,202 +78,311 @@
       position: absolute;
       width: 0;
       height: 2px;
-      background: var(--primary);
+      background: var(--gradient);
       left: 0;
       bottom: -4px;
-      transition: 0.3s ease;
+      transition: 0.3s;
+      border-radius: 2px
+    }
+
+    .dropdown-menu li a:hover {
+      color: var(--primary)
     }
 
     .dropdown-menu li a:hover::after {
-      width: 100%;
+      width: 100%
     }
 
-    /* Main content */
-    main {
-      max-width: 1000px;
-      margin: 60px auto;
-      padding: 30px;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-      animation: fadeIn 0.8s ease-in-out;
-    }
-
-    h1 {
+    .hero {
+      padding: 80px 20px 40px;
       text-align: center;
-      font-size: 2.2rem;
+      animation: fadeIn 1s ease
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
       color: var(--secondary);
+      font-weight: 700;
+      margin-bottom: 0.8rem
+    }
+
+    .hero p {
+      color: #5e5c7a;
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin: 0 auto
+    }
+
+    .content-wrap {
+      max-width: 900px;
+      margin: 0 auto 80px;
+      padding: 0 20px
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: var(--secondary);
+      font-weight: 700;
       margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent)
     }
 
-    .faq {
-      margin-bottom: 1.8rem;
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 3rem
     }
 
-    .faq h3 {
-      font-size: 1.3rem;
-      color: var(--primary);
-      margin-bottom: 0.6rem;
-    }
-
-    .faq p {
-      font-size: 1rem;
-      color: #4e4e6a;
-      line-height: 1.6;
-    }
-
-    .contact {
-      margin-top: 2rem;
-      padding: 20px;
+    .faq-item {
+      background: var(--white);
       border-radius: 16px;
-      background: var(--accent);
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(108, 93, 211, 0.07);
+      border: 1px solid rgba(108, 93, 211, 0.06);
+      transition: box-shadow 0.3s
     }
 
-    .contact h2 {
-      color: var(--secondary);
-      margin-bottom: 0.8rem;
+    .faq-item:hover {
+      box-shadow: 0 10px 30px rgba(108, 93, 211, 0.14)
     }
 
-    .contact p {
-      margin: 0.4rem 0;
+    .faq-question {
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: var(--dark);
+      user-select: none
+    }
+
+    .faq-question:hover {
+      color: var(--primary)
+    }
+
+    .faq-arrow {
+      font-size: 1.1rem;
+      transition: transform 0.3s;
+      color: var(--primary)
+    }
+
+    .faq-item.open .faq-arrow {
+      transform: rotate(180deg)
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      color: #5e5c7a;
+      font-size: 0.97rem;
+      line-height: 1.7
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding: 0 24px 20px
+    }
+
+    .support-card {
+      background: var(--gradient);
+      border-radius: 20px;
+      padding: 40px;
+      color: #fff;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem
+    }
+
+    .support-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .support-item .s-icon {
+      font-size: 2rem
+    }
+
+    .support-item h3 {
       font-size: 1rem;
+      font-weight: 700
+    }
+
+    .support-item a,
+    .support-item p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.95rem;
+      text-decoration: none
+    }
+
+    .support-item a:hover {
+      color: #fff;
+      text-decoration: underline
     }
 
     footer {
       background: #ece9f7;
-      padding: 1.2rem;
+      padding: 1.5rem;
       text-align: center;
       font-size: 0.9rem;
-      color: #5c5a75;
+      color: #5c5a75
     }
 
     @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(20px)
       }
 
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0)
       }
     }
 
-    @media (max-width: 768px) {
+    @media(max-width:768px) {
       .nav-toggle {
-        display: block;
+        display: block
       }
 
       .dropdown-menu {
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 60px;
+        top: 70px;
         right: 20px;
         background: var(--white);
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        min-width: 180px
       }
 
       .dropdown-menu.show {
-        display: flex;
+        display: flex
+      }
+
+      .hero h1 {
+        font-size: 2rem
       }
     }
   </style>
 </head>
 
 <body>
-  <!-- Navbar -->
   <nav class="topbar">
-    <h2 class="logo">Nestra</h2>
+    <div class="logo">Nestra</div>
     <div class="nav-toggle" onclick="toggleMenu()">☰</div>
     <ul class="dropdown-menu" id="dropdownMenu">
-      <li><a href="index.html" style="color: var(--secondary);">Home</a></li>
-      <li><a href="login.html" style="color: var(--secondary);">Login</a></li>
-      <li><a href="register.html" style="color: var(--secondary);">Register</a></li>
-      <li><a href="survey.html" style="color: var(--secondary);">Survey</a></li>
-      <li><a href="match_result.html" style="color: var(--secondary);">Match Result</a></li>
-      <li><a href="admin.html" style="color: var(--secondary);">Admin</a></li>
-      <li><a href="about.html" style="color: var(--secondary);">About Us</a></li>
-      <li><a href="contact.html" style="color: var(--secondary);">Contact</a></li>
-      <li><a href="help.html" style="color: var(--secondary);">Help</a></li>
-      <li><a href="stats.html" style="color: var(--secondary);">Stats</a></li>
-      <li>
-        <a href="profile.html" style="display: flex; align-items: center; gap: 0.4em; color: var(--secondary);">
-          <span style="display: flex; align-items: center;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-              <circle cx="12" cy="10" r="4" stroke="currentColor" stroke-width="1.5" />
-              <path d="M6.5 18c1.5-2 9.5-2 11 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-            </svg>
-          </span>
-          Profile
-        </a>
-      </li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="stats.html">Stats</a></li>
     </ul>
   </nav>
 
-  <!-- Help Content -->
-  <main>
-    <h1>Help & Support</h1>
-    <div class="faq">
-      <h3>🔹 How do I register on Nestra?</h3>
-      <p>Click on the Register link in the menu, fill in your details, and submit. Your account will be created
-        instantly.</p>
-    </div>
-    <div class="faq">
-      <h3>🔹 How does the roommate matching work?</h3>
-      <p>After completing the survey, Nestra analyzes your preferences and shows the best possible roommate matches.</p>
-    </div>
-    <div class="faq">
-      <h3>🔹 I forgot my password. What should I do?</h3>
-      <p>Use the "Forgot Password" option on the Login page to reset your password.</p>
-    </div>
-    <div class="faq">
-      <h3>🔹 Can I edit my survey responses later?</h3>
-      <p>Yes. Just revisit the survey page, update your answers, and save again.</p>
+  <section class="hero">
+    <h1>Help & Support 🛟</h1>
+    <p>Find answers to common questions or contact our team directly.</p>
+  </section>
+
+  <div class="content-wrap">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">🔹 How do I register on Nestra? <span
+            class="faq-arrow">▼</span></div>
+        <div class="faq-answer">Click on the Register link in the menu, fill in your full name, email, username, and
+          password. Your account will be created instantly and you can start your roommate journey!</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">🔹 How does the roommate matching work? <span
+            class="faq-arrow">▼</span></div>
+        <div class="faq-answer">After completing the compatibility survey, Nestra's AI analyzes your preferences — sleep
+          schedule, cleanliness, social style, diet, and more — to find your best possible roommate matches with a
+          compatibility score.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">🔹 I forgot my password. What should I do? <span
+            class="faq-arrow">▼</span></div>
+        <div class="faq-answer">Use the "Forgot Password" option on the Login page to reset your password via email. If
+          you need additional help, contact our support team at support@nestra.com.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">🔹 Can I edit my survey responses? <span
+            class="faq-arrow">▼</span></div>
+        <div class="faq-answer">Yes! Simply revisit the Survey page, update your answers, and save again. Your match
+          results will be recalculated based on your updated preferences.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">� Is my personal data safe? <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-answer">Absolutely. Nestra takes your privacy seriously. All data is encrypted and stored
+          securely. We never share your personal information with third parties without your consent.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">🔹 How do I use voice input in the survey? <span
+            class="faq-arrow">▼</span></div>
+        <div class="faq-answer">In the survey page, click the 🎙️ "Speak" button next to the preferences field. Make
+          sure to allow microphone access. Speak clearly and your words will be transcribed automatically (Chrome
+          recommended).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">🔹 Is Nestra free to use? <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-answer">Yes, Nestra is currently completely free to use. We'll notify you of any changes to our
+          pricing model well in advance.</div>
+      </div>
     </div>
 
-    <div class="contact">
-      <h2>📞 Contact Support</h2>
-      <p>Email: <a href="mailto:support@nestra.com">support@nestra.com</a></p>
-      <p>Phone: +91 98765 43210</p>
-      <p>Available: Mon - Fri, 9 AM - 6 PM</p>
+    <h2 class="section-title">Contact Support</h2>
+    <div class="support-card">
+      <div class="support-item">
+        <div class="s-icon">📧</div>
+        <h3>Email</h3><a href="mailto:support@nestra.com">support@nestra.com</a>
+      </div>
+      <div class="support-item">
+        <div class="s-icon">📞</div>
+        <h3>Phone</h3>
+        <p>+91 98765 43210</p>
+      </div>
+      <div class="support-item">
+        <div class="s-icon">🕐</div>
+        <h3>Hours</h3>
+        <p>Mon–Fri, 9AM–6PM IST</p>
+      </div>
+      <div class="support-item">
+        <div class="s-icon">💬</div>
+        <h3>Live Chat</h3>
+        <p>Chat with Nexi 24/7</p>
+      </div>
     </div>
-  </main>
+  </div>
 
   <footer>
     <p>&copy; 2025 Nestra | Empowering Intelligent, Inclusive Co-living</p>
   </footer>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById("dropdownMenu").classList.toggle("show");
-    }
-
-    window.addEventListener("click", function (e) {
-      const toggle = document.querySelector(".nav-toggle");
-      const menu = document.getElementById("dropdownMenu");
-      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.remove("show");
-      }
-    });
-  </script>
-  <!-- Floating Chatbot Button -->
   <style>
     #chatbot-fab {
       position: fixed;
       bottom: 28px;
       right: 28px;
       z-index: 9999;
-      background: linear-gradient(135deg, #6c5dd3, #463aa2);
+      background: var(--gradient);
       color: #fff;
       border: none;
       border-radius: 50px;
       padding: 14px 22px;
       font-size: 1rem;
-      font-family: 'Outfit', 'Inter', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
@@ -280,36 +391,34 @@
       gap: 10px;
       text-decoration: none;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      animation: fabPulse 2.5s infinite;
+      animation: fabPulse 2.5s infinite
     }
 
     #chatbot-fab:hover {
       transform: scale(1.08) translateY(-2px);
       box-shadow: 0 14px 36px rgba(108, 93, 211, 0.55);
-      animation: none;
-    }
-
-    #chatbot-fab .fab-label {
-      font-size: 0.95rem;
-      white-space: nowrap;
+      animation: none
     }
 
     @keyframes fabPulse {
 
       0%,
       100% {
-        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
+        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45)
       }
 
       50% {
-        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75);
+        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75)
       }
     }
   </style>
-  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot">
-    <span style="font-size:1.4rem;">🤖</span>
-    <span class="fab-label">Ask Nexi</span>
-  </a>
+  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot"><span
+      style="font-size:1.4rem">🤖</span><span>Ask Nexi</span></a>
+  <script>
+    function toggleMenu() { document.getElementById("dropdownMenu").classList.toggle("show") }
+    window.addEventListener("click", function (e) { const t = document.querySelector(".nav-toggle"), m = document.getElementById("dropdownMenu"); if (!t.contains(e.target) && !m.contains(e.target)) m.classList.remove("show") });
+    function toggleFaq(el) { const item = el.parentElement; item.classList.toggle("open") }
+  </script>
 </body>
 
 </html>

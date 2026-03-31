@@ -4,37 +4,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nestra – Profile</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Your Profile – Nestra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Same styles as index.html */
     :root {
       --primary: #6c5dd3;
       --secondary: #463aa2;
       --gradient: linear-gradient(135deg, #6c5dd3, #463aa2);
       --accent: #f3f0ff;
-      --glass: rgba(255, 255, 255, 0.1);
       --white: #fff;
-      --dark: #2d2d39;
+      --dark: #2d2d39
     }
 
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      box-sizing: border-box
     }
 
     body {
       font-family: 'Outfit', sans-serif;
       background: linear-gradient(120deg, #eae8ff, #f7f5ff);
       color: var(--dark);
-      overflow-x: hidden;
+      overflow-x: hidden
     }
 
     .topbar {
       backdrop-filter: blur(10px);
-      background-color: var(--glass);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.7);
+      border-bottom: 1px solid rgba(108, 93, 211, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -42,32 +40,37 @@
       position: sticky;
       top: 0;
       z-index: 999;
+      box-shadow: 0 2px 20px rgba(108, 93, 211, 0.08)
     }
 
     .logo {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      color: var(--primary);
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
     }
 
     .nav-toggle {
       display: none;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       cursor: pointer;
-      color: var(--dark);
+      color: var(--dark)
     }
 
     .dropdown-menu {
       list-style: none;
       display: flex;
-      gap: 1.5rem;
+      gap: 1.5rem
     }
 
     .dropdown-menu li a {
       text-decoration: none;
       color: var(--dark);
       font-weight: 600;
+      font-size: 0.95rem;
       position: relative;
+      transition: color 0.25s
     }
 
     .dropdown-menu li a::after {
@@ -75,226 +78,326 @@
       position: absolute;
       width: 0;
       height: 2px;
-      background: var(--primary);
+      background: var(--gradient);
       left: 0;
       bottom: -4px;
-      transition: 0.3s ease;
+      transition: 0.3s;
+      border-radius: 2px
     }
 
-    .dropdown-menu li a:hover::after,
-    .dropdown-menu li a.active::after {
-      width: 100%;
+    .dropdown-menu li a:hover {
+      color: var(--primary)
     }
 
-    .hero {
-      padding: 120px 20px 80px;
+    .dropdown-menu li a:hover::after {
+      width: 100%
+    }
+
+    .profile-hero {
+      background: var(--gradient);
+      padding: 60px 20px 100px;
       text-align: center;
-      background: radial-gradient(circle at top right, #f1eeff, #fefeff);
-      animation: fadeIn 1.2s ease-in;
+      position: relative
     }
 
-    .hero h1 {
-      font-size: 3.2rem;
+    .profile-hero h1 {
+      color: #fff;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem
+    }
+
+    .profile-hero p {
+      color: rgba(255, 255, 255, 0.8)
+    }
+
+    .avatar-wrap {
+      position: absolute;
+      bottom: -50px;
+      left: 50%;
+      transform: translateX(-50%)
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 4px solid #fff;
+      box-shadow: 0 8px 24px rgba(108, 93, 211, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem
+    }
+
+    .profile-layout {
+      max-width: 900px;
+      margin: 80px auto 80px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 2rem;
+      align-items: start
+    }
+
+    .info-card,
+    .form-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 12px 35px rgba(108, 93, 211, 0.1)
+    }
+
+    .info-card h2,
+    .form-card h2 {
+      font-size: 1.15rem;
       color: var(--secondary);
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--accent)
     }
 
-    .hero p {
-      font-size: 1.3rem;
-      color: #5e5c7a;
-      max-width: 700px;
-      margin: 0 auto 2rem;
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0eeff
+    }
+
+    .info-row:last-child {
+      border-bottom: none
+    }
+
+    .info-row .icon {
+      font-size: 1.2rem;
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .info-row .text strong {
+      display: block;
+      font-size: 0.78rem;
+      color: #8885a8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px
+    }
+
+    .info-row .text span {
+      font-size: 0.97rem;
+      color: var(--dark);
+      font-weight: 600
+    }
+
+    .input-group {
+      margin-bottom: 1.1rem
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: #5c5a7a;
+      margin-bottom: 6px
+    }
+
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid #e8e5f5;
+      border-radius: 12px;
+      font-size: 0.97rem;
+      font-family: 'Outfit', sans-serif;
+      background: #fafaff;
+      transition: all 0.3s;
+      color: var(--dark)
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(108, 93, 211, 0.1)
     }
 
     .btn-primary {
+      width: 100%;
+      padding: 14px;
       background: var(--gradient);
-      color: var(--white);
-      padding: 14px 36px;
-      border-radius: 14px;
-      font-weight: 600;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
       font-size: 1rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 12px 30px rgba(108, 93, 211, 0.2);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Outfit', sans-serif;
+      box-shadow: 0 8px 20px rgba(108, 93, 211, 0.28)
     }
 
     .btn-primary:hover {
-      transform: scale(1.05);
-      box-shadow: 0 16px 40px rgba(70, 58, 162, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(108, 93, 211, 0.42)
     }
 
-    /* Content area */
-    .content {
-      max-width: 900px;
-      margin: 40px auto 80px;
-      background: var(--white);
-      border-radius: 20px;
-      padding: 30px 40px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-      color: var(--dark);
-      text-align: left;
-    }
-
-    .content h2 {
-      color: var(--secondary);
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
-
-    .content p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin-bottom: 15px;
-    }
-
-    .content form input[type="text"],
-    .content form input[type="email"] {
+    .btn-outline {
       width: 100%;
-      padding: 12px 15px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+      padding: 13px;
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      border-radius: 12px;
       font-size: 1rem;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    .content form button {
-      background: var(--gradient);
-      color: var(--white);
-      padding: 14px 36px;
-      border: none;
-      border-radius: 14px;
-      font-weight: 600;
-      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s;
+      font-family: 'Outfit', sans-serif;
+      margin-top: 0.8rem;
+      text-align: center;
+      display: block;
+      text-decoration: none
     }
 
-    .content form button:hover {
-      background: var(--secondary);
-      transform: scale(1.05);
+    .btn-outline:hover {
+      background: var(--accent)
     }
 
     footer {
       background: #ece9f7;
-      padding: 1.2rem;
+      padding: 1.5rem;
       text-align: center;
       font-size: 0.9rem;
-      color: #5c5a75;
+      color: #5c5a75
     }
 
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 768px) {
+    @media(max-width:768px) {
       .nav-toggle {
-        display: block;
+        display: block
       }
 
       .dropdown-menu {
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 60px;
+        top: 70px;
         right: 20px;
         background: var(--white);
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        min-width: 180px
       }
 
       .dropdown-menu.show {
-        display: flex;
+        display: flex
       }
 
-      .content {
-        padding: 20px;
-        margin: 20px 10px 60px;
+      .profile-layout {
+        grid-template-columns: 1fr
+      }
+
+      .profile-hero {
+        padding-bottom: 80px
       }
     }
   </style>
 </head>
 
 <body>
-
   <nav class="topbar">
-    <h2 class="logo">Nestra</h2>
+    <div class="logo">Nestra</div>
     <div class="nav-toggle" onclick="toggleMenu()">☰</div>
     <ul class="dropdown-menu" id="dropdownMenu">
-      <li><a href="index.html" style="color: var(--secondary);">Home</a></li>
-      <li><a href="login.html" style="color: var(--secondary);">Login</a></li>
-      <li><a href="register.html" style="color: var(--secondary);">Register</a></li>
-      <li><a href="survey.html" style="color: var(--secondary);">Survey</a></li>
-      <li><a href="match_result.html" style="color: var(--secondary);">Match Result</a></li>
-      <li><a href="admin.html" style="color: var(--secondary);">Admin</a></li>
-      <li><a href="about.html" style="color: var(--secondary);">About Us</a></li>
-      <li><a href="contact.html" style="color: var(--secondary);">Contact</a></li>
-      <li><a href="help.html" style="color: var(--secondary);">Help</a></li>
-      <li><a href="stats.html" style="color: var(--secondary);">Stats</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="match_result.html">Match Result</a></li>
+      <li><a href="stats.html">Stats</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
 
-  <section class="hero">
-    <h1>Your Profile</h1>
-    <p>View and update your personal details to improve your roommate match.</p>
-    <a href="survey.html" class="btn-primary">Edit Survey</a>
-  </section>
+  <div class="profile-hero">
+    <h1>Your Profile 👩</h1>
+    <p>View and manage your personal details</p>
+    <div class="avatar-wrap">
+      <div class="avatar">👩</div>
+    </div>
+  </div>
 
-  <section class="content">
-    <h2>Personal Information</h2>
-    <p><strong>Name:</strong> Jane Doe</p>
-    <p><strong>Email:</strong> jane.doe@example.com</p>
-    <p><strong>Age:</strong> 26</p>
-    <p><strong>Room Preference:</strong> Twin Sharing</p>
-
-    <h2>Update Details</h2>
-    <form>
-      <input type="text" placeholder="Update Age" />
-      <input type="text" placeholder="Update Room Preference" />
-      <button type="submit">Save Changes</button>
-    </form>
-  </section>
+  <div class="profile-layout">
+    <div class="info-card">
+      <h2>Personal Information</h2>
+      <div class="info-row">
+        <div class="icon">👤</div>
+        <div class="text"><strong>Full Name</strong><span>Jane Doe</span></div>
+      </div>
+      <div class="info-row">
+        <div class="icon">📧</div>
+        <div class="text"><strong>Email</strong><span>jane.doe@example.com</span></div>
+      </div>
+      <div class="info-row">
+        <div class="icon">🎂</div>
+        <div class="text"><strong>Age</strong><span>26</span></div>
+      </div>
+      <div class="info-row">
+        <div class="icon">🏠</div>
+        <div class="text"><strong>Room Preference</strong><span>Twin Sharing</span></div>
+      </div>
+      <div class="info-row">
+        <div class="icon">🛌</div>
+        <div class="text"><strong>Sleep Schedule</strong><span>Early Riser</span></div>
+      </div>
+      <div class="info-row">
+        <div class="icon">⭐</div>
+        <div class="text"><strong>Match Score</strong><span>92% Compatible</span></div>
+      </div>
+    </div>
+    <div class="form-card">
+      <h2>Update Details</h2>
+      <form>
+        <div class="input-group"><label>Update Age</label><input type="number" placeholder="Your age" min="18"
+            max="60" /></div>
+        <div class="input-group"><label>Room Preference</label><select>
+            <option>Twin Sharing 👭</option>
+            <option>Single 🛏️</option>
+            <option>No Preference ❓</option>
+          </select></div>
+        <div class="input-group"><label>Bio</label><input type="text" placeholder="A short bio..." /></div>
+        <div class="input-group"><label>Location</label><input type="text" placeholder="Your city" /></div>
+        <button type="submit" class="btn-primary">Save Changes ✓</button>
+        <a href="survey.html" class="btn-outline">Retake Survey 🎤</a>
+      </form>
+    </div>
+  </div>
 
   <footer>
     <p>&copy; 2025 Nestra | Empowering Intelligent, Inclusive Co-living</p>
   </footer>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById("dropdownMenu").classList.toggle("show");
-    }
-    window.addEventListener("click", function (e) {
-      const toggle = document.querySelector(".nav-toggle");
-      const menu = document.getElementById("dropdownMenu");
-      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.remove("show");
-      }
-    });
-  </script>
-  <!-- Floating Chatbot Button -->
   <style>
     #chatbot-fab {
       position: fixed;
       bottom: 28px;
       right: 28px;
       z-index: 9999;
-      background: linear-gradient(135deg, #6c5dd3, #463aa2);
+      background: var(--gradient);
       color: #fff;
       border: none;
       border-radius: 50px;
       padding: 14px 22px;
       font-size: 1rem;
-      font-family: 'Outfit', 'Inter', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
@@ -303,36 +406,33 @@
       gap: 10px;
       text-decoration: none;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      animation: fabPulse 2.5s infinite;
+      animation: fabPulse 2.5s infinite
     }
 
     #chatbot-fab:hover {
       transform: scale(1.08) translateY(-2px);
       box-shadow: 0 14px 36px rgba(108, 93, 211, 0.55);
-      animation: none;
-    }
-
-    #chatbot-fab .fab-label {
-      font-size: 0.95rem;
-      white-space: nowrap;
+      animation: none
     }
 
     @keyframes fabPulse {
 
       0%,
       100% {
-        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
+        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45)
       }
 
       50% {
-        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75);
+        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75)
       }
     }
   </style>
-  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot">
-    <span style="font-size:1.4rem;">🤖</span>
-    <span class="fab-label">Ask Nexi</span>
-  </a>
+  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot"><span
+      style="font-size:1.4rem">🤖</span><span>Ask Nexi</span></a>
+  <script>
+    function toggleMenu() { document.getElementById("dropdownMenu").classList.toggle("show") }
+    window.addEventListener("click", function (e) { const t = document.querySelector(".nav-toggle"), m = document.getElementById("dropdownMenu"); if (!t.contains(e.target) && !m.contains(e.target)) m.classList.remove("show") });
+  </script>
 </body>
 
 </html>

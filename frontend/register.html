@@ -5,31 +5,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Register – Nestra</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #6c5dd3;
       --secondary: #463aa2;
-      --accent: #f3f0ff;
-      --dark: #2d2d39;
+      --gradient: linear-gradient(135deg, #6c5dd3, #463aa2);
       --white: #fff;
+      --dark: #2d2d39;
     }
 
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      box-sizing: border-box
     }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, #e4e1ff, #f7f5ff);
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(120deg, #eae8ff, #f7f5ff);
       color: var(--dark);
+      min-height: 100vh
     }
 
     .topbar {
-      background-color: var(--primary);
-      color: var(--white);
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.7);
+      border-bottom: 1px solid rgba(108, 93, 211, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -37,152 +39,235 @@
       position: sticky;
       top: 0;
       z-index: 999;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 20px rgba(108, 93, 211, 0.08)
     }
 
     .logo {
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--white);
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
     }
 
     .nav-toggle {
       display: none;
       font-size: 1.5rem;
-      color: var(--white);
       cursor: pointer;
+      color: var(--dark)
     }
 
     .dropdown-menu {
       list-style: none;
       display: flex;
-      gap: 1.5rem;
+      gap: 1.5rem
     }
 
     .dropdown-menu li a {
-      color: var(--white);
       text-decoration: none;
+      color: var(--dark);
       font-weight: 600;
+      font-size: 0.95rem;
+      position: relative;
+      transition: color 0.25s
+    }
+
+    .dropdown-menu li a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: var(--gradient);
+      left: 0;
+      bottom: -4px;
+      transition: 0.3s ease;
+      border-radius: 2px
     }
 
     .dropdown-menu li a:hover {
-      color: #d1ccf2;
+      color: var(--primary)
     }
 
-    .form-container {
-      max-width: 480px;
-      margin: 60px auto;
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-      animation: fadeIn 0.8s ease;
+    .dropdown-menu li a:hover::after {
+      width: 100%
     }
 
-    .form-container h2 {
+    .page-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 20px 60px rgba(108, 93, 211, 0.15);
+      animation: slideUp 0.6s ease;
+      position: relative;
+      overflow: hidden
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(108, 93, 211, 0.08), transparent 70%);
+      border-radius: 50%
+    }
+
+    .card-icon {
+      font-size: 2.8rem;
+      text-align: center;
+      margin-bottom: 0.5rem
+    }
+
+    .card h2 {
       text-align: center;
       font-size: 1.9rem;
-      margin-bottom: 24px;
       color: var(--secondary);
+      margin-bottom: 0.4rem;
+      font-weight: 700
+    }
+
+    .card .subtitle {
+      text-align: center;
+      color: #8885a8;
+      font-size: 0.95rem;
+      margin-bottom: 2rem
     }
 
     .input-group {
-      position: relative;
-      margin-bottom: 20px;
+      margin-bottom: 1.1rem;
+      position: relative
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #5c5a7a;
+      margin-bottom: 6px
     }
 
     .input-group input {
       width: 100%;
-      padding: 12px 14px 12px 44px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+      padding: 14px 16px;
+      border: 2px solid #e8e5f5;
+      border-radius: 12px;
       font-size: 1rem;
-      background-color: #f9f9ff;
+      font-family: 'Outfit', sans-serif;
+      background: #fafaff;
+      transition: all 0.3s ease;
+      color: var(--dark)
     }
 
-    .input-group i {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #888;
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(108, 93, 211, 0.1);
+      transform: translateY(-1px)
     }
 
     .toggle-password {
       position: absolute;
       right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
+      bottom: 16px;
       cursor: pointer;
-      font-size: 0.9rem;
-      color: var(--primary);
-      user-select: none;
+      color: #8885a8;
+      font-size: 1rem;
+      user-select: none
     }
 
     .btn-primary {
       width: 100%;
-      padding: 14px;
-      background-color: var(--primary);
-      color: white;
+      padding: 15px;
+      background: var(--gradient);
+      color: #fff;
       border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 600;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      font-family: 'Outfit', sans-serif;
+      box-shadow: 0 8px 24px rgba(108, 93, 211, 0.3);
+      margin-top: 0.5rem
     }
 
     .btn-primary:hover {
-      background-color: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(108, 93, 211, 0.45)
     }
 
     .form-note {
-      margin-top: 18px;
       text-align: center;
+      margin-top: 1.2rem;
       font-size: 0.95rem;
+      color: #8885a8
     }
 
     .form-note a {
       color: var(--primary);
-      text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
+      text-decoration: none
     }
 
-    @keyframes fadeIn {
+    .form-note a:hover {
+      text-decoration: underline
+    }
+
+    footer {
+      background: #ece9f7;
+      padding: 1.2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #5c5a75
+    }
+
+    @keyframes slideUp {
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(30px)
       }
 
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0)
       }
     }
 
-    @media (max-width: 768px) {
+    @media(max-width:768px) {
       .nav-toggle {
-        display: block;
+        display: block
       }
 
       .dropdown-menu {
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        background: white;
-        flex-direction: column;
         display: none;
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      }
-
-      .dropdown-menu li a {
-        color: var(--dark);
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background: var(--white);
+        padding: 16px;
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        min-width: 180px
       }
 
       .dropdown-menu.show {
-        display: flex;
+        display: flex
+      }
+
+      .card {
+        padding: 36px 24px
       }
     }
   </style>
@@ -190,96 +275,69 @@
 
 <body>
   <nav class="topbar">
-    <h2 class="logo">Nestra</h2>
+    <div class="logo">Nestra</div>
     <div class="nav-toggle" onclick="toggleMenu()">☰</div>
     <ul class="dropdown-menu" id="dropdownMenu">
       <li><a href="index.html">Home</a></li>
       <li><a href="login.html">Login</a></li>
       <li><a href="survey.html">Survey</a></li>
-      <li><a href="match-result.html">Match Result</a></li>
-      <li><a href="admin.html">Admin</a></li>
-      <li><a href="about.html">About Us</a></li>
+      <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="help.html">Help</a></li>
-      <li><a href="stats.html">Stats</a></li>
-      <li>
-        <a href="profile.html" style="display: flex; align-items: center; gap: 0.4em;">
-          <span style="display: flex; align-items: center;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              style="display:inline-block;vertical-align:middle;">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
-              <circle cx="12" cy="10" r="4" stroke="currentColor" stroke-width="1.5" fill="none" />
-              <path d="M6.5 18c1.5-2 9.5-2 11 0" stroke="currentColor" stroke-width="1.5" fill="none"
-                stroke-linecap="round" />
-            </svg>
-          </span>
-          Profile
-        </a>
-      </li>
     </ul>
   </nav>
 
-  <div class="form-container">
-    <h2>📝 Register</h2>
-    <form action="../backend/register.php" method="POST">
-      <div class="input-group">
-        <i>👤</i>
-        <input type="text" name="fullname" placeholder="Full Name" required />
-      </div>
-      <div class="input-group">
-        <i>📧</i>
-        <input type="email" name="email" placeholder="Email" required />
-      </div>
-      <div class="input-group">
-        <i>🔒</i>
-        <input type="text" name="username" placeholder="Username" required />
-      </div>
-      <div class="input-group">
-        <i>🔑</i>
-        <input type="password" name="password" placeholder="Password" id="password" required />
-        <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
-      </div>
-      <div class="input-group">
-        <i>🔁</i>
-        <input type="password" name="confirm" placeholder="Confirm Password" id="confirm" required />
-        <span class="toggle-password" onclick="togglePassword('confirm')">👁️</span>
-      </div>
-      <button type="submit" class="btn-primary">Create Account</button>
-    </form>
-    <p class="form-note">Already registered? <a href="login.php">Login here</a></p>
+  <div class="page-wrapper">
+    <div class="card">
+      <div class="card-icon">✨</div>
+      <h2>Create Account</h2>
+      <p class="subtitle">Join Nestra and find your perfect roommate</p>
+      <form action="../backend/register.php" method="POST">
+        <div class="input-group">
+          <label for="fullname">Full Name</label>
+          <input type="text" id="fullname" name="fullname" placeholder="Jane Doe" required />
+        </div>
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+        </div>
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Choose a username" required />
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Create a strong password" required />
+          <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
+        </div>
+        <div class="input-group">
+          <label for="confirm">Confirm Password</label>
+          <input type="password" id="confirm" name="confirm" placeholder="Repeat your password" required />
+          <span class="toggle-password" onclick="togglePassword('confirm')">👁️</span>
+        </div>
+        <button type="submit" class="btn-primary">Create My Account →</button>
+      </form>
+      <p class="form-note">Already have an account? <a href="login.html">Sign in</a></p>
+    </div>
   </div>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById("dropdownMenu").classList.toggle("show");
-    }
-    window.addEventListener("click", function (e) {
-      const menu = document.getElementById("dropdownMenu");
-      const toggle = document.querySelector(".nav-toggle");
-      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-        menu.classList.remove("show");
-      }
-    });
-    function togglePassword(fieldId) {
-      const field = document.getElementById(fieldId);
-      field.type = field.type === "password" ? "text" : "password";
-    }
-  </script>
+  <footer>
+    <p>&copy; 2025 Nestra | Empowering Intelligent, Inclusive Co-living</p>
+  </footer>
 
-  <!-- Floating Chatbot Button -->
   <style>
     #chatbot-fab {
       position: fixed;
       bottom: 28px;
       right: 28px;
       z-index: 9999;
-      background: linear-gradient(135deg, #6c5dd3, #463aa2);
+      background: var(--gradient);
       color: #fff;
       border: none;
       border-radius: 50px;
       padding: 14px 22px;
       font-size: 1rem;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
@@ -288,36 +346,34 @@
       gap: 10px;
       text-decoration: none;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      animation: fabPulse 2.5s infinite;
+      animation: fabPulse 2.5s infinite
     }
 
     #chatbot-fab:hover {
       transform: scale(1.08) translateY(-2px);
       box-shadow: 0 14px 36px rgba(108, 93, 211, 0.55);
-      animation: none;
-    }
-
-    #chatbot-fab .fab-label {
-      font-size: 0.95rem;
-      white-space: nowrap;
+      animation: none
     }
 
     @keyframes fabPulse {
 
       0%,
       100% {
-        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
+        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45)
       }
 
       50% {
-        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75);
+        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75)
       }
     }
   </style>
-  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot">
-    <span style="font-size:1.4rem;">🤖</span>
-    <span class="fab-label">Ask Nexi</span>
-  </a>
+  <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot"><span
+      style="font-size:1.4rem">🤖</span><span>Ask Nexi</span></a>
+  <script>
+    function toggleMenu() { document.getElementById("dropdownMenu").classList.toggle("show") }
+    window.addEventListener("click", function (e) { const t = document.querySelector(".nav-toggle"), m = document.getElementById("dropdownMenu"); if (!t.contains(e.target) && !m.contains(e.target)) m.classList.remove("show") });
+    function togglePassword(id) { const f = document.getElementById(id); f.type = f.type === "password" ? "text" : "password" }
+  </script>
 </body>
 
 </html>
