@@ -1,18 +1,22 @@
 <?php
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$port = 3308; // Make sure MySQL is running on this port
-$dbname = 'nestra_db';
+/**
+ * db_connect.php
+ * Reads DB credentials from environment variables (set on Render dashboard).
+ * Falls back to local XAMPP defaults for development.
+ */
 
-// Create connection
+$host = getenv('DB_HOST') ?: '127.0.0.1';
+$user = getenv('DB_USER') ?: 'root';
+$pass = getenv('DB_PASS') ?: '';
+$dbname = getenv('DB_NAME') ?: 'nestra_db';
+$port = intval(getenv('DB_PORT') ?: 3308);
+
 $conn = new mysqli($host, $user, $pass, $dbname, $port);
 
-// Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    http_response_code(500);
+    die(json_encode(['error' => 'DB connection failed: ' . $conn->connect_error]));
 }
 
-// Optional: uncomment to check connection success
-// echo "Connected successfully";
+$conn->set_charset('utf8mb4');
 ?>

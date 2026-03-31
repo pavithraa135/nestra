@@ -651,7 +651,7 @@
           <div class="match-reason" id="matchReason"></div>
           <div class="detail-grid" id="detailGrid"></div>
           <div class="actions">
-            <a href="match_chat.html" class="btn-primary">💬 Chat with Match</a>
+            <a id="chatBtn" href="match_chat.html" class="btn-primary">💬 Chat with Match</a>
             <a href="survey.html" class="btn-outline">🔁 Retake Survey</a>
           </div>
         </div>
@@ -731,6 +731,10 @@
       document.getElementById('heroSub').textContent =
         'Nestra found you a ' + match.compatibility + '% compatible roommate!';
 
+      // Set chat link with the matched user's ID so chat_fetch works correctly
+      document.getElementById('chatBtn').href =
+        'match_chat.html?with=' + match.user_id + '&name=' + encodeURIComponent(match.fullname);
+
       // Map backend field names
       match.room_assigned = match.room;
       buildDetailGrid(match);
@@ -760,10 +764,11 @@
             <div class="score-pill">${m.compatibility}%</div>
             <div class="score-bar-wrap"><div class="score-bar-fill" data-w="${m.compatibility}"></div></div>
           </div>
+          <a href="match_chat.html?with=${m.user_id}&name=${encodeURIComponent(m.fullname)}"
+             style="font-size:1.2rem;text-decoration:none;margin-left:6px" title="Chat">💬</a>
         </div>
       `).join('');
       document.getElementById('otherSection').style.display = 'block';
-      // Animate bars
       setTimeout(() => {
         document.querySelectorAll('.score-bar-fill').forEach(el => {
           el.style.width = el.dataset.w + '%';

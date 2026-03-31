@@ -3,337 +3,542 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Match Chat – Nestra</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat with Match – Nestra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #6c5dd3;
       --secondary: #463aa2;
+      --gradient: linear-gradient(135deg, #6c5dd3, #463aa2);
+      --accent: #f3f0ff;
       --white: #fff;
-      --dark-bg: #2d2d39;
-      --bg-light: #f7f5ff;
-      --input-bg: #f3f0ff;
+      --dark: #2d2d39;
+      --muted: #5e5c7a;
+      --border: rgba(108, 93, 211, 0.12)
     }
 
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      box-sizing: border-box
     }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, #eae8ff, var(--bg-light));
-      color: var(--dark-bg);
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(120deg, #eae8ff, #f7f5ff);
+      color: var(--dark);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
+      flex-direction: column
     }
 
-    nav.topbar {
-      background-color: var(--primary);
-      color: var(--white);
+    /* ── Navbar ── */
+    .topbar {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.75);
+      border-bottom: 1px solid rgba(108, 93, 211, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
       position: sticky;
       top: 0;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      user-select: none;
       z-index: 999;
+      box-shadow: 0 2px 20px rgba(108, 93, 211, 0.08)
     }
 
-    nav .logo {
-      font-weight: 700;
+    .logo {
       font-size: 1.8rem;
-      letter-spacing: 1.5px;
-      user-select: none;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent
     }
 
-    nav .nav-toggle {
+    .nav-toggle {
       display: none;
       font-size: 1.5rem;
-      color: var(--white);
       cursor: pointer;
-      user-select: none;
+      color: var(--dark)
     }
 
-    ul.dropdown-menu {
+    .dropdown-menu {
       list-style: none;
       display: flex;
-      gap: 1.5rem;
+      gap: 1.5rem
     }
 
-    ul.dropdown-menu li a {
-      color: var(--white);
-      font-weight: 600;
+    .dropdown-menu li a {
       text-decoration: none;
-      transition: color 0.25s ease;
+      color: var(--dark);
+      font-weight: 600;
+      font-size: 0.92rem;
+      position: relative;
+      transition: color .25s
     }
 
-    ul.dropdown-menu li a:hover {
-      color: #d1ccf2;
+    .dropdown-menu li a:hover {
+      color: var(--primary)
     }
 
-    .chat-container {
-      flex-grow: 1;
-      max-width: 700px;
-      margin: 40px auto 60px;
-      background: var(--white);
-      border-radius: 16px;
-      box-shadow: 0 12px 30px rgba(108, 93, 211, 0.15);
+    /* ── Chat layout ── */
+    .chat-wrap {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 30px 20px 40px;
+      gap: 1.5rem
+    }
+
+    .chat-sidebar {
+      width: 260px;
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      height: 600px;
+      gap: 1rem
+    }
+
+    .sidebar-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 8px 28px rgba(108, 93, 211, 0.08);
+      border: 1px solid var(--border)
+    }
+
+    .sidebar-card h3 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 1rem
+    }
+
+    .match-profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      text-align: center
+    }
+
+    .match-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 6px 16px rgba(108, 93, 211, 0.3)
+    }
+
+    .match-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark)
+    }
+
+    .match-compat {
+      font-size: 0.82rem;
+      color: var(--muted);
+      background: var(--accent);
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-weight: 600
+    }
+
+    .match-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--accent);
+      font-size: 0.85rem
+    }
+
+    .match-detail-row:last-child {
+      border-bottom: none
+    }
+
+    .match-detail-row .key {
+      color: var(--muted);
+      font-weight: 600
+    }
+
+    .match-detail-row .val {
+      color: var(--dark);
+      font-weight: 700;
+      text-align: right
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #22c55e;
+      display: inline-block;
+      margin-right: 6px;
+      box-shadow: 0 0 6px rgba(34, 197, 94, 0.7);
+      animation: blink 2s ease infinite
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.5
+      }
+    }
+
+    /* ── Chat box ── */
+    .chat-box {
+      flex: 1;
+      max-width: 700px;
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: 0 14px 45px rgba(108, 93, 211, 0.14);
+      display: flex;
+      flex-direction: column;
+      height: 65vh;
+      min-height: 500px;
       overflow: hidden;
+      border: 1px solid var(--border)
     }
 
     .chat-header {
-      background: var(--secondary);
-      color: var(--white);
+      background: var(--gradient);
+      color: #fff;
       padding: 18px 24px;
-      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-radius: 24px 24px 0 0
+    }
+
+    .chat-header .h-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 1.3rem;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-      user-select: none;
+      border: 2px solid rgba(255, 255, 255, 0.4)
+    }
+
+    .chat-header .h-info strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700
+    }
+
+    .chat-header .h-info span {
+      font-size: 0.82rem;
+      opacity: 0.85
+    }
+
+    .chat-header .h-back {
+      margin-left: auto;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s
+    }
+
+    .chat-header .h-back:hover {
+      background: rgba(255, 255, 255, 0.35)
     }
 
     .messages {
-      flex-grow: 1;
+      flex: 1;
       padding: 20px 24px;
       overflow-y: auto;
-      background: var(--input-bg);
-      font-size: 1rem;
-      line-height: 1.4;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
+      background: #fafaff
     }
 
-    .message {
-      max-width: 70%;
-      padding: 12px 18px;
-      border-radius: 14px;
-      word-wrap: break-word;
-      white-space: pre-wrap;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      position: relative;
-    }
-
-    /* Current user messages on right */
-    .message.user {
-      background: var(--primary);
-      color: var(--white);
-      align-self: flex-end;
-      border-bottom-right-radius: 0;
-    }
-
-    /* Matched user messages on left */
-    .message.match {
-      background: var(--white);
-      color: var(--dark-bg);
-      align-self: flex-start;
-      border-bottom-left-radius: 0;
-      box-shadow: 0 4px 12px rgba(108, 93, 211, 0.15);
-    }
-
-    .sender-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      opacity: 0.7;
-      margin-bottom: 4px;
-      user-select: none;
-    }
-
-    .chat-input-area {
-      display: flex;
-      padding: 16px 24px;
-      border-top: 1px solid #ddd;
-      background: var(--white);
-      border-bottom-left-radius: 16px;
-      border-bottom-right-radius: 16px;
-    }
-
-    .chat-input {
-      flex-grow: 1;
-      padding: 12px 18px;
-      border-radius: 14px;
-      border: 1.8px solid #ccc;
-      font-size: 1rem;
-      font-family: 'Inter', sans-serif;
-      transition: border-color 0.3s ease;
-    }
-
-    .chat-input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 8px var(--primary);
-    }
-
-    .send-btn {
-      background: var(--primary);
-      border: none;
-      color: var(--white);
-      font-weight: 700;
-      padding: 0 20px;
-      margin-left: 16px;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.15s ease;
-      user-select: none;
-    }
-
-    .send-btn:hover {
-      background: var(--secondary);
-      transform: scale(1.05);
-    }
-
-    /* Scrollbar styling */
     .messages::-webkit-scrollbar {
-      width: 8px;
+      width: 6px
     }
 
     .messages::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 8px;
+      background: rgba(108, 93, 211, 0.3);
+      border-radius: 6px
     }
 
-    .messages::-webkit-scrollbar-track {
-      background: var(--input-bg);
+    /* ── Messages ── */
+    .msg {
+      max-width: 72%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px
     }
 
-    @media (max-width: 768px) {
-      nav .nav-toggle {
-        display: block;
+    .msg.mine {
+      align-self: flex-end;
+      align-items: flex-end
+    }
+
+    .msg.theirs {
+      align-self: flex-start;
+      align-items: flex-start
+    }
+
+    .msg .bubble {
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 0.96rem;
+      line-height: 1.5;
+      word-break: break-word
+    }
+
+    .msg.mine .bubble {
+      background: var(--gradient);
+      color: #fff;
+      border-bottom-right-radius: 4px
+    }
+
+    .msg.theirs .bubble {
+      background: #fff;
+      color: var(--dark);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 4px 12px rgba(108, 93, 211, 0.1)
+    }
+
+    .msg .meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 500
+    }
+
+    /* ── System message ── */
+    .sys-msg {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding: 6px 14px;
+      background: var(--accent);
+      border-radius: 50px;
+      align-self: center;
+      font-weight: 600
+    }
+
+    /* ── Input area ── */
+    .chat-input-area {
+      padding: 14px 18px;
+      border-top: 1px solid var(--accent);
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      background: #fff;
+      border-radius: 0 0 24px 24px
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      font-size: 0.97rem;
+      font-family: 'Outfit', sans-serif;
+      color: var(--dark);
+      background: #fafaff;
+      resize: none;
+      max-height: 100px;
+      transition: border-color .3s, box-shadow .3s;
+      outline: none
+    }
+
+    .chat-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(108, 93, 211, 0.1);
+      background: #fff
+    }
+
+    .send-btn {
+      width: 46px;
+      height: 46px;
+      background: var(--gradient);
+      border: none;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .2s, box-shadow .2s;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(108, 93, 211, 0.3)
+    }
+
+    .send-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 10px 22px rgba(108, 93, 211, 0.45)
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    /* ── Loading / No-session overlay ── */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(234, 232, 255, 0.95);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9990;
+      gap: 1rem
+    }
+
+    .overlay-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 48px 40px;
+      text-align: center;
+      max-width: 420px;
+      box-shadow: 0 20px 60px rgba(108, 93, 211, 0.15)
+    }
+
+    .overlay-card .o-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem
+    }
+
+    .overlay-card h2 {
+      font-size: 1.5rem;
+      color: var(--secondary);
+      font-weight: 700;
+      margin-bottom: 0.6rem
+    }
+
+    .overlay-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6
+    }
+
+    .overlay-loader {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 4px solid var(--accent);
+      border-top-color: var(--primary);
+      animation: spin .8s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: var(--gradient);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      box-shadow: 0 8px 20px rgba(108, 93, 211, 0.3);
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(108, 93, 211, 0.45)
+    }
+
+    footer {
+      background: #ece9f7;
+      padding: 1.2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #5c5a75;
+      margin-top: auto
+    }
+
+    @media(max-width:900px) {
+      .chat-sidebar {
+        display: none
+      }
+    }
+
+    @media(max-width:768px) {
+      .nav-toggle {
+        display: block
       }
 
-      ul.dropdown-menu {
+      .dropdown-menu {
+        display: none;
+        flex-direction: column;
         position: absolute;
-        top: 60px;
+        top: 70px;
         right: 20px;
         background: var(--white);
-        flex-direction: column;
-        display: none;
-        padding: 18px 20px;
+        padding: 16px;
         border-radius: 14px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        user-select: none;
-        z-index: 999;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        min-width: 180px
       }
 
-      ul.dropdown-menu.show {
-        display: flex;
+      .dropdown-menu.show {
+        display: flex
       }
 
-      ul.dropdown-menu li a {
-        color: var(--dark-bg);
-        font-weight: 700;
+      .chat-wrap {
+        padding: 20px 12px
       }
 
-      .chat-container {
-        margin: 20px 12px 40px;
-        height: 500px;
+      .chat-box {
+        height: 70vh
       }
     }
-  </style>
-</head>
 
-<body>
-  <nav class="topbar">
-    <h2 class="logo">Nestra</h2>
-    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
-    <ul class="dropdown-menu" id="dropdownMenu">
-      <li><a href="index.html">🏠 Home</a></li>
-      <li><a href="login.html">🔐 Login</a></li>
-      <li><a href="register.html">📝 Register</a></li>
-      <li><a href="survey.html">🎤 Survey</a></li>
-      <li><a href="match_result.html">📊 Match Result</a></li>
-      <li><a href="admin.html">👑 Admin</a></li>
-    </ul>
-  </nav>
-
-  <main class="chat-container" role="main" aria-label="Chat with your match">
-    <header class="chat-header">💬 Chat with your match</header>
-    <section class="messages" id="messages" aria-live="polite" aria-atomic="false">
-      <!-- Messages will appear here -->
-      <div class="message match">
-        <div class="sender-label">Matched User</div>
-        Hey! Excited to connect with you! 😊
-      </div>
-      <div class="message user">
-        <div class="sender-label">You</div>
-        Hi! Likewise, looking forward to this.
-      </div>
-    </section>
-    <form class="chat-input-area" id="chatForm" aria-label="Send message">
-      <input type="text" id="chatInput" class="chat-input" autocomplete="off" placeholder="Type your message..."
-        aria-label="Chat message input" required autofocus />
-      <button type="submit" class="send-btn" aria-label="Send message">Send</button>
-    </form>
-  </main>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById("dropdownMenu").classList.toggle("show");
-    }
-
-    window.addEventListener("click", function (e) {
-      const toggle = document.querySelector(".nav-toggle");
-      const menu = document.getElementById("dropdownMenu");
-      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.remove("show");
-      }
-    });
-
-    const chatForm = document.getElementById('chatForm');
-    const chatInput = document.getElementById('chatInput');
-    const messages = document.getElementById('messages');
-
-    function appendMessage(text, sender) {
-      const msgDiv = document.createElement('div');
-      msgDiv.classList.add('message', sender);
-
-      // Add sender label
-      const senderLabel = document.createElement('div');
-      senderLabel.classList.add('sender-label');
-      senderLabel.textContent = sender === 'user' ? 'You' : 'Matched User';
-
-      msgDiv.appendChild(senderLabel);
-      msgDiv.appendChild(document.createTextNode(text));
-      messages.appendChild(msgDiv);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    chatForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const msg = chatInput.value.trim();
-      if (!msg) return;
-
-      appendMessage(msg, 'user');
-      chatInput.value = '';
-
-      // Simulate matched user reply (for demo only)
-      setTimeout(() => {
-        appendMessage("Got your message! Let's chat more soon 😊", 'match');
-      }, 1000);
-    });
-  </script>
-  <!-- Floating Chatbot Button -->
-  <style>
     #chatbot-fab {
       position: fixed;
       bottom: 28px;
       right: 28px;
       z-index: 9999;
-      background: linear-gradient(135deg, #6c5dd3, #463aa2);
+      background: var(--gradient);
       color: #fff;
       border: none;
       border-radius: 50px;
       padding: 14px 22px;
       font-size: 1rem;
-      font-family: 'Outfit', 'Inter', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
@@ -341,37 +546,305 @@
       align-items: center;
       gap: 10px;
       text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      animation: fabPulse 2.5s infinite;
+      transition: transform .2s ease, box-shadow .2s ease;
+      animation: fabPulse 2.5s infinite
     }
 
     #chatbot-fab:hover {
       transform: scale(1.08) translateY(-2px);
       box-shadow: 0 14px 36px rgba(108, 93, 211, 0.55);
-      animation: none;
-    }
-
-    #chatbot-fab .fab-label {
-      font-size: 0.95rem;
-      white-space: nowrap;
+      animation: none
     }
 
     @keyframes fabPulse {
 
       0%,
       100% {
-        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45);
+        box-shadow: 0 8px 24px rgba(108, 93, 211, 0.45)
       }
 
       50% {
-        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75);
+        box-shadow: 0 8px 32px rgba(108, 93, 211, 0.75)
       }
     }
   </style>
+</head>
+
+<body>
+
+  <!-- Overlay (shown while loading or if not logged in) -->
+  <div id="overlay">
+    <div class="overlay-loader"></div>
+    <p style="color:var(--muted);font-weight:600">Loading your chat…</p>
+  </div>
+
+  <nav class="topbar">
+    <div class="logo">Nestra</div>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="match_result.html">My Match</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="stats.html">Stats</a></li>
+    </ul>
+  </nav>
+
+  <div class="chat-wrap">
+    <!-- Sidebar -->
+    <div class="chat-sidebar">
+      <div class="sidebar-card">
+        <h3>Your Match</h3>
+        <div class="match-profile">
+          <div class="match-avatar" id="sideAvatar">👩</div>
+          <div class="match-name" id="sideName">Loading…</div>
+          <div class="match-compat" id="sideCompat">–</div>
+        </div>
+      </div>
+      <div class="sidebar-card" id="sideDetails">
+        <h3>Match Details</h3>
+        <!-- filled by JS -->
+      </div>
+      <div class="sidebar-card">
+        <h3>Status</h3>
+        <div style="font-size:0.9rem;color:var(--dark);font-weight:600">
+          <span class="status-dot"></span>Online
+        </div>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:6px">Messages are delivered in real‑time</p>
+      </div>
+    </div>
+
+    <!-- Chat Box -->
+    <div class="chat-box">
+      <div class="chat-header">
+        <div class="h-avatar" id="hAvatar">👩</div>
+        <div class="h-info">
+          <strong id="hName">Loading…</strong>
+          <span><span class="status-dot" style="width:7px;height:7px;margin-right:4px"></span>Active now</span>
+        </div>
+        <a href="match_result.html" class="h-back">← Back to Match</a>
+      </div>
+
+      <div class="messages" id="messages">
+        <!-- loaded by JS -->
+      </div>
+
+      <form class="chat-input-area" id="chatForm">
+        <textarea class="chat-input" id="chatInput" rows="1" placeholder="Type a message…"
+          autocomplete="off"></textarea>
+        <button type="submit" class="send-btn" id="sendBtn">➤</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Nestra | Empowering Intelligent, Inclusive Co-living</p>
+  </footer>
+
   <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot">
-    <span style="font-size:1.4rem;">🤖</span>
-    <span class="fab-label">Ask Nexi</span>
+    <span style="font-size:1.4rem">🤖</span><span>Ask Nexi</span>
   </a>
+
+  <script>
+    function toggleMenu() { document.getElementById("dropdownMenu").classList.toggle("show") }
+    window.addEventListener("click", function (e) { const t = document.querySelector(".nav-toggle"), m = document.getElementById("dropdownMenu"); if (!t.contains(e.target) && !m.contains(e.target)) m.classList.remove("show") });
+
+    const emojis = ['👩', '👩‍🦰', '👩‍🦱', '👩‍🦳', '👩‍💼', '👩‍🎓', '👩‍🔬'];
+    let receiverId = null;
+    let matchName = 'Your Match';
+    let lastSince = '2000-01-01 00:00:00';
+    let pollInterval = null;
+    let myId = null;
+
+    // ── Format time ────────────────────────────────────────────────────────
+    function fmtTime(ts) {
+      const d = new Date(ts.replace(' ', 'T'));
+      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // ── Append a message bubble ─────────────────────────────────────────────
+    function appendBubble(msg) {
+      const wrap = document.createElement('div');
+      wrap.className = 'msg ' + (msg.is_mine ? 'mine' : 'theirs');
+      wrap.dataset.id = msg.id;
+      wrap.innerHTML = `
+        <div class="bubble">${escHtml(msg.message)}</div>
+        <div class="meta">${msg.is_mine ? 'You' : escHtml(msg.sender_name)} · ${fmtTime(msg.sent_at)}</div>
+      `;
+      document.getElementById('messages').appendChild(wrap);
+      scrollBottom();
+      if (msg.sent_at > lastSince) lastSince = msg.sent_at;
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+    }
+
+    function scrollBottom() {
+      const msgs = document.getElementById('messages');
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function sysMsg(text) {
+      const d = document.createElement('div');
+      d.className = 'sys-msg';
+      d.textContent = text;
+      document.getElementById('messages').appendChild(d);
+      scrollBottom();
+    }
+
+    // ── Poll for new messages ───────────────────────────────────────────────
+    async function pollMessages() {
+      if (!receiverId) return;
+      try {
+        const res = await fetch(`../backend/chat_fetch.php?receiver_id=${receiverId}&since=${encodeURIComponent(lastSince)}`);
+        const data = await res.json();
+        if (data.error) return;
+        myId = data.me;
+        data.messages.forEach(m => {
+          // Skip if bubble already rendered
+          if (document.querySelector(`.msg[data-id="${m.id}"]`)) return;
+          appendBubble(m);
+        });
+      } catch (e) { /* silent */ }
+    }
+
+    // ── Load all previous messages ──────────────────────────────────────────
+    async function loadHistory() {
+      const res = await fetch(`../backend/chat_fetch.php?receiver_id=${receiverId}&since=2000-01-01 00:00:00`);
+      const data = await res.json();
+      if (data.error) return;
+      myId = data.me;
+      if (data.messages.length === 0) {
+        sysMsg('👋 You\'re connected! Say hello to ' + matchName);
+      } else {
+        data.messages.forEach(m => appendBubble(m));
+      }
+    }
+
+    // ── Send message ────────────────────────────────────────────────────────
+    document.getElementById('chatForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text || !receiverId) return;
+
+      const btn = document.getElementById('sendBtn');
+      btn.disabled = true;
+      input.value = '';
+      input.style.height = 'auto';
+
+      try {
+        const fd = new FormData();
+        fd.append('receiver_id', receiverId);
+        fd.append('message', text);
+        const res = await fetch('../backend/chat_send.php', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.success) {
+          await pollMessages(); // Immediately show sent message
+        } else {
+          alert('Send failed: ' + (data.error || 'unknown error'));
+        }
+      } catch (err) {
+        alert('Could not send message. Check your connection.');
+      }
+      btn.disabled = false;
+      input.focus();
+    });
+
+    // Auto-resize textarea
+    document.getElementById('chatInput').addEventListener('input', function () {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+    });
+    // Enter sends, Shift+Enter newline
+    document.getElementById('chatInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        document.getElementById('chatForm').dispatchEvent(new Event('submit'));
+      }
+    });
+
+    // ── Init: read ?with=ID from URL (set by match_result.html) ───────────
+    // This ensures both users are talking to EACH OTHER — no match_engine asymmetry.
+    async function init() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const urlWith = parseInt(params.get('with'));
+        const urlName = params.get('name') || 'Your Match';
+
+        if (urlWith) {
+          // ✅ ID passed in URL — use it directly (correct, symmetric)
+          receiverId = urlWith;
+          matchName = decodeURIComponent(urlName);
+          const emoji = emojis[receiverId % emojis.length];
+
+          document.getElementById('hName').textContent = matchName;
+          document.getElementById('hAvatar').textContent = emoji;
+          document.getElementById('sideAvatar').textContent = emoji;
+          document.getElementById('sideName').textContent = matchName;
+          document.getElementById('sideCompat').textContent = 'Your Match';
+          document.getElementById('sideDetails').innerHTML =
+            '<h3 style="font-size:.85rem;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.8px;margin-bottom:1rem">Chat</h3>' +
+            '<p style="font-size:.85rem;color:var(--muted)">Messages are end-to-end between you and ' + matchName + '</p>';
+
+          document.getElementById('overlay').style.display = 'none';
+          await loadHistory();
+          pollInterval = setInterval(pollMessages, 3000);
+
+        } else {
+          // Fallback: derive from match_engine (for direct URL access)
+          const res = await fetch('../backend/match_engine.php');
+          const data = await res.json();
+
+          if (data.error || !data.best_match) {
+            showNoMatch(data.error || 'No match found. Please complete the survey first.');
+            return;
+          }
+
+          const match = data.best_match;
+          receiverId = match.user_id;
+          matchName = match.fullname;
+          const emoji = emojis[receiverId % emojis.length];
+
+          document.getElementById('hName').textContent = matchName;
+          document.getElementById('hAvatar').textContent = emoji;
+          document.getElementById('sideAvatar').textContent = emoji;
+          document.getElementById('sideName').textContent = matchName;
+          document.getElementById('sideCompat').textContent = match.compatibility + '% Compatible';
+
+          const details = [
+            { k: 'Sleep', v: match.sleep }, { k: 'Diet', v: match.diet },
+            { k: 'Social', v: match.social }, { k: 'Room', v: match.room },
+            { k: 'Wing', v: match.wing },
+          ].filter(d => d.v);
+          document.getElementById('sideDetails').innerHTML =
+            '<h3 style="font-size:.85rem;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.8px;margin-bottom:1rem">Match Details</h3>' +
+            details.map(d => `<div class="match-detail-row"><span class="key">${d.k}</span><span class="val">${d.v}</span></div>`).join('');
+
+          document.getElementById('overlay').style.display = 'none';
+          await loadHistory();
+          pollInterval = setInterval(pollMessages, 3000);
+        }
+
+      } catch (err) {
+        showNoMatch('Connection error. Make sure you are logged in.');
+      }
+    }
+
+    function showNoMatch(msg) {
+      document.getElementById('overlay').innerHTML = `
+        <div class="overlay-card">
+          <div class="o-icon">💔</div>
+          <h2>No Match Found</h2>
+          <p>${msg}</p>
+          <a href="survey.html" class="btn-primary">📋 Take the Survey</a>
+        </div>`;
+    }
+
+    window.addEventListener('beforeunload', () => { if (pollInterval) clearInterval(pollInterval); });
+    init();
+  </script>
 </body>
 
 </html>

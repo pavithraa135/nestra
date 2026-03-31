@@ -1,0 +1,7 @@
+.git
+.gitattributes
+ai/survey_data.csv
+ai/user_clusters.csv
+ai/matches.json
+ai/__pycache__
+*.pyc
