@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Match Result – Nestra</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Your Match Result – Nestra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #6c5dd3;
@@ -13,7 +13,9 @@
       --gradient: linear-gradient(135deg, #6c5dd3, #463aa2);
       --accent: #f3f0ff;
       --white: #fff;
-      --dark: #2d2d39
+      --dark: #2d2d39;
+      --muted: #5e5c7a;
+      --border: rgba(108, 93, 211, 0.12)
     }
 
     * {
@@ -26,7 +28,8 @@
       font-family: 'Outfit', sans-serif;
       background: linear-gradient(120deg, #eae8ff, #f7f5ff);
       color: var(--dark);
-      min-height: 100vh
+      min-height: 100vh;
+      overflow-x: hidden
     }
 
     .topbar {
@@ -45,7 +48,7 @@
 
     .logo {
       font-size: 1.8rem;
-      font-weight: 700;
+      font-weight: 800;
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent
@@ -68,190 +71,249 @@
       text-decoration: none;
       color: var(--dark);
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       position: relative;
-      transition: color 0.25s
-    }
-
-    .dropdown-menu li a::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 2px;
-      background: var(--gradient);
-      left: 0;
-      bottom: -4px;
-      transition: 0.3s;
-      border-radius: 2px
+      transition: color .25s
     }
 
     .dropdown-menu li a:hover {
       color: var(--primary)
     }
 
-    .dropdown-menu li a:hover::after {
-      width: 100%
-    }
-
-    .page-wrap {
+    /* ── Loading ── */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(120deg, #eae8ff, #f7f5ff);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 60px 20px;
-      flex-direction: column;
-      gap: 2rem
+      z-index: 9998;
+      gap: 1.5rem
     }
 
-    .result-card {
+    .loader {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 5px solid var(--accent);
+      border-top-color: var(--primary);
+      animation: spin 0.8s linear infinite
+    }
+
+    .loading-text {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--secondary);
+      animation: pulse 1.5s ease infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.5
+      }
+    }
+
+    /* ── Page wrap ── */
+    .page-wrap {
+      padding: 50px 20px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+      display: none
+    }
+
+    /* ── Hero badge ── */
+    .result-hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: slideUp .7s ease
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      border: 1px solid rgba(108, 93, 211, 0.2);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 7px 18px;
+      border-radius: 50px;
+      margin-bottom: 1rem
+    }
+
+    .result-hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-bottom: 0.5rem
+    }
+
+    .result-hero p {
+      color: var(--muted);
+      font-size: 1rem
+    }
+
+    /* ── Best Match Card ── */
+    .best-card {
       background: var(--white);
       border-radius: 28px;
-      padding: 52px 44px;
-      width: 100%;
-      max-width: 560px;
-      box-shadow: 0 24px 70px rgba(108, 93, 211, 0.18);
-      text-align: center;
-      animation: slideUp 0.7s ease;
+      padding: 44px 40px;
+      box-shadow: 0 24px 70px rgba(108, 93, 211, 0.16);
       position: relative;
-      overflow: hidden
+      overflow: hidden;
+      margin-bottom: 2rem;
+      animation: slideUp .8s ease
     }
 
-    .result-card::before {
+    .best-card::before {
       content: "";
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 6px;
+      height: 5px;
       background: var(--gradient)
+    }
+
+    .best-card-inner {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2.5rem;
+      align-items: center
+    }
+
+    .compat-ring {
+      flex-shrink: 0
+    }
+
+    .ring-svg {
+      width: 120px;
+      height: 120px;
+      filter: drop-shadow(0 6px 16px rgba(108, 93, 211, 0.25))
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 10
+    }
+
+    .ring-arc {
+      fill: none;
+      stroke: #6c5dd3;
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-dasharray: 251;
+      stroke-dashoffset: 251;
+      transition: stroke-dashoffset 1.5s cubic-bezier(.4, 0, .2, 1);
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%
+    }
+
+    .ring-pct {
+      font-size: 1.4rem;
+      font-weight: 800;
+      fill: var(--secondary);
+      dominant-baseline: middle;
+      text-anchor: middle
+    }
+
+    .ring-label-text {
+      font-size: 0.7rem;
+      fill: var(--muted);
+      dominant-baseline: middle;
+      text-anchor: middle
+    }
+
+    .match-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem
     }
 
     .match-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: var(--accent);
       color: var(--primary);
       font-weight: 700;
-      font-size: 0.9rem;
-      padding: 8px 18px;
+      font-size: 0.8rem;
+      padding: 5px 14px;
       border-radius: 50px;
-      margin-bottom: 1.5rem
+      width: fit-content
     }
 
-    .match-avatar {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: var(--gradient);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.5rem;
-      margin: 0 auto 1.2rem;
-      box-shadow: 0 8px 24px rgba(108, 93, 211, 0.3)
+    .match-info h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--secondary)
     }
 
-    .result-card h2 {
-      font-size: 1.7rem;
-      color: var(--secondary);
-      font-weight: 700;
-      margin-bottom: 0.4rem
-    }
-
-    .match-name {
-      font-size: 1.3rem;
-      color: var(--primary);
-      font-weight: 700;
-      margin-bottom: 1.5rem
-    }
-
-    .compat-ring {
-      margin: 1.5rem auto;
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background: conic-gradient(#6c5dd3 92%, #e8e5f5 0);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 20px rgba(108, 93, 211, 0.25)
-    }
-
-    .compat-inner {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center
-    }
-
-    .compat-inner span {
-      font-size: 1.5rem;
-      font-weight: 700;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent
-    }
-
-    .compat-inner small {
-      font-size: 0.7rem;
-      color: #8885a8;
-      font-weight: 600
+    .match-reason {
+      background: #f0fff4;
+      border: 1px solid #b7f5d8;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.95rem;
+      color: #166534;
+      line-height: 1.6
     }
 
     .detail-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin: 1.5rem 0;
-      text-align: left
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
+      margin-top: 1.2rem
     }
 
-    .detail-item {
+    .detail-chip {
       background: var(--accent);
-      border-radius: 14px;
-      padding: 14px 16px
+      border-radius: 12px;
+      padding: 12px 14px
     }
 
-    .detail-item strong {
+    .detail-chip strong {
       display: block;
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       color: #8885a8;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 4px
+      margin-bottom: 3px
     }
 
-    .detail-item span {
-      font-size: 0.97rem;
+    .detail-chip span {
+      font-size: 0.9rem;
       color: var(--dark);
-      font-weight: 600
-    }
-
-    .reason-box {
-      background: #f0fff4;
-      border: 1px solid #b7f5d8;
-      border-radius: 14px;
-      padding: 16px;
-      font-size: 0.95rem;
-      color: #2d7a50;
-      text-align: left;
-      margin-bottom: 1.5rem;
-      line-height: 1.6
+      font-weight: 700
     }
 
     .actions {
       display: flex;
       gap: 1rem;
+      margin-top: 1.5rem;
       flex-wrap: wrap
     }
 
     .btn-primary {
       flex: 1;
+      min-width: 130px;
       padding: 14px;
       background: var(--gradient);
       color: #fff;
@@ -260,13 +322,15 @@
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all .3s;
       font-family: 'Outfit', sans-serif;
       box-shadow: 0 8px 20px rgba(108, 93, 211, 0.3);
       text-decoration: none;
+      text-align: center;
       display: flex;
       align-items: center;
-      justify-content: center
+      justify-content: center;
+      gap: 8px
     }
 
     .btn-primary:hover {
@@ -276,6 +340,7 @@
 
     .btn-outline {
       flex: 1;
+      min-width: 130px;
       padding: 14px;
       background: transparent;
       color: var(--primary);
@@ -284,16 +349,156 @@
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all .3s;
       font-family: 'Outfit', sans-serif;
       text-decoration: none;
+      text-align: center;
       display: flex;
       align-items: center;
-      justify-content: center
+      justify-content: center;
+      gap: 8px
     }
 
     .btn-outline:hover {
       background: var(--accent)
+    }
+
+    /* ── Other Matches ── */
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .section-title .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gradient)
+    }
+
+    .match-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem
+    }
+
+    .match-row {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 18px 22px;
+      box-shadow: 0 6px 20px rgba(108, 93, 211, 0.07);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform .3s, box-shadow .3s;
+      border: 1px solid var(--border)
+    }
+
+    .match-row:hover {
+      transform: translateX(6px);
+      box-shadow: 0 10px 28px rgba(108, 93, 211, 0.13)
+    }
+
+    .mr-rank {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--muted);
+      width: 28px;
+      text-align: center
+    }
+
+    .mr-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0
+    }
+
+    .mr-info {
+      flex: 1
+    }
+
+    .mr-info strong {
+      display: block;
+      font-size: 1rem;
+      color: var(--dark);
+      font-weight: 700
+    }
+
+    .mr-info span {
+      font-size: 0.82rem;
+      color: var(--muted)
+    }
+
+    .mr-score {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px
+    }
+
+    .score-pill {
+      background: var(--gradient);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 5px 14px;
+      border-radius: 50px
+    }
+
+    .score-bar-wrap {
+      width: 80px;
+      background: var(--accent);
+      height: 6px;
+      border-radius: 4px;
+      overflow: hidden
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--gradient);
+      width: 0;
+      transition: width 1s .5s ease
+    }
+
+    /* ── Error / No-match ── */
+    .error-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 48px;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(108, 93, 211, 0.1)
+    }
+
+    .error-card .e-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem
+    }
+
+    .error-card h2 {
+      font-size: 1.5rem;
+      color: var(--secondary);
+      margin-bottom: 0.8rem;
+      font-weight: 700
+    }
+
+    .error-card p {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.6
     }
 
     footer {
@@ -307,7 +512,7 @@
     @keyframes slideUp {
       from {
         opacity: 0;
-        transform: translateY(30px)
+        transform: translateY(24px)
       }
 
       to {
@@ -338,68 +543,25 @@
         display: flex
       }
 
-      .result-card {
-        padding: 36px 24px
+      .best-card-inner {
+        grid-template-columns: 1fr;
+        text-align: center
+      }
+
+      .compat-ring {
+        display: flex;
+        justify-content: center
       }
 
       .detail-grid {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr 1fr
+      }
+
+      .best-card {
+        padding: 28px 20px
       }
     }
-  </style>
-</head>
 
-<body>
-  <nav class="topbar">
-    <div class="logo">Nestra</div>
-    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
-    <ul class="dropdown-menu" id="dropdownMenu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="login.html">Login</a></li>
-      <li><a href="survey.html">Survey</a></li>
-      <li><a href="admin.html">Admin</a></li>
-      <li><a href="stats.html">Stats</a></li>
-      <li><a href="profile.html">Profile</a></li>
-    </ul>
-  </nav>
-
-  <div class="page-wrap">
-    <div class="result-card">
-      <div class="match-badge">✨ AI Match Found</div>
-      <div class="match-avatar">👩</div>
-      <h2>Your Best Match</h2>
-      <div class="match-name">Priya Sharma</div>
-
-      <div class="compat-ring">
-        <div class="compat-inner">
-          <span>92%</span>
-          <small>Compatible</small>
-        </div>
-      </div>
-
-      <div class="detail-grid">
-        <div class="detail-item"><strong>Suggested Room</strong><span>Room A12 – 2nd Floor</span></div>
-        <div class="detail-item"><strong>Wing</strong><span>Quiet Wing 🤫</span></div>
-        <div class="detail-item"><strong>Sleep Schedule</strong><span>Early Riser 🌅</span></div>
-        <div class="detail-item"><strong>Diet</strong><span>Vegetarian 🥦</span></div>
-      </div>
-
-      <div class="reason-box">
-        💡 <strong>Why this match?</strong> Both of you prefer quiet evenings, aligned routines, neat surroundings, and
-        similar dietary habits — making you highly compatible roommates!
-      </div>
-
-      <div class="actions">
-        <a href="match_chat.html" class="btn-primary">💬 Chat with Match</a>
-        <a href="survey.html" class="btn-outline">🔁 Retake Survey</a>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>&copy; 2025 Nestra | Empowering Intelligent, Inclusive Co-living</p>
-  </footer>
-  <style>
     #chatbot-fab {
       position: fixed;
       bottom: 28px;
@@ -419,7 +581,7 @@
       align-items: center;
       gap: 10px;
       text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform .2s ease, box-shadow .2s ease;
       animation: fabPulse 2.5s infinite
     }
 
@@ -441,11 +603,209 @@
       }
     }
   </style>
+</head>
+
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loader"></div>
+    <div class="loading-text">🤖 Nexi is finding your best match…</div>
+  </div>
+
+  <nav class="topbar">
+    <div class="logo">Nestra</div>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="dropdown-menu" id="dropdownMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="survey.html">Survey</a></li>
+      <li><a href="stats.html">Stats</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrap" id="pageWrap">
+
+    <div class="result-hero">
+      <div class="hero-badge">✨ AI Match Complete</div>
+      <h1>Your Best Match</h1>
+      <p id="heroSub">Loading your results…</p>
+    </div>
+
+    <!-- Best match card (filled by JS) -->
+    <div class="best-card" id="bestCard" style="display:none">
+      <div class="best-card-inner">
+        <div class="compat-ring">
+          <svg class="ring-svg" viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="40" />
+            <circle class="ring-arc" id="ringArc" cx="50" cy="50" r="40" />
+            <text class="ring-pct" id="ringPct" x="50" y="46">0%</text>
+            <text class="ring-label-text" x="50" y="58">Compatible</text>
+          </svg>
+        </div>
+        <div class="match-info">
+          <div class="match-badge">🤖 AI Recommended</div>
+          <h2 id="matchName">–</h2>
+          <div class="match-reason" id="matchReason"></div>
+          <div class="detail-grid" id="detailGrid"></div>
+          <div class="actions">
+            <a href="match_chat.html" class="btn-primary">💬 Chat with Match</a>
+            <a href="survey.html" class="btn-outline">🔁 Retake Survey</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error card -->
+    <div class="error-card" id="errorCard" style="display:none">
+      <div class="e-icon">😔</div>
+      <h2 id="errorTitle">No matches yet</h2>
+      <p id="errorMsg">You're the first to join! Check back once more users complete the survey.</p>
+      <a href="survey.html" class="btn-primary" style="max-width:220px;margin:0 auto">🔁 Retake Survey</a>
+    </div>
+
+    <!-- Other top matches -->
+    <div id="otherSection" style="display:none;margin-top:2rem">
+      <div class="section-title">
+        <div class="dot"></div>Other Compatible Matches
+      </div>
+      <div class="match-list" id="matchList"></div>
+    </div>
+
+  </div><!-- /page-wrap -->
+
+  <footer>
+    <p>&copy; 2025 Nestra | Empowering Intelligent, Inclusive Co-living</p>
+  </footer>
+
   <a id="chatbot-fab" href="chatbot.html" aria-label="Open Nexi Chatbot"><span
       style="font-size:1.4rem">🤖</span><span>Ask Nexi</span></a>
+
   <script>
     function toggleMenu() { document.getElementById("dropdownMenu").classList.toggle("show") }
     window.addEventListener("click", function (e) { const t = document.querySelector(".nav-toggle"), m = document.getElementById("dropdownMenu"); if (!t.contains(e.target) && !m.contains(e.target)) m.classList.remove("show") });
+
+    const emojis = ['👩', '👩‍🦰', '👩‍🦱', '👩‍🦳', '👩‍💼', '👩‍🎓', '👩‍🔬', '👩‍🍳'];
+    function randEmoji(id) { return emojis[id % emojis.length]; }
+
+    // Animate the compatibility ring
+    function animateRing(pct) {
+      const arc = document.getElementById('ringArc');
+      const lbl = document.getElementById('ringPct');
+      const circumference = 251;
+      arc.style.strokeDashoffset = circumference * (1 - pct / 100);
+      // Also colour the ring based on score
+      if (pct >= 80) arc.style.stroke = '#6c5dd3';
+      else if (pct >= 60) arc.style.stroke = '#f59e0b';
+      else arc.style.stroke = '#f43f5e';
+
+      // Count up number
+      let cur = 0, target = pct;
+      const timer = setInterval(() => {
+        cur = Math.min(cur + 2, target);
+        lbl.textContent = cur + '%';
+        if (cur >= target) clearInterval(timer);
+      }, 16);
+    }
+
+    function buildDetailGrid(match) {
+      const fields = [
+        { label: 'Sleep', value: match.sleep },
+        { label: 'Diet', value: match.diet },
+        { label: 'Social', value: match.social },
+        { label: 'Room', value: match.room_assigned || match.room },
+        { label: 'Wing', value: match.wing },
+      ].filter(f => f.value);
+      const grid = document.getElementById('detailGrid');
+      grid.innerHTML = fields.map(f =>
+        `<div class="detail-chip"><strong>${f.label}</strong><span>${f.value}</span></div>`
+      ).join('');
+    }
+
+    function showBestMatch(match) {
+      document.getElementById('bestCard').style.display = 'block';
+      document.getElementById('matchName').textContent = match.fullname;
+      document.getElementById('matchReason').innerHTML = '💡 <strong>Why this match?</strong> ' + match.reason;
+      document.getElementById('heroSub').textContent =
+        'Nestra found you a ' + match.compatibility + '% compatible roommate!';
+
+      // Map backend field names
+      match.room_assigned = match.room;
+      buildDetailGrid(match);
+      setTimeout(() => animateRing(match.compatibility), 400);
+    }
+
+    function showError(title, msg) {
+      document.getElementById('errorCard').style.display = 'block';
+      document.getElementById('errorTitle').textContent = title;
+      document.getElementById('errorMsg').textContent = msg;
+      document.getElementById('heroSub').textContent = msg;
+    }
+
+    function buildOtherMatches(matches) {
+      if (matches.length <= 1) return;
+      const others = matches.slice(1, 5);
+      const list = document.getElementById('matchList');
+      list.innerHTML = others.map((m, i) => `
+        <div class="match-row">
+          <div class="mr-rank">${i + 2}</div>
+          <div class="mr-avatar">${randEmoji(m.user_id)}</div>
+          <div class="mr-info">
+            <strong>${m.fullname}</strong>
+            <span>${m.room || ''} · ${m.wing || ''}</span>
+          </div>
+          <div class="mr-score">
+            <div class="score-pill">${m.compatibility}%</div>
+            <div class="score-bar-wrap"><div class="score-bar-fill" data-w="${m.compatibility}"></div></div>
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('otherSection').style.display = 'block';
+      // Animate bars
+      setTimeout(() => {
+        document.querySelectorAll('.score-bar-fill').forEach(el => {
+          el.style.width = el.dataset.w + '%';
+        });
+      }, 600);
+    }
+
+    // ── Fetch from match_engine.php ────────────────────────────────────────
+    async function loadMatches() {
+      try {
+        const res = await fetch('../backend/match_engine.php');
+        const data = await res.json();
+
+        // Hide loader
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('pageWrap').style.display = 'block';
+
+        if (data.error) {
+          showError('Oops!', data.error);
+          return;
+        }
+
+        if (!data.best_match) {
+          showError(
+            'No matches yet 😔',
+            'You\'re the first to complete the survey! Check back once more users join.'
+          );
+          return;
+        }
+
+        showBestMatch(data.best_match);
+        buildOtherMatches(data.all_matches);
+
+      } catch (err) {
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('pageWrap').style.display = 'block';
+        showError('Connection Error', 'Could not reach the server. Make sure you are logged in.');
+        console.error(err);
+      }
+    }
+
+    loadMatches();
   </script>
 </body>
 
